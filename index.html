@@ -1,75 +1,481 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SN VPN PRO - Descargar APK</title>
-    <style>
-        * { box-sizing: border-box; }
-        body {
-            background-color: #0f0f15;
-            color: #ffffff;
-            font-family: system-ui, -apple-system, sans-serif;
-            text-align: center;
-            padding: 40px 20px;
-            margin: 0;
-        }
-        .container {
-            max-width: 400px;
-            margin: auto;
-            background: #1a1a24;
-            padding: 30px;
-            border-radius: 16px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
-            border: 1px solid #2a2a3a;
-        }
-        h1 {
-            color: #a855f7;
-            font-size: 28px;
-            margin-bottom: 10px;
-        }
-        p {
-            color: #a1a1aa;
-            font-size: 15px;
-            line-height: 1.5;
-        }
-        .btn {
-            display: block;
-            background: linear-gradient(135deg, #9333ea, #a855f7);
-            color: white;
-            padding: 14px 20px;
-            text-decoration: none;
-            font-weight: bold;
-            border-radius: 10px;
-            margin-top: 25px;
-            box-shadow: 0 4px 10px rgba(168, 85, 247, 0.4);
-        }
-        .btn-telegram {
-            background: #229ED9;
-            box-shadow: 0 4px 10px rgba(34, 158, 217, 0.4);
-            margin-top: 12px;
-        }
-        .badge {
-            background: #22c55e;
-            color: #000;
-            padding: 4px 10px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: bold;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SN VPN PRO — SSH · V2Ray · Hysteria</title>
+<meta name="description" content="Cliente VPN para Android con SSH, V2Ray y Hysteria. Filtro por app, DNS configurable, MTU ajustable y registro de conexión en vivo. Por SinNombre.">
+<meta name="theme-color" content="#0B0B10">
+
+<meta property="og:title" content="SN VPN PRO">
+<meta property="og:description" content="SSH · V2Ray · Hysteria. Un solo cliente, tres protocolos.">
+<meta property="og:type" content="website">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --bg:#0B0B10;
+  --panel:#14141C;
+  --panel-2:#1B1B25;
+  --line:#26263A;
+  --violet:#A855F7;
+  --violet-deep:#6D28D9;
+  --mint:#4ADE80;
+  --amber:#FBBF24;
+  --rose:#F87171;
+  --ink:#F4F4F8;
+  --mute:#8B8B9E;
+  --dim:#5E5E72;
+
+  --mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+  --sans:"Space Grotesk",system-ui,-apple-system,sans-serif;
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+
+html{-webkit-text-size-adjust:100%}
+
+body{
+  background:var(--bg);
+  color:var(--ink);
+  font-family:var(--sans);
+  line-height:1.55;
+  overflow-x:hidden;
+  /* Resplandor violeta anclado arriba, muy contenido */
+  background-image:radial-gradient(120% 60% at 50% -20%,rgba(109,40,217,.28),transparent 60%);
+  background-repeat:no-repeat;
+}
+
+.wrap{max-width:640px;margin:0 auto;padding:0 20px}
+
+/* ── Barra superior ───────────────────────────── */
+.topbar{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:18px 0 0;
+}
+.mark{display:flex;align-items:center;gap:9px}
+.glyph{
+  width:26px;height:26px;flex:none;
+  border-radius:7px;
+  background:linear-gradient(150deg,var(--violet),var(--violet-deep));
+  display:grid;place-items:center;
+  font-family:var(--mono);font-size:12px;font-weight:700;color:#fff;
+  box-shadow:0 0 0 1px rgba(168,85,247,.35),0 6px 18px -6px rgba(168,85,247,.7);
+}
+.mark span{font-weight:600;font-size:14px;letter-spacing:.02em}
+.ver{
+  font-family:var(--mono);font-size:11px;color:var(--dim);
+  border:1px solid var(--line);border-radius:999px;padding:3px 9px;
+}
+
+/* ── Héroe ────────────────────────────────────── */
+.hero{padding:52px 0 0}
+.eyebrow{
+  font-family:var(--mono);font-size:11px;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--violet);margin-bottom:18px;
+}
+h1{
+  font-size:clamp(38px,12vw,58px);
+  font-weight:700;line-height:.96;letter-spacing:-.035em;
+}
+h1 em{font-style:normal;color:var(--dim)}
+.lede{
+  color:var(--mute);font-size:16px;margin-top:18px;max-width:44ch;
+}
+.lede b{color:var(--ink);font-weight:500}
+
+/* ── Firma: registro que se escribe solo ──────── */
+.term{
+  margin-top:32px;
+  background:var(--panel);
+  border:1px solid var(--line);
+  border-radius:14px;
+  overflow:hidden;
+  box-shadow:0 24px 60px -30px rgba(0,0,0,.9);
+}
+.term-bar{
+  display:flex;align-items:center;gap:8px;
+  padding:11px 14px;
+  border-bottom:1px solid var(--line);
+  background:var(--panel-2);
+}
+.dot{width:9px;height:9px;border-radius:50%;background:var(--line);flex:none}
+.term-bar .dot:first-child{background:#3A3A4E}
+.term-title{
+  font-family:var(--mono);font-size:11px;color:var(--dim);
+  margin-left:4px;letter-spacing:.04em;
+}
+.live{
+  margin-left:auto;display:flex;align-items:center;gap:6px;
+  font-family:var(--mono);font-size:10px;color:var(--dim);
+  letter-spacing:.1em;text-transform:uppercase;
+}
+.pulse{
+  width:7px;height:7px;border-radius:50%;background:var(--mint);
+  box-shadow:0 0 0 0 rgba(74,222,128,.6);
+  animation:pulse 2s ease-out infinite;
+}
+@keyframes pulse{
+  0%{box-shadow:0 0 0 0 rgba(74,222,128,.55)}
+  70%{box-shadow:0 0 0 7px rgba(74,222,128,0)}
+  100%{box-shadow:0 0 0 0 rgba(74,222,128,0)}
+}
+
+.term-body{
+  font-family:var(--mono);font-size:12.5px;line-height:1.9;
+  padding:16px 14px;
+  min-height:270px;
+}
+.ln{display:flex;gap:9px;white-space:nowrap}
+.ln .t{color:var(--dim);flex:none}
+.ln .m{overflow:hidden;text-overflow:ellipsis}
+.ln.ok .m{color:var(--mint);font-weight:500}
+.ln.info .m{color:#B9B9CC}
+.ln.tag .m{color:var(--violet);font-weight:500}
+.ln.is-off{display:none}
+
+/* ── Acciones ─────────────────────────────────── */
+.cta{margin-top:26px;display:grid;gap:10px}
+.btn{
+  display:flex;align-items:center;justify-content:center;gap:10px;
+  padding:16px 18px;border-radius:12px;
+  text-decoration:none;font-weight:600;font-size:15px;
+  letter-spacing:-.01em;
+  transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease;
+}
+.btn:active{transform:translateY(1px)}
+.btn-main{
+  background:linear-gradient(135deg,var(--violet) 0%,var(--violet-deep) 100%);
+  color:#fff;
+  box-shadow:0 14px 34px -14px rgba(168,85,247,.9);
+}
+.btn-main:hover{box-shadow:0 18px 40px -14px rgba(168,85,247,1)}
+.btn-ghost{
+  background:var(--panel);color:var(--ink);
+  border:1px solid var(--line);
+}
+.btn-ghost:hover{border-color:#3C3C54}
+.btn svg{width:18px;height:18px;flex:none}
+
+.meta{
+  margin-top:14px;
+  font-family:var(--mono);font-size:11px;color:var(--dim);
+  display:flex;flex-wrap:wrap;gap:6px 14px;justify-content:center;
+}
+.meta a{color:var(--mute);text-decoration:none;border-bottom:1px solid var(--line)}
+.meta a:hover{color:var(--violet);border-color:var(--violet)}
+
+/* Revelado del CTA cuando termina el registro */
+.reveal{opacity:0;transform:translateY(10px);transition:opacity .5s ease,transform .5s ease}
+.reveal.is-in{opacity:1;transform:none}
+
+/* ── Secciones ────────────────────────────────── */
+section{padding:56px 0 0}
+.slug{
+  font-family:var(--mono);font-size:11px;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--dim);
+  display:flex;align-items:center;gap:10px;margin-bottom:20px;
+}
+.slug::before{content:"";width:14px;height:1px;background:var(--violet);flex:none}
+
+/* Protocolos */
+.proto{display:grid;gap:10px}
+.p-row{
+  background:var(--panel);border:1px solid var(--line);
+  border-radius:12px;padding:16px 16px 15px;
+}
+.p-head{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.p-name{font-weight:600;font-size:17px;letter-spacing:-.01em}
+.p-kind{
+  font-family:var(--mono);font-size:10px;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--violet);
+  border:1px solid rgba(168,85,247,.3);border-radius:999px;padding:2px 8px;
+}
+.p-desc{color:var(--mute);font-size:13.5px;margin-top:7px}
+.p-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:11px}
+.tagx{
+  font-family:var(--mono);font-size:10.5px;color:var(--mute);
+  background:var(--panel-2);border:1px solid var(--line);
+  border-radius:6px;padding:4px 8px;
+}
+
+/* Herramientas */
+.tools{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.tool{
+  background:var(--panel);border:1px solid var(--line);
+  border-radius:12px;padding:15px;
+}
+.tool h3{font-size:14px;font-weight:600;letter-spacing:-.01em}
+.tool p{color:var(--mute);font-size:12.5px;margin-top:5px;line-height:1.5}
+
+/* Requisitos */
+.specs{
+  background:var(--panel);border:1px solid var(--line);
+  border-radius:12px;overflow:hidden;
+}
+.spec{
+  display:flex;justify-content:space-between;gap:16px;
+  padding:13px 16px;font-size:13.5px;
+  border-bottom:1px solid var(--line);
+}
+.spec:last-child{border-bottom:0}
+.spec dt{color:var(--mute)}
+.spec dd{font-family:var(--mono);font-size:12.5px;color:var(--ink);text-align:right}
+
+/* Contacto */
+.links{display:grid;gap:10px}
+.link{
+  display:flex;align-items:center;gap:13px;
+  background:var(--panel);border:1px solid var(--line);
+  border-radius:12px;padding:14px 16px;
+  text-decoration:none;color:var(--ink);
+  transition:border-color .18s ease,background .18s ease;
+}
+.link:hover{border-color:#3C3C54;background:var(--panel-2)}
+.link svg{width:20px;height:20px;flex:none;color:var(--violet)}
+.link-txt{min-width:0}
+.link-txt strong{display:block;font-size:14px;font-weight:600}
+.link-txt span{
+  display:block;font-family:var(--mono);font-size:11px;color:var(--dim);
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+}
+.link-go{margin-left:auto;color:var(--dim);font-size:16px;flex:none}
+
+footer{
+  padding:48px 0 40px;margin-top:56px;
+  border-top:1px solid var(--line);
+  text-align:center;
+}
+footer p{font-size:13px;color:var(--dim)}
+footer .sig{
+  font-family:var(--mono);font-size:11px;color:var(--dim);
+  margin-top:8px;letter-spacing:.05em;
+}
+footer .sig b{color:var(--violet);font-weight:500}
+
+:focus-visible{outline:2px solid var(--violet);outline-offset:3px;border-radius:6px}
+
+@media (min-width:560px){
+  .cta{grid-template-columns:1.4fr 1fr}
+  .term-body{font-size:13px}
+}
+@media (prefers-reduced-motion:reduce){
+  *{animation:none!important;transition:none!important}
+  .reveal{opacity:1;transform:none}
+}
+</style>
 </head>
 <body>
 
-    <div class="container">
-        <h1>SN VPN PRO</h1>
-        <p><span class="badge">v1.0 Actualizada</span></p>
-        <p>Servidores optimizados, baja latencia y soporte completo para <b>Hysteria UDP</b>.</p>
-        
-        <a href="https://github.com/SINNOMBRE22/snvpn/releases/download/v1.0/SN_VPN_PRO-release-signed.apk" class="btn">📥 DESCARGAR APK DIRECTO</a>
-        
-        <a href="https://t.me/SIN_NOMBRE22" class="btn btn-telegram" target="_blank">👥 CANAL DE TELEGRAM</a>
+<div class="wrap">
+
+  <header class="topbar">
+    <div class="mark">
+      <div class="glyph">SN</div>
+      <span>SN&nbsp;VPN&nbsp;PRO</span>
     </div>
+    <div class="ver">v1.0</div>
+  </header>
+
+  <main class="hero">
+    <p class="eyebrow">SSH · V2Ray · Hysteria</p>
+    <h1>Tres protocolos.<br><em>Un solo cliente.</em></h1>
+    <p class="lede">
+      Servidores listos para usar. <b>Abre, elige uno y conecta</b> —
+      nada de payloads, puertos ni archivos de configuración.
+    </p>
+
+    <!-- FIRMA: el registro real de la app, escribiéndose -->
+    <div class="term" role="img" aria-label="Registro de conexión mostrando una conexión Hysteria exitosa">
+      <div class="term-bar">
+        <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+        <span class="term-title">registro de conexión</span>
+        <span class="live"><span class="pulse"></span>en vivo</span>
+      </div>
+      <div class="term-body" id="log" data-type>
+        <div class="ln info"><span class="t">22:56</span><span class="m">SN VPN v1.0</span></div>
+        <div class="ln info"><span class="t">22:56</span><span class="m">Android 14 · arm64-v8a</span></div>
+        <div class="ln info"><span class="t">22:56</span><span class="m">Claro (HN) / Mobile</span></div>
+        <div class="ln ok"><span class="t">22:56</span><span class="m">Core seleccionado: Hysteria 1</span></div>
+        <div class="ln info"><span class="t">22:56</span><span class="m">Servidor → 20000-39999</span></div>
+        <div class="ln info"><span class="t">22:56</span><span class="m">SOCKS5 activo</span></div>
+        <div class="ln ok"><span class="t">22:56</span><span class="m">Túnel verificado</span></div>
+        <div class="ln tag"><span class="t">&nbsp;</span><span class="m">SN VPN · By SinNombre</span></div>
+        <div class="ln ok"><span class="t">22:56</span><span class="m">Conectado con éxito</span></div>
+      </div>
+    </div>
+
+    <div class="cta reveal" id="cta">
+      <a class="btn btn-main" href="https://github.com/SINNOMBRE22/snvpn/releases/download/v1.0/SN_VPN_PRO-release-signed.apk">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
+        </svg>
+        Descargar APK
+      </a>
+      <a class="btn btn-ghost" href="https://t.me/SIN_NOMBRE22" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path d="M21.9 4.3 18.9 19c-.2 1-.8 1.2-1.7.8l-4.6-3.4-2.2 2.1c-.2.3-.5.4-.9.4l.3-4.6 8.5-7.7c.4-.3-.1-.5-.6-.2L7.3 13.1 2.8 11.7c-1-.3-1-1 .2-1.4l17.4-6.7c.8-.3 1.6.2 1.5 1.7z"/>
+        </svg>
+        Telegram
+      </a>
+    </div>
+
+    <p class="meta">
+      <span>Android 6.0 o superior</span>
+      <span>arm64-v8a · armeabi-v7a</span>
+    </p>
+  </main>
+
+  <section>
+    <p class="slug">Protocolos</p>
+    <div class="proto">
+
+      <article class="p-row">
+        <div class="p-head">
+          <h2 class="p-name">SSH</h2>
+          <span class="p-kind">Varios modos</span>
+        </div>
+        <p class="p-desc">Estable y confiable. Si un modo no pasa en tu red, cambias a otro de la lista.</p>
+        <div class="p-tags">
+          <span class="tagx">Modos listos</span>
+          <span class="tagx">Modo automático</span>
+        </div>
+      </article>
+
+      <article class="p-row">
+        <div class="p-head">
+          <h2 class="p-name">V2Ray</h2>
+          <span class="p-kind">Cifrado</span>
+        </div>
+        <p class="p-desc">Buena velocidad y difícil de detectar. Ideal cuando el resto no conecta.</p>
+        <div class="p-tags">
+          <span class="tagx">Servidores libres</span>
+          <span class="tagx">Servidores premium</span>
+        </div>
+      </article>
+
+      <article class="p-row">
+        <div class="p-head">
+          <h2 class="p-name">Hysteria</h2>
+          <span class="p-kind">El más rápido</span>
+        </div>
+        <p class="p-desc">Va por UDP, así que responde mejor en juegos y videollamadas.</p>
+        <div class="p-tags">
+          <span class="tagx">Menos ping</span>
+          <span class="tagx">Ideal para juegos</span>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <section>
+    <p class="slug">Herramientas</p>
+    <div class="tools">
+      <div class="tool">
+        <h3>Servidores al día</h3>
+        <p>La lista se actualiza sola. Si agrego uno nuevo, te aparece.</p>
+      </div>
+      <div class="tool">
+        <h3>Un toque y listo</h3>
+        <p>Sin payloads, sin puertos, sin pegar configuraciones.</p>
+      </div>
+      <div class="tool">
+        <h3>Elige tus apps</h3>
+        <p>Decide qué aplicaciones pasan por la VPN y cuáles no.</p>
+      </div>
+      <div class="tool">
+        <h3>Compartir por WiFi</h3>
+        <p>Pasa la conexión a otro equipo desde el mismo teléfono.</p>
+      </div>
+      <div class="tool">
+        <h3>Sigue activa</h3>
+        <p>No se corta cuando dejas el teléfono en reposo.</p>
+      </div>
+      <div class="tool">
+        <h3>Sin anuncios</h3>
+        <p>Ninguno. Ni banners, ni videos, ni contadores.</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <p class="slug">Ficha técnica</p>
+    <dl class="specs">
+      <div class="spec"><dt>Versión</dt><dd>1.0 (build 1)</dd></div>
+      <div class="spec"><dt>Android mínimo</dt><dd>6.0 · API 23</dd></div>
+      <div class="spec"><dt>Arquitecturas</dt><dd>arm64-v8a · armeabi-v7a</dd></div>
+      <div class="spec"><dt>Protocolos</dt><dd>SSH · V2Ray · Hysteria</dd></div>
+      <div class="spec"><dt>Idioma</dt><dd>Español</dd></div>
+    </dl>
+  </section>
+
+  <section>
+    <p class="slug">Contacto</p>
+    <div class="links">
+
+      <a class="link" href="https://t.me/SIN_NOMBRE22" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path d="M21.9 4.3 18.9 19c-.2 1-.8 1.2-1.7.8l-4.6-3.4-2.2 2.1c-.2.3-.5.4-.9.4l.3-4.6 8.5-7.7c.4-.3-.1-.5-.6-.2L7.3 13.1 2.8 11.7c-1-.3-1-1 .2-1.4l17.4-6.7c.8-.3 1.6.2 1.5 1.7z"/>
+        </svg>
+        <span class="link-txt">
+          <strong>Canal de Telegram</strong>
+          <span>Avisos, actualizaciones y servidores nuevos</span>
+        </span>
+        <span class="link-go" aria-hidden="true">↗</span>
+      </a>
+
+      <a class="link" href="https://t.me/SIN_NOMBRE22" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="9"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
+        </svg>
+        <span class="link-txt">
+          <strong>¿Algo no conecta?</strong>
+          <span>Escríbeme al canal con una captura del registro</span>
+        </span>
+        <span class="link-go" aria-hidden="true">↗</span>
+      </a>
+
+    </div>
+  </section>
+
+  <footer>
+    <p>Desarrollada sobre el dispositivo, línea por línea.</p>
+    <p class="sig">SN VPN · By <b>SinNombre</b> · Honduras 🇭🇳</p>
+  </footer>
+
+</div>
+
+<script>
+(function(){
+  var log = document.getElementById('log');
+  var cta = document.getElementById('cta');
+  if(!log) return;
+
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if(reduce){ if(cta) cta.classList.add('is-in'); return; }
+
+  var lines = Array.prototype.slice.call(log.querySelectorAll('.ln'));
+  lines.forEach(function(l){ l.classList.add('is-off'); });
+
+  var i = 0;
+  function next(){
+    if(i >= lines.length){
+      if(cta) cta.classList.add('is-in');
+      return;
+    }
+    lines[i].classList.remove('is-off');
+    // Las líneas de éxito respiran un poco más; el resto entra rápido.
+    var pause = lines[i].classList.contains('ok') ? 420 : 240;
+    i++;
+    setTimeout(next, pause);
+  }
+  setTimeout(next, 500);
+})();
+</script>
 
 </body>
 </html>
