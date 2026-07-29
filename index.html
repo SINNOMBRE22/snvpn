@@ -3,11 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SN VPN PRO — SSH · V2Ray · Hysteria</title>
-<meta name="description" content="Cliente VPN para Android con SSH, V2Ray y Hysteria. Filtro por app, DNS configurable, MTU ajustable y registro de conexión en vivo. Por SinNombre.">
+<title>SN VPN — SSH · V2Ray · Hysteria</title>
+<meta name="description" content="Cliente VPN para Android con SSH, V2Ray y Hysteria. Servidores preconfigurados, filtro por aplicación y registro de conexión en tiempo real. Por SinNombre.">
 <meta name="theme-color" content="#0B0B10">
 
-<meta property="og:title" content="SN VPN PRO">
+<meta property="og:title" content="SN VPN">
 <meta property="og:description" content="SSH · V2Ray · Hysteria. Un solo cliente, tres protocolos.">
 <meta property="og:type" content="website">
 
@@ -211,6 +211,37 @@ section{padding:56px 0 0}
 .tool h3{font-size:14px;font-weight:600;letter-spacing:-.01em}
 .tool p{color:var(--mute);font-size:12.5px;margin-top:5px;line-height:1.5}
 
+/* Descargas / estadísticas */
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.stat{
+  background:var(--panel);border:1px solid var(--line);
+  border-radius:12px;padding:18px 16px 16px;
+  position:relative;overflow:hidden;
+}
+.stat::after{
+  content:"";position:absolute;inset:0 0 auto;height:2px;
+  background:linear-gradient(90deg,var(--violet),transparent 70%);
+  opacity:.55;
+}
+.stat-num{
+  font-family:var(--mono);font-size:clamp(26px,8vw,34px);
+  font-weight:700;letter-spacing:-.02em;line-height:1;
+  color:var(--ink);
+  font-variant-numeric:tabular-nums;
+}
+.stat-num.is-wait{color:var(--dim)}
+.stat-lbl{
+  margin-top:9px;font-size:12.5px;color:var(--mute);
+}
+.stat-src{
+  margin-top:3px;
+  font-family:var(--mono);font-size:10px;color:var(--dim);
+  letter-spacing:.06em;text-transform:uppercase;
+}
+@media (max-width:420px){
+  .stats{grid-template-columns:1fr}
+}
+
 /* Requisitos */
 .specs{
   background:var(--panel);border:1px solid var(--line);
@@ -275,7 +306,7 @@ footer .sig b{color:var(--violet);font-weight:500}
   <header class="topbar">
     <div class="mark">
       <div class="glyph">SN</div>
-      <span>SN&nbsp;VPN&nbsp;PRO</span>
+      <span>SN&nbsp;VPN</span>
     </div>
     <div class="ver">v1.0</div>
   </header>
@@ -284,8 +315,9 @@ footer .sig b{color:var(--violet);font-weight:500}
     <p class="eyebrow">SSH · V2Ray · Hysteria</p>
     <h1>Tres protocolos.<br><em>Un solo cliente.</em></h1>
     <p class="lede">
-      Servidores listos para usar. <b>Abre, elige uno y conecta</b> —
-      nada de payloads, puertos ni archivos de configuración.
+      Servidores preconfigurados y listos para usar.
+      <b>Selecciona uno y conecta</b> — sin payloads, puertos
+      ni archivos de configuración.
     </p>
 
     <!-- FIRMA: el registro real de la app, escribiéndose -->
@@ -330,6 +362,22 @@ footer .sig b{color:var(--violet);font-weight:500}
   </main>
 
   <section>
+    <p class="slug">Descargas</p>
+    <div class="stats">
+      <div class="stat">
+        <p class="stat-num is-wait" id="stat-dl" aria-live="polite">—</p>
+        <p class="stat-lbl">Descargas del APK</p>
+        <p class="stat-src">GitHub Releases</p>
+      </div>
+      <div class="stat">
+        <p class="stat-num is-wait" id="stat-visits" aria-live="polite">—</p>
+        <p class="stat-lbl">Visitas a la página</p>
+        <p class="stat-src">Total acumulado</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
     <p class="slug">Protocolos</p>
     <div class="proto">
 
@@ -338,9 +386,9 @@ footer .sig b{color:var(--violet);font-weight:500}
           <h2 class="p-name">SSH</h2>
           <span class="p-kind">Varios modos</span>
         </div>
-        <p class="p-desc">Estable y confiable. Si un modo no pasa en tu red, cambias a otro de la lista.</p>
+        <p class="p-desc">Conexión estable y confiable. Incluye varios modos de conexión para adaptarse a distintas redes.</p>
         <div class="p-tags">
-          <span class="tagx">Modos listos</span>
+          <span class="tagx">Modos preconfigurados</span>
           <span class="tagx">Modo automático</span>
         </div>
       </article>
@@ -350,7 +398,7 @@ footer .sig b{color:var(--violet);font-weight:500}
           <h2 class="p-name">V2Ray</h2>
           <span class="p-kind">Cifrado</span>
         </div>
-        <p class="p-desc">Buena velocidad y difícil de detectar. Ideal cuando el resto no conecta.</p>
+        <p class="p-desc">Tráfico cifrado con buen rendimiento y baja probabilidad de detección.</p>
         <div class="p-tags">
           <span class="tagx">Servidores libres</span>
           <span class="tagx">Servidores premium</span>
@@ -360,12 +408,12 @@ footer .sig b{color:var(--violet);font-weight:500}
       <article class="p-row">
         <div class="p-head">
           <h2 class="p-name">Hysteria</h2>
-          <span class="p-kind">El más rápido</span>
+          <span class="p-kind">Baja latencia</span>
         </div>
-        <p class="p-desc">Va por UDP, así que responde mejor en juegos y videollamadas.</p>
+        <p class="p-desc">Basado en UDP, con menor latencia. Recomendado para juegos y videollamadas.</p>
         <div class="p-tags">
-          <span class="tagx">Menos ping</span>
-          <span class="tagx">Ideal para juegos</span>
+          <span class="tagx">Menor ping</span>
+          <span class="tagx">Alto rendimiento</span>
         </div>
       </article>
 
@@ -373,31 +421,31 @@ footer .sig b{color:var(--violet);font-weight:500}
   </section>
 
   <section>
-    <p class="slug">Herramientas</p>
+    <p class="slug">Características</p>
     <div class="tools">
       <div class="tool">
-        <h3>Servidores al día</h3>
-        <p>La lista se actualiza sola. Si agrego uno nuevo, te aparece.</p>
+        <h3>Servidores actualizados</h3>
+        <p>La lista se sincroniza automáticamente al agregarse servidores nuevos.</p>
       </div>
       <div class="tool">
-        <h3>Un toque y listo</h3>
-        <p>Sin payloads, sin puertos, sin pegar configuraciones.</p>
+        <h3>Conexión directa</h3>
+        <p>Sin payloads, puertos ni configuraciones manuales.</p>
       </div>
       <div class="tool">
-        <h3>Elige tus apps</h3>
-        <p>Decide qué aplicaciones pasan por la VPN y cuáles no.</p>
+        <h3>Filtro por aplicación</h3>
+        <p>Selecciona qué aplicaciones usan la VPN y cuáles no.</p>
       </div>
       <div class="tool">
-        <h3>Compartir por WiFi</h3>
-        <p>Pasa la conexión a otro equipo desde el mismo teléfono.</p>
+        <h3>Compartir conexión</h3>
+        <p>Comparte la conexión con otros equipos desde el mismo dispositivo.</p>
       </div>
       <div class="tool">
-        <h3>Sigue activa</h3>
-        <p>No se corta cuando dejas el teléfono en reposo.</p>
+        <h3>Conexión persistente</h3>
+        <p>Se mantiene activa con el dispositivo en reposo.</p>
       </div>
       <div class="tool">
-        <h3>Sin anuncios</h3>
-        <p>Ninguno. Ni banners, ni videos, ni contadores.</p>
+        <h3>Sin publicidad</h3>
+        <p>Interfaz limpia, sin anuncios de ningún tipo.</p>
       </div>
     </div>
   </section>
@@ -433,8 +481,8 @@ footer .sig b{color:var(--violet);font-weight:500}
           <circle cx="12" cy="12" r="9"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
         </svg>
         <span class="link-txt">
-          <strong>¿Algo no conecta?</strong>
-          <span>Escríbeme al canal con una captura del registro</span>
+          <strong>Soporte</strong>
+          <span>Reporta un problema adjuntando una captura del registro</span>
         </span>
         <span class="link-go" aria-hidden="true">↗</span>
       </a>
@@ -443,7 +491,7 @@ footer .sig b{color:var(--violet);font-weight:500}
   </section>
 
   <footer>
-    <p>Desarrollada sobre el dispositivo, línea por línea.</p>
+    <p>Cliente VPN para Android · SSH, V2Ray y Hysteria.</p>
     <p class="sig">SN VPN · By <b>SinNombre</b> · Honduras 🇭🇳</p>
   </footer>
 
@@ -474,6 +522,65 @@ footer .sig b{color:var(--violet);font-weight:500}
     setTimeout(next, pause);
   }
   setTimeout(next, 500);
+})();
+
+/* ── Descargas y visitas ─────────────────────────
+   · Descargas del APK: dato real desde la API de GitHub Releases
+     (suma download_count de todos los assets de todos los releases).
+   · Visitas: contador público de counterapi.com, se incrementa
+     una vez por carga de página bajo el namespace sinnombre.xyz.
+   Si alguna API falla, la tarjeta se queda en "—".            */
+(function(){
+  var GH_REPO   = 'SINNOMBRE22/snvpn';
+  var VISITS_NS = 'sinnombre.xyz';   // namespace del contador
+  var VISITS_KEY= 'snvpn-page';      // clave del contador de visitas
+
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function fmt(n){
+    try{ return n.toLocaleString('es'); }catch(e){ return String(n); }
+  }
+
+  // Animación de conteo ascendente (respeta reduced-motion)
+  function setNumber(el, target){
+    if(!el) return;
+    el.classList.remove('is-wait');
+    if(reduce || target <= 0){ el.textContent = fmt(target); return; }
+    var dur = 900, t0 = null;
+    function step(ts){
+      if(t0 === null) t0 = ts;
+      var p = Math.min((ts - t0)/dur, 1);
+      // easing out-cubic
+      var eased = 1 - Math.pow(1 - p, 3);
+      el.textContent = fmt(Math.round(target * eased));
+      if(p < 1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
+
+  // 1) Descargas reales del APK (GitHub Releases API)
+  fetch('https://api.github.com/repos/' + GH_REPO + '/releases')
+    .then(function(r){ if(!r.ok) throw new Error('gh ' + r.status); return r.json(); })
+    .then(function(releases){
+      var total = 0;
+      (releases || []).forEach(function(rel){
+        (rel.assets || []).forEach(function(a){
+          total += a.download_count || 0;
+        });
+      });
+      setNumber(document.getElementById('stat-dl'), total);
+    })
+    .catch(function(err){ console.error('Descargas:', err); });
+
+  // 2) Visitas a la página (counterapi.com, +1 por carga)
+  fetch('https://counterapi.com/api/' + VISITS_NS + '/view/' + VISITS_KEY)
+    .then(function(r){ if(!r.ok) throw new Error('counter ' + r.status); return r.json(); })
+    .then(function(data){
+      if(data && typeof data.value === 'number'){
+        setNumber(document.getElementById('stat-visits'), data.value);
+      }
+    })
+    .catch(function(err){ console.error('Visitas:', err); });
 })();
 </script>
 
