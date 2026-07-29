@@ -572,15 +572,44 @@ footer .sig b{color:var(--violet);font-weight:500}
     })
     .catch(function(err){ console.error('Descargas:', err); });
 
-  // 2) Visitas a la página (counterapi.com, +1 por carga)
-  fetch('https://counterapi.com/api/' + VISITS_NS + '/view/' + VISITS_KEY)
-    .then(function(r){ if(!r.ok) throw new Error('counter ' + r.status); return r.json(); })
-    .then(function(data){
-      if(data && typeof data.value === 'number'){
-        setNumber(document.getElementById('stat-visits'), data.value);
-      }
-    })
-    .catch(function(err){ console.error('Visitas:', err); });
+  // 2) Visitas a la página (+1 por carga, total acumulado)
+  //    Método principal: JSONP contra counterapi.com — al ser una
+  //    etiqueta <script>, no le afecta CORS ni funciona distinto
+  //    en file:// o dominios raros.
+  //    Respaldo: fetch a counterapi.dev v1 si el JSONP no responde.
+  var visitsDone = false;
+
+  function visitsOk(value){
+    if(visitsDone) return;
+    visitsDone = true;
+    setNumber(document.getElementById('stat-visits'), value);
+  }
+
+  // Callback global que counterapi.com invoca con el resultado
+  window.__snVisits = function(data){
+    if(data && typeof data.value === 'number') visitsOk(data.value);
+  };
+
+  var s = document.createElement('script');
+  s.src = 'https://counterapi.com/api/' + VISITS_NS + '/view/' + VISITS_KEY +
+          '?callback=__snVisits';
+  s.async = true;
+  s.onerror = visitsFallback;
+  document.head.appendChild(s);
+
+  // Si en 5s no respondió, intenta el respaldo
+  setTimeout(function(){ if(!visitsDone) visitsFallback(); }, 5000);
+
+  function visitsFallback(){
+    if(visitsDone) return;
+    fetch('https://api.counterapi.dev/v1/sinnombre-xyz/' + VISITS_KEY + '/up')
+      .then(function(r){ if(!r.ok) throw new Error('counter ' + r.status); return r.json(); })
+      .then(function(data){
+        var v = data && (typeof data.count === 'number' ? data.count : data.value);
+        if(typeof v === 'number') visitsOk(v);
+      })
+      .catch(function(err){ console.error('Visitas:', err); });
+  }
 })();
 </script>
 
