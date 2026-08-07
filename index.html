@@ -1,617 +1,872 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SN VPN — SSH · V2Ray · Hysteria</title>
-<meta name="description" content="Cliente VPN para Android con SSH, V2Ray y Hysteria. Servidores preconfigurados, filtro por aplicación y registro de conexión en tiempo real. Por SinNombre.">
-<meta name="theme-color" content="#0B0B10">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SN VPN — SSH · V2Ray · Hysteria</title>
+  <meta name="description" content="Cliente VPN para Android con SSH, V2Ray y Hysteria. Conecta rápido, sin configuraciones.">
+  <meta name="theme-color" content="#000000">
 
-<meta property="og:title" content="SN VPN">
-<meta property="og:description" content="SSH · V2Ray · Hysteria. Un solo cliente, tres protocolos.">
-<meta property="og:type" content="website">
+  <meta property="og:title" content="SN VPN">
+  <meta property="og:description" content="SSH · V2Ray · Hysteria. Un solo cliente, tres protocolos.">
+  <meta property="og:type" content="website">
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 
-<style>
-:root{
-  --bg:#0B0B10;
-  --panel:#14141C;
-  --panel-2:#1B1B25;
-  --line:#26263A;
-  --violet:#A855F7;
-  --violet-deep:#6D28D9;
-  --mint:#4ADE80;
-  --amber:#FBBF24;
-  --rose:#F87171;
-  --ink:#F4F4F8;
-  --mute:#8B8B9E;
-  --dim:#5E5E72;
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-  --mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
-  --sans:"Space Grotesk",system-ui,-apple-system,sans-serif;
-}
+    body {
+      background: #050508;
+      color: #f0f0f4;
+      font-family: 'Space Grotesk', system-ui, -apple-system, sans-serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+      position: relative;
+    }
 
-*{box-sizing:border-box;margin:0;padding:0}
+    /* Fondo de partículas (Canvas) */
+    #particles-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      pointer-events: none;
+    }
 
-html{-webkit-text-size-adjust:100%}
+    .wrap {
+      max-width: 640px;
+      margin: 0 auto;
+      padding: 0 24px 40px;
+      position: relative;
+      z-index: 1;
+    }
 
-body{
-  background:var(--bg);
-  color:var(--ink);
-  font-family:var(--sans);
-  line-height:1.55;
-  overflow-x:hidden;
-  /* Resplandor violeta anclado arriba, muy contenido */
-  background-image:radial-gradient(120% 60% at 50% -20%,rgba(109,40,217,.28),transparent 60%);
-  background-repeat:no-repeat;
-}
+    /* Barra superior */
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 28px 0 0;
+    }
 
-.wrap{max-width:640px;margin:0 auto;padding:0 20px}
+    .mark {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
 
-/* ── Barra superior ───────────────────────────── */
-.topbar{
-  display:flex;align-items:center;justify-content:space-between;
-  padding:18px 0 0;
-}
-.mark{display:flex;align-items:center;gap:9px}
-.glyph{
-  width:26px;height:26px;flex:none;
-  border-radius:7px;
-  background:linear-gradient(150deg,var(--violet),var(--violet-deep));
-  display:grid;place-items:center;
-  font-family:var(--mono);font-size:12px;font-weight:700;color:#fff;
-  box-shadow:0 0 0 1px rgba(168,85,247,.35),0 6px 18px -6px rgba(168,85,247,.7);
-}
-.mark span{font-weight:600;font-size:14px;letter-spacing:.02em}
-.ver{
-  font-family:var(--mono);font-size:11px;color:var(--dim);
-  border:1px solid var(--line);border-radius:999px;padding:3px 9px;
-}
+    .glyph {
+      width: 34px;
+      height: 34px;
+      border-radius: 10px;
+      background: linear-gradient(145deg, #A855F7, #6D28D9);
+      display: grid;
+      place-items: center;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 14px;
+      font-weight: 700;
+      color: #fff;
+      box-shadow: 0 0 24px rgba(168, 85, 247, 0.5);
+    }
 
-/* ── Héroe ────────────────────────────────────── */
-.hero{padding:52px 0 0}
-.eyebrow{
-  font-family:var(--mono);font-size:11px;letter-spacing:.16em;
-  text-transform:uppercase;color:var(--violet);margin-bottom:18px;
-}
-h1{
-  font-size:clamp(38px,12vw,58px);
-  font-weight:700;line-height:.96;letter-spacing:-.035em;
-}
-h1 em{font-style:normal;color:var(--dim)}
-.lede{
-  color:var(--mute);font-size:16px;margin-top:18px;max-width:44ch;
-}
-.lede b{color:var(--ink);font-weight:500}
+    .mark span {
+      font-weight: 600;
+      font-size: 16px;
+      letter-spacing: 0.02em;
+      color: #fff;
+    }
 
-/* ── Firma: registro que se escribe solo ──────── */
-.term{
-  margin-top:32px;
-  background:var(--panel);
-  border:1px solid var(--line);
-  border-radius:14px;
-  overflow:hidden;
-  box-shadow:0 24px 60px -30px rgba(0,0,0,.9);
-}
-.term-bar{
-  display:flex;align-items:center;gap:8px;
-  padding:11px 14px;
-  border-bottom:1px solid var(--line);
-  background:var(--panel-2);
-}
-.dot{width:9px;height:9px;border-radius:50%;background:var(--line);flex:none}
-.term-bar .dot:first-child{background:#3A3A4E}
-.term-title{
-  font-family:var(--mono);font-size:11px;color:var(--dim);
-  margin-left:4px;letter-spacing:.04em;
-}
-.live{
-  margin-left:auto;display:flex;align-items:center;gap:6px;
-  font-family:var(--mono);font-size:10px;color:var(--dim);
-  letter-spacing:.1em;text-transform:uppercase;
-}
-.pulse{
-  width:7px;height:7px;border-radius:50%;background:var(--mint);
-  box-shadow:0 0 0 0 rgba(74,222,128,.6);
-  animation:pulse 2s ease-out infinite;
-}
-@keyframes pulse{
-  0%{box-shadow:0 0 0 0 rgba(74,222,128,.55)}
-  70%{box-shadow:0 0 0 7px rgba(74,222,128,0)}
-  100%{box-shadow:0 0 0 0 rgba(74,222,128,0)}
-}
+    .ver {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      color: #6B7280;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 999px;
+      padding: 4px 12px;
+      background: rgba(255, 255, 255, 0.02);
+      backdrop-filter: blur(4px);
+    }
 
-.term-body{
-  font-family:var(--mono);font-size:12.5px;line-height:1.9;
-  padding:16px 14px;
-  min-height:270px;
-}
-.ln{display:flex;gap:9px;white-space:nowrap}
-.ln .t{color:var(--dim);flex:none}
-.ln .m{overflow:hidden;text-overflow:ellipsis}
-.ln.ok .m{color:var(--mint);font-weight:500}
-.ln.info .m{color:#B9B9CC}
-.ln.tag .m{color:var(--violet);font-weight:500}
-.ln.is-off{display:none}
+    /* Héroe */
+    .hero {
+      padding: 60px 0 0;
+      text-align: center;
+    }
 
-/* ── Acciones ─────────────────────────────────── */
-.cta{margin-top:26px;display:grid;gap:10px}
-.btn{
-  display:flex;align-items:center;justify-content:center;gap:10px;
-  padding:16px 18px;border-radius:12px;
-  text-decoration:none;font-weight:600;font-size:15px;
-  letter-spacing:-.01em;
-  transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease;
-}
-.btn:active{transform:translateY(1px)}
-.btn-main{
-  background:linear-gradient(135deg,var(--violet) 0%,var(--violet-deep) 100%);
-  color:#fff;
-  box-shadow:0 14px 34px -14px rgba(168,85,247,.9);
-}
-.btn-main:hover{box-shadow:0 18px 40px -14px rgba(168,85,247,1)}
-.btn-ghost{
-  background:var(--panel);color:var(--ink);
-  border:1px solid var(--line);
-}
-.btn-ghost:hover{border-color:#3C3C54}
-.btn svg{width:18px;height:18px;flex:none}
+    .badge {
+      display: inline-block;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: #A855F7;
+      border: 1px solid rgba(168, 85, 247, 0.2);
+      padding: 5px 16px;
+      border-radius: 999px;
+      background: rgba(168, 85, 247, 0.06);
+      backdrop-filter: blur(4px);
+      margin-bottom: 24px;
+    }
 
-.meta{
-  margin-top:14px;
-  font-family:var(--mono);font-size:11px;color:var(--dim);
-  display:flex;flex-wrap:wrap;gap:6px 14px;justify-content:center;
-}
-.meta a{color:var(--mute);text-decoration:none;border-bottom:1px solid var(--line)}
-.meta a:hover{color:var(--violet);border-color:var(--violet)}
+    h1 {
+      font-size: clamp(40px, 13vw, 64px);
+      font-weight: 700;
+      line-height: 1;
+      letter-spacing: -0.04em;
+      color: #fff;
+    }
 
-/* Revelado del CTA cuando termina el registro */
-.reveal{opacity:0;transform:translateY(10px);transition:opacity .5s ease,transform .5s ease}
-.reveal.is-in{opacity:1;transform:none}
+    .highlight {
+      background: linear-gradient(135deg, #A855F7, #22D3EE);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      filter: drop-shadow(0 0 30px rgba(168, 85, 247, 0.25));
+    }
 
-/* ── Secciones ────────────────────────────────── */
-section{padding:56px 0 0}
-.slug{
-  font-family:var(--mono);font-size:11px;letter-spacing:.14em;
-  text-transform:uppercase;color:var(--dim);
-  display:flex;align-items:center;gap:10px;margin-bottom:20px;
-}
-.slug::before{content:"";width:14px;height:1px;background:var(--violet);flex:none}
+    .sub {
+      margin-top: 18px;
+      font-size: 17px;
+      color: #9CA3AF;
+      max-width: 40ch;
+      margin-left: auto;
+      margin-right: auto;
+      line-height: 1.7;
+    }
 
-/* Protocolos */
-.proto{display:grid;gap:10px}
-.p-row{
-  background:var(--panel);border:1px solid var(--line);
-  border-radius:12px;padding:16px 16px 15px;
-}
-.p-head{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
-.p-name{font-weight:600;font-size:17px;letter-spacing:-.01em}
-.p-kind{
-  font-family:var(--mono);font-size:10px;letter-spacing:.1em;
-  text-transform:uppercase;color:var(--violet);
-  border:1px solid rgba(168,85,247,.3);border-radius:999px;padding:2px 8px;
-}
-.p-desc{color:var(--mute);font-size:13.5px;margin-top:7px}
-.p-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:11px}
-.tagx{
-  font-family:var(--mono);font-size:10.5px;color:var(--mute);
-  background:var(--panel-2);border:1px solid var(--line);
-  border-radius:6px;padding:4px 8px;
-}
+    .sub b {
+      color: #f0f0f4;
+      font-weight: 500;
+    }
 
-/* Herramientas */
-.tools{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.tool{
-  background:var(--panel);border:1px solid var(--line);
-  border-radius:12px;padding:15px;
-}
-.tool h3{font-size:14px;font-weight:600;letter-spacing:-.01em}
-.tool p{color:var(--mute);font-size:12.5px;margin-top:5px;line-height:1.5}
+    /* Protocolos en línea */
+    .proto-badges {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 20px;
+      flex-wrap: wrap;
+    }
 
-/* Descargas / estadísticas */
-.stats{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.stat{
-  background:var(--panel);border:1px solid var(--line);
-  border-radius:12px;padding:18px 16px 16px;
-  position:relative;overflow:hidden;
-}
-.stat::after{
-  content:"";position:absolute;inset:0 0 auto;height:2px;
-  background:linear-gradient(90deg,var(--violet),transparent 70%);
-  opacity:.55;
-}
-.stat-num{
-  font-family:var(--mono);font-size:clamp(26px,8vw,34px);
-  font-weight:700;letter-spacing:-.02em;line-height:1;
-  color:var(--ink);
-  font-variant-numeric:tabular-nums;
-}
-.stat-num.is-wait{color:var(--dim)}
-.stat-lbl{
-  margin-top:9px;font-size:12.5px;color:var(--mute);
-}
-.stat-src{
-  margin-top:3px;
-  font-family:var(--mono);font-size:10px;color:var(--dim);
-  letter-spacing:.06em;text-transform:uppercase;
-}
-@media (max-width:420px){
-  .stats{grid-template-columns:1fr}
-}
+    .proto-badge {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      color: #D1D5DB;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      padding: 6px 16px;
+      border-radius: 999px;
+      backdrop-filter: blur(4px);
+      transition: all 0.25s ease;
+    }
 
-/* Requisitos */
-.specs{
-  background:var(--panel);border:1px solid var(--line);
-  border-radius:12px;overflow:hidden;
-}
-.spec{
-  display:flex;justify-content:space-between;gap:16px;
-  padding:13px 16px;font-size:13.5px;
-  border-bottom:1px solid var(--line);
-}
-.spec:last-child{border-bottom:0}
-.spec dt{color:var(--mute)}
-.spec dd{font-family:var(--mono);font-size:12.5px;color:var(--ink);text-align:right}
+    .proto-badge:hover {
+      border-color: #A855F7;
+      background: rgba(168, 85, 247, 0.08);
+      transform: translateY(-2px);
+    }
 
-/* Contacto */
-.links{display:grid;gap:10px}
-.link{
-  display:flex;align-items:center;gap:13px;
-  background:var(--panel);border:1px solid var(--line);
-  border-radius:12px;padding:14px 16px;
-  text-decoration:none;color:var(--ink);
-  transition:border-color .18s ease,background .18s ease;
-}
-.link:hover{border-color:#3C3C54;background:var(--panel-2)}
-.link svg{width:20px;height:20px;flex:none;color:var(--violet)}
-.link-txt{min-width:0}
-.link-txt strong{display:block;font-size:14px;font-weight:600}
-.link-txt span{
-  display:block;font-family:var(--mono);font-size:11px;color:var(--dim);
-  overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
-}
-.link-go{margin-left:auto;color:var(--dim);font-size:16px;flex:none}
+    /* CTA */
+    .cta {
+      margin-top: 34px;
+      display: grid;
+      gap: 12px;
+      max-width: 400px;
+      margin-left: auto;
+      margin-right: auto;
+    }
 
-footer{
-  padding:48px 0 40px;margin-top:56px;
-  border-top:1px solid var(--line);
-  text-align:center;
-}
-footer p{font-size:13px;color:var(--dim)}
-footer .sig{
-  font-family:var(--mono);font-size:11px;color:var(--dim);
-  margin-top:8px;letter-spacing:.05em;
-}
-footer .sig b{color:var(--violet);font-weight:500}
+    .btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      padding: 18px 24px;
+      border-radius: 14px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 16px;
+      transition: all 0.3s ease;
+      border: 1px solid transparent;
+      position: relative;
+    }
 
-:focus-visible{outline:2px solid var(--violet);outline-offset:3px;border-radius:6px}
+    .btn:active {
+      transform: scale(0.97);
+    }
 
-@media (min-width:560px){
-  .cta{grid-template-columns:1.4fr 1fr}
-  .term-body{font-size:13px}
-}
-@media (prefers-reduced-motion:reduce){
-  *{animation:none!important;transition:none!important}
-  .reveal{opacity:1;transform:none}
-}
-</style>
+    .btn-main {
+      background: linear-gradient(135deg, #A855F7, #6D28D9);
+      color: #fff;
+      box-shadow: 0 8px 32px -8px rgba(168, 85, 247, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .btn-main:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 16px 48px -10px rgba(168, 85, 247, 0.8);
+    }
+
+    .btn-main::after {
+      content: '';
+      position: absolute;
+      inset: -2px;
+      border-radius: 16px;
+      background: linear-gradient(135deg, #A855F7, #22D3EE, #6D28D9);
+      background-size: 300% 300%;
+      z-index: -1;
+      animation: shimmer 5s ease-in-out infinite;
+      opacity: 0.5;
+      filter: blur(12px);
+    }
+
+    @keyframes shimmer {
+      0%,
+      100% {
+        background-position: 0% 50%;
+      }
+      50% {
+        background-position: 100% 50%;
+      }
+    }
+
+    .btn-ghost {
+      background: rgba(255, 255, 255, 0.04);
+      color: #f0f0f4;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(8px);
+    }
+
+    .btn-ghost:hover {
+      background: rgba(255, 255, 255, 0.08);
+      border-color: #A855F7;
+      transform: translateY(-3px);
+    }
+
+    .btn svg {
+      width: 20px;
+      height: 20px;
+      flex: none;
+    }
+
+    .meta {
+      margin-top: 18px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: #6B7280;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px 16px;
+      justify-content: center;
+      padding: 8px 0;
+    }
+
+    .meta span {
+      background: rgba(255, 255, 255, 0.02);
+      padding: 4px 14px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.04);
+    }
+
+    /* Secciones */
+    section {
+      padding: 64px 0 0;
+    }
+
+    .slug {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: #6B7280;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 24px;
+      font-weight: 500;
+    }
+
+    .slug::before {
+      content: '';
+      width: 24px;
+      height: 2px;
+      background: linear-gradient(90deg, #A855F7, transparent);
+      flex: none;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .card {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: 16px;
+      padding: 18px 16px;
+      backdrop-filter: blur(8px);
+      transition: all 0.25s ease;
+    }
+
+    .card:hover {
+      background: rgba(255, 255, 255, 0.06);
+      border-color: rgba(168, 85, 247, 0.2);
+      transform: translateY(-3px);
+      box-shadow: 0 12px 30px -16px rgba(168, 85, 247, 0.2);
+    }
+
+    .card h3 {
+      font-size: 14px;
+      font-weight: 600;
+      color: #fff;
+      margin-bottom: 4px;
+    }
+
+    .card p {
+      color: #9CA3AF;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    /* Estadísticas */
+    .stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .stat {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: 16px;
+      padding: 20px 18px;
+      position: relative;
+      overflow: hidden;
+      backdrop-filter: blur(8px);
+      transition: all 0.25s ease;
+    }
+
+    .stat:hover {
+      background: rgba(255, 255, 255, 0.06);
+      border-color: rgba(168, 85, 247, 0.15);
+    }
+
+    .stat::after {
+      content: '';
+      position: absolute;
+      inset: 0 0 auto;
+      height: 2px;
+      background: linear-gradient(90deg, #A855F7, #22D3EE, transparent 70%);
+      opacity: 0.5;
+    }
+
+    .stat-num {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: clamp(28px, 8vw, 38px);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1;
+      color: #fff;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .stat-num.is-wait {
+      color: #6B7280;
+    }
+
+    .stat-lbl {
+      margin-top: 8px;
+      font-size: 13px;
+      color: #9CA3AF;
+    }
+
+    .stat-src {
+      margin-top: 4px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      color: #6B7280;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    /* Especificaciones */
+    .specs {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: 16px;
+      overflow: hidden;
+      backdrop-filter: blur(8px);
+    }
+
+    .spec {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 14px 20px;
+      font-size: 13.5px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+    }
+
+    .spec:last-child {
+      border-bottom: 0;
+    }
+
+    .spec dt {
+      color: #9CA3AF;
+    }
+
+    .spec dd {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12.5px;
+      color: #fff;
+      text-align: right;
+    }
+
+    /* Contacto */
+    .links {
+      display: grid;
+      gap: 12px;
+    }
+
+    .link {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: 16px;
+      padding: 16px 20px;
+      text-decoration: none;
+      color: #f0f0f4;
+      transition: all 0.25s ease;
+      backdrop-filter: blur(8px);
+    }
+
+    .link:hover {
+      background: rgba(255, 255, 255, 0.06);
+      border-color: #A855F7;
+      transform: translateX(4px);
+    }
+
+    .link svg {
+      width: 22px;
+      height: 22px;
+      flex: none;
+      color: #A855F7;
+    }
+
+    .link-txt strong {
+      display: block;
+      font-size: 14px;
+      font-weight: 600;
+      color: #fff;
+    }
+
+    .link-txt span {
+      display: block;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: #6B7280;
+    }
+
+    .link-go {
+      margin-left: auto;
+      color: #6B7280;
+      font-size: 18px;
+      transition: all 0.2s ease;
+    }
+
+    .link:hover .link-go {
+      color: #A855F7;
+      transform: translateX(4px);
+    }
+
+    footer {
+      padding: 48px 0 32px;
+      margin-top: 56px;
+      border-top: 1px solid rgba(255, 255, 255, 0.04);
+      text-align: center;
+    }
+
+    footer p {
+      font-size: 13px;
+      color: #6B7280;
+    }
+
+    footer .sig {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: #6B7280;
+      margin-top: 8px;
+      letter-spacing: 0.05em;
+    }
+
+    footer .sig b {
+      background: linear-gradient(135deg, #A855F7, #22D3EE);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      font-weight: 600;
+    }
+
+    @media (max-width: 480px) {
+      .grid-2 {
+        grid-template-columns: 1fr;
+      }
+      .stats {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (min-width: 560px) {
+      .cta {
+        grid-template-columns: 1.4fr 1fr;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      * {
+        animation: none !important;
+        transition: none !important;
+      }
+      #particles-canvas {
+        display: none;
+      }
+    }
+  </style>
 </head>
 <body>
 
-<div class="wrap">
+  <!-- Fondo de partículas animado -->
+  <canvas id="particles-canvas"></canvas>
 
-  <header class="topbar">
-    <div class="mark">
-      <div class="glyph">SN</div>
-      <span>SN&nbsp;VPN</span>
-    </div>
-    <div class="ver">v1.0</div>
-  </header>
+  <div class="wrap">
 
-  <main class="hero">
-    <p class="eyebrow">SSH · V2Ray · Hysteria</p>
-    <h1>Tres protocolos.<br><em>Un solo cliente.</em></h1>
-    <p class="lede">
-      Servidores preconfigurados y listos para usar.
-      <b>Selecciona uno y conecta</b> — sin payloads, puertos
-      ni archivos de configuración.
-    </p>
-
-    <!-- FIRMA: el registro real de la app, escribiéndose -->
-    <div class="term" role="img" aria-label="Registro de conexión mostrando una conexión Hysteria exitosa">
-      <div class="term-bar">
-        <span class="dot"></span><span class="dot"></span><span class="dot"></span>
-        <span class="term-title">registro de conexión</span>
-        <span class="live"><span class="pulse"></span>en vivo</span>
+    <header class="topbar">
+      <div class="mark">
+        <div class="glyph">SN</div>
+        <span>SN VPN</span>
       </div>
-      <div class="term-body" id="log" data-type>
-        <div class="ln info"><span class="t">22:56</span><span class="m">SN VPN v1.0</span></div>
-        <div class="ln info"><span class="t">22:56</span><span class="m">Android 14 · arm64-v8a</span></div>
-        <div class="ln info"><span class="t">22:56</span><span class="m">Claro (HN) / Mobile</span></div>
-        <div class="ln ok"><span class="t">22:56</span><span class="m">Core seleccionado: Hysteria 1</span></div>
-        <div class="ln info"><span class="t">22:56</span><span class="m">Servidor → 20000-39999</span></div>
-        <div class="ln info"><span class="t">22:56</span><span class="m">SOCKS5 activo</span></div>
-        <div class="ln ok"><span class="t">22:56</span><span class="m">Túnel verificado</span></div>
-        <div class="ln tag"><span class="t">&nbsp;</span><span class="m">SN VPN · By SinNombre</span></div>
-        <div class="ln ok"><span class="t">22:56</span><span class="m">Conectado con éxito</span></div>
+      <div class="ver">v1.0</div>
+    </header>
+
+    <main class="hero">
+      <div class="badge">SSH · V2Ray · Hysteria</div>
+      <h1>Conecta con <span class="highlight">tres protocolos</span><br>en uno solo.</h1>
+      <p class="sub">
+        <b>SN VPN</b> te da acceso a servidores preconfigurados. Elige el protocolo que prefieras y conecta al instante, sin configuraciones complicadas.
+      </p>
+
+      <div class="proto-badges">
+        <span class="proto-badge">⚡ SSH</span>
+        <span class="proto-badge">🔐 V2Ray</span>
+        <span class="proto-badge">🚀 Hysteria</span>
       </div>
-    </div>
 
-    <div class="cta reveal" id="cta">
-      <a class="btn btn-main" href="https://github.com/SINNOMBRE22/snvpn/releases/download/v1.0/SN_VPN_PRO-release-signed.apk">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
-        </svg>
-        Descargar APK
-      </a>
-      <a class="btn btn-ghost" href="https://t.me/SIN_NOMBRE22" target="_blank" rel="noopener">
-        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-          <path d="M21.9 4.3 18.9 19c-.2 1-.8 1.2-1.7.8l-4.6-3.4-2.2 2.1c-.2.3-.5.4-.9.4l.3-4.6 8.5-7.7c.4-.3-.1-.5-.6-.2L7.3 13.1 2.8 11.7c-1-.3-1-1 .2-1.4l17.4-6.7c.8-.3 1.6.2 1.5 1.7z"/>
-        </svg>
-        Telegram
-      </a>
-    </div>
-
-    <p class="meta">
-      <span>Android 6.0 o superior</span>
-      <span>arm64-v8a · armeabi-v7a</span>
-    </p>
-  </main>
-
-  <section>
-    <p class="slug">Descargas</p>
-    <div class="stats">
-      <div class="stat">
-        <p class="stat-num is-wait" id="stat-dl" aria-live="polite">—</p>
-        <p class="stat-lbl">Descargas del APK</p>
-        <p class="stat-src">GitHub Releases</p>
+      <div class="cta">
+        <a class="btn btn-main" href="https://github.com/SINNOMBRE22/snvpn/releases/download/v1.0/SN_VPN_PRO-release-signed.apk">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
+          </svg>
+          Descargar APK
+        </a>
+        <a class="btn btn-ghost" href="https://t.me/SIN_NOMBRE22" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="currentColor">
+            <path d="M21.9 4.3 18.9 19c-.2 1-.8 1.2-1.7.8l-4.6-3.4-2.2 2.1c-.2.3-.5.4-.9.4l.3-4.6 8.5-7.7c.4-.3-.1-.5-.6-.2L7.3 13.1 2.8 11.7c-1-.3-1-1 .2-1.4l17.4-6.7c.8-.3 1.6.2 1.5 1.7z"/>
+          </svg>
+          Telegram
+        </a>
       </div>
-      <div class="stat">
-        <p class="stat-num is-wait" id="stat-visits" aria-live="polite">—</p>
-        <p class="stat-lbl">Visitas a la página</p>
-        <p class="stat-src">Total acumulado</p>
-      </div>
-    </div>
-  </section>
 
-  <section>
-    <p class="slug">Protocolos</p>
-    <div class="proto">
+      <p class="meta">
+        <span>Android 6.0+</span>
+        <span>arm64-v8a · armeabi-v7a</span>
+      </p>
+    </main>
 
-      <article class="p-row">
-        <div class="p-head">
-          <h2 class="p-name">SSH</h2>
-          <span class="p-kind">Varios modos</span>
+    <section>
+      <p class="slug">Descargas</p>
+      <div class="stats">
+        <div class="stat">
+          <p class="stat-num is-wait" id="stat-dl" aria-live="polite">—</p>
+          <p class="stat-lbl">Descargas del APK</p>
+          <p class="stat-src">GitHub Releases</p>
         </div>
-        <p class="p-desc">Conexión estable y confiable. Incluye varios modos de conexión para adaptarse a distintas redes.</p>
-        <div class="p-tags">
-          <span class="tagx">Modos preconfigurados</span>
-          <span class="tagx">Modo automático</span>
+        <div class="stat">
+          <p class="stat-num is-wait" id="stat-visits" aria-live="polite">—</p>
+          <p class="stat-lbl">Visitas a la página</p>
+          <p class="stat-src">Total acumulado</p>
         </div>
-      </article>
+      </div>
+    </section>
 
-      <article class="p-row">
-        <div class="p-head">
-          <h2 class="p-name">V2Ray</h2>
-          <span class="p-kind">Cifrado</span>
+    <section>
+      <p class="slug">Características</p>
+      <div class="grid-2">
+        <div class="card">
+          <h3>Servidores actualizados</h3>
+          <p>La lista se sincroniza automáticamente con los nuevos servidores.</p>
         </div>
-        <p class="p-desc">Tráfico cifrado con buen rendimiento y baja probabilidad de detección.</p>
-        <div class="p-tags">
-          <span class="tagx">Servidores libres</span>
-          <span class="tagx">Servidores premium</span>
+        <div class="card">
+          <h3>Sin configuración</h3>
+          <p>Elige el protocolo y conecta. Sin puertos, payloads ni archivos.</p>
         </div>
-      </article>
-
-      <article class="p-row">
-        <div class="p-head">
-          <h2 class="p-name">Hysteria</h2>
-          <span class="p-kind">Baja latencia</span>
+        <div class="card">
+          <h3>Filtro por app</h3>
+          <p>Decide qué aplicaciones usan la VPN y cuáles no.</p>
         </div>
-        <p class="p-desc">Basado en UDP, con menor latencia. Recomendado para juegos y videollamadas.</p>
-        <div class="p-tags">
-          <span class="tagx">Menor ping</span>
-          <span class="tagx">Alto rendimiento</span>
+        <div class="card">
+          <h3>Conexión persistente</h3>
+          <p>Se mantiene activa incluso con el dispositivo en reposo.</p>
         </div>
-      </article>
-
-    </div>
-  </section>
-
-  <section>
-    <p class="slug">Características</p>
-    <div class="tools">
-      <div class="tool">
-        <h3>Servidores actualizados</h3>
-        <p>La lista se sincroniza automáticamente al agregarse servidores nuevos.</p>
+        <div class="card">
+          <h3>Compartir conexión</h3>
+          <p>Comparte tu conexión VPN con otros dispositivos.</p>
+        </div>
+        <div class="card">
+          <h3>Sin anuncios</h3>
+          <p>Interfaz limpia y sin distracciones publicitarias.</p>
+        </div>
       </div>
-      <div class="tool">
-        <h3>Conexión directa</h3>
-        <p>Sin payloads, puertos ni configuraciones manuales.</p>
+    </section>
+
+    <section>
+      <p class="slug">Ficha técnica</p>
+      <dl class="specs">
+        <div class="spec"><dt>Versión</dt><dd>1.0 (build 1)</dd></div>
+        <div class="spec"><dt>Android mínimo</dt><dd>6.0 · API 23</dd></div>
+        <div class="spec"><dt>Arquitecturas</dt><dd>arm64-v8a · armeabi-v7a</dd></div>
+        <div class="spec"><dt>Protocolos</dt><dd>SSH · V2Ray · Hysteria</dd></div>
+        <div class="spec"><dt>Idioma</dt><dd>Español</dd></div>
+      </dl>
+    </section>
+
+    <section>
+      <p class="slug">Contacto</p>
+      <div class="links">
+        <a class="link" href="https://t.me/SIN_NOMBRE22" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="currentColor">
+            <path d="M21.9 4.3 18.9 19c-.2 1-.8 1.2-1.7.8l-4.6-3.4-2.2 2.1c-.2.3-.5.4-.9.4l.3-4.6 8.5-7.7c.4-.3-.1-.5-.6-.2L7.3 13.1 2.8 11.7c-1-.3-1-1 .2-1.4l17.4-6.7c.8-.3 1.6.2 1.5 1.7z"/>
+          </svg>
+          <span class="link-txt">
+            <strong>Canal de Telegram</strong>
+            <span>Novedades y actualizaciones</span>
+          </span>
+          <span class="link-go">↗</span>
+        </a>
+        <a class="link" href="https://t.me/SIN_NOMBRE22" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+            <circle cx="12" cy="12" r="9"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
+          </svg>
+          <span class="link-txt">
+            <strong>Soporte</strong>
+            <span>Reporta problemas con captura de pantalla</span>
+          </span>
+          <span class="link-go">↗</span>
+        </a>
       </div>
-      <div class="tool">
-        <h3>Filtro por aplicación</h3>
-        <p>Selecciona qué aplicaciones usan la VPN y cuáles no.</p>
-      </div>
-      <div class="tool">
-        <h3>Compartir conexión</h3>
-        <p>Comparte la conexión con otros equipos desde el mismo dispositivo.</p>
-      </div>
-      <div class="tool">
-        <h3>Conexión persistente</h3>
-        <p>Se mantiene activa con el dispositivo en reposo.</p>
-      </div>
-      <div class="tool">
-        <h3>Sin publicidad</h3>
-        <p>Interfaz limpia, sin anuncios de ningún tipo.</p>
-      </div>
-    </div>
-  </section>
+    </section>
 
-  <section>
-    <p class="slug">Ficha técnica</p>
-    <dl class="specs">
-      <div class="spec"><dt>Versión</dt><dd>1.0 (build 1)</dd></div>
-      <div class="spec"><dt>Android mínimo</dt><dd>6.0 · API 23</dd></div>
-      <div class="spec"><dt>Arquitecturas</dt><dd>arm64-v8a · armeabi-v7a</dd></div>
-      <div class="spec"><dt>Protocolos</dt><dd>SSH · V2Ray · Hysteria</dd></div>
-      <div class="spec"><dt>Idioma</dt><dd>Español</dd></div>
-    </dl>
-  </section>
+    <footer>
+      <p>Cliente VPN para Android · SSH, V2Ray y Hysteria.</p>
+      <p class="sig">SN VPN · By <b>SinNombre</b></p>
+    </footer>
 
-  <section>
-    <p class="slug">Contacto</p>
-    <div class="links">
+  </div>
 
-      <a class="link" href="https://t.me/SIN_NOMBRE22" target="_blank" rel="noopener">
-        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-          <path d="M21.9 4.3 18.9 19c-.2 1-.8 1.2-1.7.8l-4.6-3.4-2.2 2.1c-.2.3-.5.4-.9.4l.3-4.6 8.5-7.7c.4-.3-.1-.5-.6-.2L7.3 13.1 2.8 11.7c-1-.3-1-1 .2-1.4l17.4-6.7c.8-.3 1.6.2 1.5 1.7z"/>
-        </svg>
-        <span class="link-txt">
-          <strong>Canal de Telegram</strong>
-          <span>Avisos, actualizaciones y servidores nuevos</span>
-        </span>
-        <span class="link-go" aria-hidden="true">↗</span>
-      </a>
+  <script>
+    // ─── Partículas animadas ──────────────────────────────
+    (function() {
+      var canvas = document.getElementById('particles-canvas');
+      var ctx = canvas.getContext('2d');
+      var particles = [];
+      var mouse = { x: null, y: null };
+      var count = 60;
 
-      <a class="link" href="https://t.me/SIN_NOMBRE22" target="_blank" rel="noopener">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
-          <circle cx="12" cy="12" r="9"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
-        </svg>
-        <span class="link-txt">
-          <strong>Soporte</strong>
-          <span>Reporta un problema adjuntando una captura del registro</span>
-        </span>
-        <span class="link-go" aria-hidden="true">↗</span>
-      </a>
+      function resize() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+      }
+      window.addEventListener('resize', resize);
+      resize();
 
-    </div>
-  </section>
+      class Particle {
+        constructor() {
+          this.reset();
+        }
+        reset() {
+          this.x = Math.random() * canvas.width;
+          this.y = Math.random() * canvas.height;
+          this.size = Math.random() * 2 + 1;
+          this.speedX = (Math.random() - 0.5) * 0.4;
+          this.speedY = (Math.random() - 0.5) * 0.4;
+          this.opacity = Math.random() * 0.5 + 0.2;
+        }
+        update() {
+          this.x += this.speedX;
+          this.y += this.speedY;
+          if (this.x < 0 || this.x > canvas.width || this.y < 0 || this.y > canvas.height) {
+            this.reset();
+          }
+          // interacción con mouse
+          if (mouse.x !== null) {
+            var dx = mouse.x - this.x;
+            var dy = mouse.y - this.y;
+            var dist = Math.sqrt(dx * dx + dy * dy);
+            if (dist < 120) {
+              var force = (120 - dist) / 120;
+              this.x -= dx * force * 0.02;
+              this.y -= dy * force * 0.02;
+            }
+          }
+        }
+        draw() {
+          ctx.beginPath();
+          ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+          ctx.fillStyle = 'rgba(168, 85, 247, ' + this.opacity + ')';
+          ctx.fill();
+        }
+      }
 
-  <footer>
-    <p>Cliente VPN para Android · SSH, V2Ray y Hysteria.</p>
-    <p class="sig">SN VPN · By <b>SinNombre</b> · Honduras 🇭🇳</p>
-  </footer>
+      for (var i = 0; i < count; i++) {
+        particles.push(new Particle());
+      }
 
-</div>
+      function drawLines() {
+        for (var i = 0; i < particles.length; i++) {
+          for (var j = i + 1; j < particles.length; j++) {
+            var dx = particles[i].x - particles[j].x;
+            var dy = particles[i].y - particles[j].y;
+            var dist = Math.sqrt(dx * dx + dy * dy);
+            if (dist < 130) {
+              ctx.beginPath();
+              ctx.moveTo(particles[i].x, particles[i].y);
+              ctx.lineTo(particles[j].x, particles[j].y);
+              ctx.strokeStyle = 'rgba(168, 85, 247, ' + (0.12 * (1 - dist / 130)) + ')';
+              ctx.lineWidth = 0.8;
+              ctx.stroke();
+            }
+          }
+        }
+      }
 
-<script>
-(function(){
-  var log = document.getElementById('log');
-  var cta = document.getElementById('cta');
-  if(!log) return;
+      function animate() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        particles.forEach(function(p) { p.update(); p.draw(); });
+        drawLines();
+        requestAnimationFrame(animate);
+      }
+      animate();
 
-  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if(reduce){ if(cta) cta.classList.add('is-in'); return; }
-
-  var lines = Array.prototype.slice.call(log.querySelectorAll('.ln'));
-  lines.forEach(function(l){ l.classList.add('is-off'); });
-
-  var i = 0;
-  function next(){
-    if(i >= lines.length){
-      if(cta) cta.classList.add('is-in');
-      return;
-    }
-    lines[i].classList.remove('is-off');
-    // Las líneas de éxito respiran un poco más; el resto entra rápido.
-    var pause = lines[i].classList.contains('ok') ? 420 : 240;
-    i++;
-    setTimeout(next, pause);
-  }
-  setTimeout(next, 500);
-})();
-
-/* ── Descargas y visitas ─────────────────────────
-   · Descargas del APK: dato real desde la API de GitHub Releases
-     (suma download_count de todos los assets de todos los releases).
-   · Visitas: contador público de counterapi.com, se incrementa
-     una vez por carga de página bajo el namespace sinnombre.xyz.
-   Si alguna API falla, la tarjeta se queda en "—".            */
-(function(){
-  var GH_REPO   = 'SINNOMBRE22/snvpn';
-  var VISITS_NS = 'sinnombre.xyz';   // namespace del contador
-  var VISITS_KEY= 'snvpn-page';      // clave del contador de visitas
-
-  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-  function fmt(n){
-    try{ return n.toLocaleString('es'); }catch(e){ return String(n); }
-  }
-
-  // Animación de conteo ascendente (respeta reduced-motion)
-  function setNumber(el, target){
-    if(!el) return;
-    el.classList.remove('is-wait');
-    if(reduce || target <= 0){ el.textContent = fmt(target); return; }
-    var dur = 900, t0 = null;
-    function step(ts){
-      if(t0 === null) t0 = ts;
-      var p = Math.min((ts - t0)/dur, 1);
-      // easing out-cubic
-      var eased = 1 - Math.pow(1 - p, 3);
-      el.textContent = fmt(Math.round(target * eased));
-      if(p < 1) requestAnimationFrame(step);
-    }
-    requestAnimationFrame(step);
-  }
-
-  // 1) Descargas reales del APK (GitHub Releases API)
-  fetch('https://api.github.com/repos/' + GH_REPO + '/releases')
-    .then(function(r){ if(!r.ok) throw new Error('gh ' + r.status); return r.json(); })
-    .then(function(releases){
-      var total = 0;
-      (releases || []).forEach(function(rel){
-        (rel.assets || []).forEach(function(a){
-          total += a.download_count || 0;
-        });
+      // Mouse tracking
+      window.addEventListener('mousemove', function(e) {
+        mouse.x = e.clientX;
+        mouse.y = e.clientY;
       });
-      setNumber(document.getElementById('stat-dl'), total);
-    })
-    .catch(function(err){ console.error('Descargas:', err); });
+      window.addEventListener('mouseleave', function() {
+        mouse.x = null;
+        mouse.y = null;
+      });
+      // Touch support
+      window.addEventListener('touchmove', function(e) {
+        var touch = e.touches[0];
+        if (touch) {
+          mouse.x = touch.clientX;
+          mouse.y = touch.clientY;
+        }
+      }, { passive: true });
+      window.addEventListener('touchend', function() {
+        mouse.x = null;
+        mouse.y = null;
+      });
+    })();
 
-  // 2) Visitas a la página (+1 por carga, total acumulado)
-  //    Método principal: JSONP contra counterapi.com — al ser una
-  //    etiqueta <script>, no le afecta CORS ni funciona distinto
-  //    en file:// o dominios raros.
-  //    Respaldo: fetch a counterapi.dev v1 si el JSONP no responde.
-  var visitsDone = false;
+    // ─── Contadores ──────────────────────────────────────
+    (function() {
+      var GH_REPO = 'SINNOMBRE22/snvpn';
+      var VISITS_NS = 'sinnombre.xyz';
+      var VISITS_KEY = 'snvpn-page';
+      var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  function visitsOk(value){
-    if(visitsDone) return;
-    visitsDone = true;
-    setNumber(document.getElementById('stat-visits'), value);
-  }
+      function fmt(n) {
+        try { return n.toLocaleString('es'); } catch (e) { return String(n); }
+      }
 
-  // Callback global que counterapi.com invoca con el resultado
-  window.__snVisits = function(data){
-    if(data && typeof data.value === 'number') visitsOk(data.value);
-  };
+      function setNumber(el, target) {
+        if (!el) return;
+        el.classList.remove('is-wait');
+        if (reduce || target <= 0) { el.textContent = fmt(target); return; }
+        var dur = 900,
+          t0 = null;
 
-  var s = document.createElement('script');
-  s.src = 'https://counterapi.com/api/' + VISITS_NS + '/view/' + VISITS_KEY +
-          '?callback=__snVisits';
-  s.async = true;
-  s.onerror = visitsFallback;
-  document.head.appendChild(s);
+        function step(ts) {
+          if (t0 === null) t0 = ts;
+          var p = Math.min((ts - t0) / dur, 1);
+          var eased = 1 - Math.pow(1 - p, 3);
+          el.textContent = fmt(Math.round(target * eased));
+          if (p < 1) requestAnimationFrame(step);
+        }
+        requestAnimationFrame(step);
+      }
 
-  // Si en 5s no respondió, intenta el respaldo
-  setTimeout(function(){ if(!visitsDone) visitsFallback(); }, 5000);
+      // Descargas
+      fetch('https://api.github.com/repos/' + GH_REPO + '/releases')
+        .then(function(r) { if (!r.ok) throw new Error('gh ' + r.status); return r.json(); })
+        .then(function(releases) {
+          var total = 0;
+          (releases || []).forEach(function(rel) {
+            (rel.assets || []).forEach(function(a) {
+              total += a.download_count || 0;
+            });
+          });
+          setNumber(document.getElementById('stat-dl'), total);
+        })
+        .catch(function(err) { console.error('Descargas:', err); });
 
-  function visitsFallback(){
-    if(visitsDone) return;
-    fetch('https://api.counterapi.dev/v1/sinnombre-xyz/' + VISITS_KEY + '/up')
-      .then(function(r){ if(!r.ok) throw new Error('counter ' + r.status); return r.json(); })
-      .then(function(data){
-        var v = data && (typeof data.count === 'number' ? data.count : data.value);
-        if(typeof v === 'number') visitsOk(v);
-      })
-      .catch(function(err){ console.error('Visitas:', err); });
-  }
-})();
-</script>
+      // Visitas
+      var visitsDone = false;
+
+      function visitsOk(value) {
+        if (visitsDone) return;
+        visitsDone = true;
+        setNumber(document.getElementById('stat-visits'), value);
+      }
+
+      window.__snVisits = function(data) {
+        if (data && typeof data.value === 'number') visitsOk(data.value);
+      };
+
+      var s = document.createElement('script');
+      s.src = 'https://counterapi.com/api/' + VISITS_NS + '/view/' + VISITS_KEY +
+        '?callback=__snVisits';
+      s.async = true;
+      s.onerror = visitsFallback;
+      document.head.appendChild(s);
+
+      setTimeout(function() { if (!visitsDone) visitsFallback(); }, 5000);
+
+      function visitsFallback() {
+        if (visitsDone) return;
+        fetch('https://api.counterapi.dev/v1/sinnombre-xyz/' + VISITS_KEY + '/up')
+          .then(function(r) { if (!r.ok) throw new Error('counter ' + r.status); return r.json(); })
+          .then(function(data) {
+            var v = data && (typeof data.count === 'number' ? data.count : data.value);
+            if (typeof v === 'number') visitsOk(v);
+          })
+          .catch(function(err) { console.error('Visitas:', err); });
+      }
+    })();
+  </script>
 
 </body>
 </html>
