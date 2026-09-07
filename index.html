@@ -1,886 +1,636 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SN VPN — SSH · V2Ray · Hysteria</title>
-  <meta name="description" content="Cliente VPN para Android con SSH, V2Ray y Hysteria. Conecta rápido, sin configuraciones.">
-  <meta name="theme-color" content="#000000">
-
-  <meta property="og:title" content="SN VPN">
-  <meta property="og:description" content="SSH · V2Ray · Hysteria. Un solo cliente, tres protocolos.">
-  <meta property="og:type" content="website">
-
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    body {
-      background: #050508;
-      color: #f0f0f4;
-      font-family: 'Space Grotesk', system-ui, -apple-system, sans-serif;
-      min-height: 100vh;
-      overflow-x: hidden;
-      position: relative;
-    }
-
-    /* Fondo de partículas (Canvas) */
-    #particles-canvas {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: 0;
-      pointer-events: none;
-    }
-
-    .wrap {
-      max-width: 640px;
-      margin: 0 auto;
-      padding: 0 24px 40px;
-      position: relative;
-      z-index: 1;
-    }
-
-    /* Barra superior */
-    .topbar {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 28px 0 0;
-    }
-
-    .mark {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .glyph {
-      width: 34px;
-      height: 34px;
-      border-radius: 10px;
-      background: linear-gradient(145deg, #A855F7, #6D28D9);
-      display: grid;
-      place-items: center;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 14px;
-      font-weight: 700;
-      color: #fff;
-      box-shadow: 0 0 24px rgba(168, 85, 247, 0.5);
-    }
-
-    .mark span {
-      font-weight: 600;
-      font-size: 16px;
-      letter-spacing: 0.02em;
-      color: #fff;
-    }
-
-    .ver {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 10px;
-      color: #6B7280;
-      border: 1px solid rgba(255, 255, 255, 0.06);
-      border-radius: 999px;
-      padding: 4px 12px;
-      background: rgba(255, 255, 255, 0.02);
-      backdrop-filter: blur(4px);
-    }
-
-    /* Héroe */
-    .hero {
-      padding: 60px 0 0;
-      text-align: center;
-    }
-
-    .badge {
-      display: inline-block;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 11px;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: #A855F7;
-      border: 1px solid rgba(168, 85, 247, 0.2);
-      padding: 5px 16px;
-      border-radius: 999px;
-      background: rgba(168, 85, 247, 0.06);
-      backdrop-filter: blur(4px);
-      margin-bottom: 24px;
-    }
-
-    h1 {
-      font-size: clamp(40px, 13vw, 64px);
-      font-weight: 700;
-      line-height: 1;
-      letter-spacing: -0.04em;
-      color: #fff;
-    }
-
-    .highlight {
-      background: linear-gradient(135deg, #A855F7, #22D3EE);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      filter: drop-shadow(0 0 30px rgba(168, 85, 247, 0.25));
-    }
-
-    .sub {
-      margin-top: 18px;
-      font-size: 17px;
-      color: #9CA3AF;
-      max-width: 40ch;
-      margin-left: auto;
-      margin-right: auto;
-      line-height: 1.7;
-    }
-
-    .sub b {
-      color: #f0f0f4;
-      font-weight: 500;
-    }
-
-    /* Protocolos en línea */
-    .proto-badges {
-      display: flex;
-      justify-content: center;
-      gap: 10px;
-      margin-top: 20px;
-      flex-wrap: wrap;
-    }
-
-    .proto-badge {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 12px;
-      color: #D1D5DB;
-      background: rgba(255, 255, 255, 0.04);
-      border: 1px solid rgba(255, 255, 255, 0.06);
-      padding: 6px 16px;
-      border-radius: 999px;
-      backdrop-filter: blur(4px);
-      transition: all 0.25s ease;
-    }
-
-    .proto-badge:hover {
-      border-color: #A855F7;
-      background: rgba(168, 85, 247, 0.08);
-      transform: translateY(-2px);
-    }
-
-    /* CTA */
-    .cta {
-      margin-top: 34px;
-      display: grid;
-      gap: 12px;
-      max-width: 400px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-
-    .btn {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 12px;
-      padding: 18px 24px;
-      border-radius: 14px;
-      text-decoration: none;
-      font-weight: 600;
-      font-size: 16px;
-      transition: all 0.3s ease;
-      border: 1px solid transparent;
-      position: relative;
-    }
-
-    .btn:active {
-      transform: scale(0.97);
-    }
-
-    .btn-main {
-      background: linear-gradient(135deg, #A855F7, #6D28D9);
-      color: #fff;
-      box-shadow: 0 8px 32px -8px rgba(168, 85, 247, 0.6);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-    }
-
-    .btn-main:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 16px 48px -10px rgba(168, 85, 247, 0.8);
-    }
-
-    .btn-main::after {
-      content: '';
-      position: absolute;
-      inset: -2px;
-      border-radius: 16px;
-      background: linear-gradient(135deg, #A855F7, #22D3EE, #6D28D9);
-      background-size: 300% 300%;
-      z-index: -1;
-      animation: shimmer 5s ease-in-out infinite;
-      opacity: 0.5;
-      filter: blur(12px);
-    }
-
-    @keyframes shimmer {
-      0%,
-      100% {
-        background-position: 0% 50%;
-      }
-      50% {
-        background-position: 100% 50%;
-      }
-    }
-
-    .btn-ghost {
-      background: rgba(255, 255, 255, 0.04);
-      color: #f0f0f4;
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      backdrop-filter: blur(8px);
-    }
-
-    .btn-ghost:hover {
-      background: rgba(255, 255, 255, 0.08);
-      border-color: #A855F7;
-      transform: translateY(-3px);
-    }
-
-    .btn svg {
-      width: 20px;
-      height: 20px;
-      flex: none;
-    }
-
-    .meta {
-      margin-top: 18px;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 11px;
-      color: #6B7280;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px 16px;
-      justify-content: center;
-      padding: 8px 0;
-    }
-
-    .meta span {
-      background: rgba(255, 255, 255, 0.02);
-      padding: 4px 14px;
-      border-radius: 999px;
-      border: 1px solid rgba(255, 255, 255, 0.04);
-    }
-
-    /* Secciones */
-    section {
-      padding: 64px 0 0;
-    }
-
-    .slug {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 11px;
-      letter-spacing: 0.16em;
-      text-transform: uppercase;
-      color: #6B7280;
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      margin-bottom: 24px;
-      font-weight: 500;
-    }
-
-    .slug::before {
-      content: '';
-      width: 24px;
-      height: 2px;
-      background: linear-gradient(90deg, #A855F7, transparent);
-      flex: none;
-    }
-
-    .grid-2 {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-    }
-
-    .card {
-      background: rgba(255, 255, 255, 0.03);
-      border: 1px solid rgba(255, 255, 255, 0.05);
-      border-radius: 16px;
-      padding: 18px 16px;
-      backdrop-filter: blur(8px);
-      transition: all 0.25s ease;
-    }
-
-    .card:hover {
-      background: rgba(255, 255, 255, 0.06);
-      border-color: rgba(168, 85, 247, 0.2);
-      transform: translateY(-3px);
-      box-shadow: 0 12px 30px -16px rgba(168, 85, 247, 0.2);
-    }
-
-    .card h3 {
-      font-size: 14px;
-      font-weight: 600;
-      color: #fff;
-      margin-bottom: 4px;
-    }
-
-    .card p {
-      color: #9CA3AF;
-      font-size: 13px;
-      line-height: 1.5;
-    }
-
-    /* Estadísticas */
-    .stats {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-    }
-
-    .stat {
-      background: rgba(255, 255, 255, 0.03);
-      border: 1px solid rgba(255, 255, 255, 0.05);
-      border-radius: 16px;
-      padding: 20px 18px;
-      position: relative;
-      overflow: hidden;
-      backdrop-filter: blur(8px);
-      transition: all 0.25s ease;
-    }
-
-    .stat:hover {
-      background: rgba(255, 255, 255, 0.06);
-      border-color: rgba(168, 85, 247, 0.15);
-    }
-
-    .stat::after {
-      content: '';
-      position: absolute;
-      inset: 0 0 auto;
-      height: 2px;
-      background: linear-gradient(90deg, #A855F7, #22D3EE, transparent 70%);
-      opacity: 0.5;
-    }
-
-    .stat-num {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: clamp(28px, 8vw, 38px);
-      font-weight: 700;
-      letter-spacing: -0.02em;
-      line-height: 1;
-      color: #fff;
-      font-variant-numeric: tabular-nums;
-    }
-
-    .stat-num.is-wait {
-      color: #6B7280;
-    }
-
-    .stat-lbl {
-      margin-top: 8px;
-      font-size: 13px;
-      color: #9CA3AF;
-    }
-
-    .stat-src {
-      margin-top: 4px;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 10px;
-      color: #6B7280;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-    }
-
-    /* Especificaciones */
-    .specs {
-      background: rgba(255, 255, 255, 0.03);
-      border: 1px solid rgba(255, 255, 255, 0.05);
-      border-radius: 16px;
-      overflow: hidden;
-      backdrop-filter: blur(8px);
-    }
-
-    .spec {
-      display: flex;
-      justify-content: space-between;
-      gap: 16px;
-      padding: 14px 20px;
-      font-size: 13.5px;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
-    }
-
-    .spec:last-child {
-      border-bottom: 0;
-    }
-
-    .spec dt {
-      color: #9CA3AF;
-    }
-
-    .spec dd {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 12.5px;
-      color: #fff;
-      text-align: right;
-    }
-
-    /* Contacto */
-    .links {
-      display: grid;
-      gap: 12px;
-    }
-
-    .link {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      background: rgba(255, 255, 255, 0.03);
-      border: 1px solid rgba(255, 255, 255, 0.05);
-      border-radius: 16px;
-      padding: 16px 20px;
-      text-decoration: none;
-      color: #f0f0f4;
-      transition: all 0.25s ease;
-      backdrop-filter: blur(8px);
-    }
-
-    .link:hover {
-      background: rgba(255, 255, 255, 0.06);
-      border-color: #A855F7;
-      transform: translateX(4px);
-    }
-
-    .link svg {
-      width: 22px;
-      height: 22px;
-      flex: none;
-      color: #A855F7;
-    }
-
-    .link-txt strong {
-      display: block;
-      font-size: 14px;
-      font-weight: 600;
-      color: #fff;
-    }
-
-    .link-txt span {
-      display: block;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 11px;
-      color: #6B7280;
-    }
-
-    .link-go {
-      margin-left: auto;
-      color: #6B7280;
-      font-size: 18px;
-      transition: all 0.2s ease;
-    }
-
-    .link:hover .link-go {
-      color: #A855F7;
-      transform: translateX(4px);
-    }
-
-    footer {
-      padding: 48px 0 32px;
-      margin-top: 56px;
-      border-top: 1px solid rgba(255, 255, 255, 0.04);
-      text-align: center;
-    }
-
-    footer p {
-      font-size: 13px;
-      color: #6B7280;
-    }
-
-    footer .sig {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 11px;
-      color: #6B7280;
-      margin-top: 8px;
-      letter-spacing: 0.05em;
-    }
-
-    footer .sig b {
-      background: linear-gradient(135deg, #A855F7, #22D3EE);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      font-weight: 600;
-    }
-
-    @media (max-width: 480px) {
-      .grid-2 {
-        grid-template-columns: 1fr;
-      }
-      .stats {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    @media (min-width: 560px) {
-      .cta {
-        grid-template-columns: 1.4fr 1fr;
-      }
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      * {
-        animation: none !important;
-        transition: none !important;
-      }
-      #particles-canvas {
-        display: none;
-      }
-    }
-  </style>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SN VPN · Túneles y servidores</title>
+    <meta name="description" content="SN VPN: cliente para túneles SSH, V2Ray y Hysteria. Conecta a servidores preconfigurados y navega sin restricciones." />
+    <meta name="theme-color" content="#0b0b10" />
+
+    <meta property="og:title" content="SN VPN" />
+    <meta property="og:description" content="Túneles y servidores para acceso libre. SSH · V2Ray · Hysteria." />
+    <meta property="og:type" content="website" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+    <style>
+        /* ── reset & base ── */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #0b0b10;
+            color: #eceef2;
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .card {
+            max-width: 720px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 32px;
+            padding: 44px 40px 36px;
+            backdrop-filter: blur(8px);
+            box-shadow: 0 20px 60px -20px rgba(0, 0, 0, 0.8);
+            transition: border-color 0.3s;
+        }
+
+        .card:hover {
+            border-color: rgba(168, 85, 247, 0.15);
+        }
+
+        /* ── header ── */
+        .top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 36px;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .icon {
+            width: 38px;
+            height: 38px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #a855f7, #6d28d9);
+            display: grid;
+            place-items: center;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 15px;
+            font-weight: 700;
+            color: #fff;
+            box-shadow: 0 0 20px rgba(168, 85, 247, 0.35);
+        }
+
+        .brand h2 {
+            font-weight: 600;
+            font-size: 20px;
+            letter-spacing: -0.01em;
+            color: #fff;
+        }
+
+        .top-right {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .badge-android {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px;
+            font-weight: 500;
+            text-transform: uppercase;
+            color: #9ca3af;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            padding: 4px 12px 4px 10px;
+            border-radius: 999px;
+            letter-spacing: 0.04em;
+        }
+
+        .badge-android svg {
+            width: 14px;
+            height: 14px;
+            fill: currentColor;
+        }
+
+        .version {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            color: #6b7280;
+            background: rgba(255, 255, 255, 0.04);
+            padding: 4px 14px;
+            border-radius: 999px;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        /* ── hero ── */
+        .hero {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+
+        .badge {
+            display: inline-block;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: #a855f7;
+            background: rgba(168, 85, 247, 0.08);
+            border: 1px solid rgba(168, 85, 247, 0.2);
+            padding: 5px 18px;
+            border-radius: 999px;
+            margin-bottom: 20px;
+        }
+
+        .hero h1 {
+            font-size: clamp(34px, 9vw, 52px);
+            font-weight: 700;
+            line-height: 1.1;
+            letter-spacing: -0.03em;
+            color: #fff;
+        }
+
+        .hero h1 .grad {
+            background: linear-gradient(135deg, #a855f7, #22d3ee);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero p {
+            margin-top: 14px;
+            font-size: 16px;
+            color: #9ca3af;
+            max-width: 48ch;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.7;
+        }
+
+        .hero p b {
+            color: #f0f0f4;
+            font-weight: 500;
+        }
+
+        /* ── protocolos (etiquetas técnicas) ── */
+        .proto-row {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+
+        .proto-pill {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            font-weight: 500;
+            color: #d1d5db;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            padding: 6px 18px;
+            border-radius: 999px;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .proto-pill .dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            display: inline-block;
+        }
+
+        .proto-pill .dot.ssh {
+            background: #34d399;
+        }
+        .proto-pill .dot.v2ray {
+            background: #60a5fa;
+        }
+        .proto-pill .dot.hysteria {
+            background: #f472b6;
+        }
+
+        .proto-pill:hover {
+            border-color: #a855f7;
+            background: rgba(168, 85, 247, 0.08);
+            transform: translateY(-2px);
+        }
+
+        /* ── cta ── */
+        .cta-group {
+            display: grid;
+            gap: 12px;
+            max-width: 420px;
+            margin: 28px auto 0;
+        }
+
+        @media (min-width: 480px) {
+            .cta-group {
+                grid-template-columns: 1.3fr 1fr;
+            }
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 16px 20px;
+            border-radius: 14px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 15px;
+            border: 1px solid transparent;
+            transition: all 0.25s ease;
+            background: rgba(255, 255, 255, 0.04);
+            color: #f0f0f4;
+            border-color: rgba(255, 255, 255, 0.06);
+            backdrop-filter: blur(4px);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #a855f7, #7c3aed);
+            color: #fff;
+            border-color: rgba(255, 255, 255, 0.1);
+            box-shadow: 0 6px 24px -8px rgba(168, 85, 247, 0.5);
+        }
+
+        .btn-primary:hover {
+            box-shadow: 0 12px 40px -10px rgba(168, 85, 247, 0.7);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.04);
+            border-color: rgba(255, 255, 255, 0.08);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: #a855f7;
+        }
+
+        .btn svg {
+            width: 18px;
+            height: 18px;
+            flex: none;
+        }
+
+        /* ── stats ── */
+        .stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-top: 28px;
+        }
+
+        .stat-box {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 14px;
+            padding: 16px 18px;
+            text-align: center;
+            transition: all 0.2s;
+        }
+
+        .stat-box:hover {
+            background: rgba(255, 255, 255, 0.04);
+            border-color: rgba(168, 85, 247, 0.15);
+        }
+
+        .stat-num {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 28px;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            color: #fff;
+            line-height: 1;
+        }
+
+        .stat-num.is-wait {
+            color: #6b7280;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: #9ca3af;
+            margin-top: 4px;
+        }
+
+        .stat-source {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 9px;
+            text-transform: uppercase;
+            color: #6b7280;
+            letter-spacing: 0.06em;
+            margin-top: 2px;
+        }
+
+        /* ── features compact ── */
+        .features {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px 20px;
+            margin-top: 28px;
+            padding-top: 28px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 13px;
+            color: #d1d5db;
+            padding: 4px 0;
+        }
+
+        .feature-item .check {
+            color: #a855f7;
+            font-weight: 700;
+            font-size: 14px;
+        }
+
+        /* ── footer ── */
+        .footer {
+            margin-top: 32px;
+            padding-top: 24px;
+            border-top: 1px solid rgba(255, 255, 255, 0.04);
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            font-size: 12px;
+            color: #6b7280;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: #9ca3af;
+            text-decoration: none;
+            transition: color 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .footer-links a:hover {
+            color: #a855f7;
+        }
+
+        .footer-links a svg {
+            width: 14px;
+            height: 14px;
+            fill: currentColor;
+        }
+
+        .sig {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            color: #6b7280;
+        }
+
+        .sig b {
+            background: linear-gradient(135deg, #a855f7, #22d3ee);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 600;
+        }
+
+        /* ── responsive ── */
+        @media (max-width: 560px) {
+            .card {
+                padding: 24px 18px 20px;
+            }
+            .stats {
+                grid-template-columns: 1fr;
+            }
+            .features {
+                grid-template-columns: 1fr;
+                gap: 4px;
+            }
+            .footer {
+                flex-direction: column;
+                text-align: center;
+            }
+            .top {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .top-right {
+                width: 100%;
+                justify-content: space-between;
+            }
+        }
+
+        @media (min-width: 720px) {
+            .card {
+                padding: 52px 48px 40px;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation: none !important;
+                transition: none !important;
+            }
+        }
+    </style>
 </head>
+
 <body>
 
-  <!-- Fondo de partículas animado -->
-  <canvas id="particles-canvas"></canvas>
+    <div class="card">
 
-  <div class="wrap">
+        <!-- header -->
+        <header class="top">
+            <div class="brand">
+                <span class="icon">SN</span>
+                <h2>SN VPN</h2>
+            </div>
+            <div class="top-right">
+                <span class="badge-android">
+                    <svg viewBox="0 0 24 24"><path d="M17.523 15.341a1.2 1.2 0 0 1-1.2-1.2v-2.8a1.2 1.2 0 0 1 2.4 0v2.8a1.2 1.2 0 0 1-1.2 1.2zm-11.046 0a1.2 1.2 0 0 1-1.2-1.2v-2.8a1.2 1.2 0 0 1 2.4 0v2.8a1.2 1.2 0 0 1-1.2 1.2zm2.477-7.692a.4.4 0 0 0-.4-.4H7.6a.4.4 0 0 0-.4.4v4.8a.4.4 0 0 0 .4.4h.954a.4.4 0 0 0 .4-.4V7.649zm8.092 0a.4.4 0 0 0-.4-.4h-.954a.4.4 0 0 0-.4.4v4.8a.4.4 0 0 0 .4.4h.954a.4.4 0 0 0 .4-.4V7.649zM12 1.5a4.5 4.5 0 0 1 4.5 4.5v.6a4.5 4.5 0 0 1-9 0V6A4.5 4.5 0 0 1 12 1.5z"/></svg>
+                    Android
+                </span>
+                <span class="version">v1.0</span>
+            </div>
+        </header>
 
-    <header class="topbar">
-      <div class="mark">
-        <div class="glyph">SN</div>
-        <span>SN VPN</span>
-      </div>
-      <div class="ver">v1.0</div>
-    </header>
+        <!-- hero -->
+        <main class="hero">
+            <span class="badge">Túneles · Servidores · Acceso libre</span>
+            <h1>Conecta a <span class="grad">servidores libres</span> sin restricciones</h1>
+            <p>
+                <b>SN VPN</b> te ofrece túneles preconfigurados para navegar
+                sin limitaciones. Elige entre SSH, V2Ray o Hysteria y
+                disfruta de una conexión estable y rápida.
+            </p>
 
-    <main class="hero">
-      <div class="badge">SSH · V2Ray · Hysteria</div>
-      <h1>Conecta con <span class="highlight">tres protocolos</span><br>en uno solo.</h1>
-      <p class="sub">
-        <b>SN VPN</b> te da acceso a servidores preconfigurados. Elige el protocolo que prefieras y conecta al instante, sin configuraciones complicadas.
-      </p>
+            <div class="proto-row">
+                <span class="proto-pill"><span class="dot ssh"></span> SSH</span>
+                <span class="proto-pill"><span class="dot v2ray"></span> V2Ray</span>
+                <span class="proto-pill"><span class="dot hysteria"></span> Hysteria</span>
+            </div>
 
-      <div class="proto-badges">
-        <span class="proto-badge">⚡ SSH</span>
-        <span class="proto-badge">🔐 V2Ray</span>
-        <span class="proto-badge">🚀 Hysteria</span>
-      </div>
+            <div class="cta-group">
+                <a class="btn btn-primary" href="https://github.com/SINNOMBRE22/snvpn/releases/download/v1.0/SN_VPN-@SIN_NOMBRE22.apk">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                        <polyline points="7 10 12 15 17 10" />
+                        <line x1="12" y1="15" x2="12" y2="3" />
+                    </svg>
+                    Descargar APK
+                </a>
+                <a class="btn btn-secondary" href="https://t.me/SN_PLUS" target="_blank" rel="noopener">
+                    <svg viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M21.9 4.3 18.9 19c-.2 1-.8 1.2-1.7.8l-4.6-3.4-2.2 2.1c-.2.3-.5.4-.9.4l.3-4.6 8.5-7.7c.4-.3-.1-.5-.6-.2L7.3 13.1 2.8 11.7c-1-.3-1-1 .2-1.4l17.4-6.7c.8-.3 1.6.2 1.5 1.7z" />
+                    </svg>
+                    Telegram
+                </a>
+            </div>
 
-      <div class="cta">
-        <a class="btn btn-main" href="https://github.com/SINNOMBRE22/snvpn/releases/download/v1.0/SN_VPN-@SIN_NOMBRE22.apk">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
-          </svg>
-          Descargar APK
-        </a>
-        <a class="btn btn-ghost" href="https://t.me/SN_PLUS" target="_blank" rel="noopener">
-          <svg viewBox="0 0 24 24" fill="currentColor">
-            <path d="M21.9 4.3 18.9 19c-.2 1-.8 1.2-1.7.8l-4.6-3.4-2.2 2.1c-.2.3-.5.4-.9.4l.3-4.6 8.5-7.7c.4-.3-.1-.5-.6-.2L7.3 13.1 2.8 11.7c-1-.3-1-1 .2-1.4l17.4-6.7c.8-.3 1.6.2 1.5 1.7z"/>
-          </svg>
-          Telegram
-        </a>
-      </div>
+            <p style="margin-top:12px; font-family:'JetBrains Mono',monospace; font-size:11px; color:#6b7280;">
+                Android 6.0+ · arm64-v8a · armeabi-v7a
+            </p>
+        </main>
 
-      <p class="meta">
-        <span>Android 6.0+</span>
-        <span>arm64-v8a · armeabi-v7a</span>
-      </p>
-    </main>
+        <!-- stats -->
+        <section class="stats">
+            <div class="stat-box">
+                <p class="stat-num is-wait" id="stat-dl" aria-live="polite">—</p>
+                <p class="stat-label">Descargas del APK</p>
+                <p class="stat-source">GitHub Releases</p>
+            </div>
+            <div class="stat-box">
+                <p class="stat-num is-wait" id="stat-visits" aria-live="polite">—</p>
+                <p class="stat-label">Visitas a la página</p>
+                <p class="stat-source">Total acumulado</p>
+            </div>
+        </section>
 
-    <section>
-      <p class="slug">Descargas</p>
-      <div class="stats">
-        <div class="stat">
-          <p class="stat-num is-wait" id="stat-dl" aria-live="polite">—</p>
-          <p class="stat-lbl">Descargas del APK</p>
-          <p class="stat-src">GitHub Releases</p>
+        <!-- features compact -->
+        <div class="features">
+            <span class="feature-item"><span class="check">✓</span> Servidores actualizados</span>
+            <span class="feature-item"><span class="check">✓</span> Sin configuración manual</span>
+            <span class="feature-item"><span class="check">✓</span> Filtro por aplicación</span>
+            <span class="feature-item"><span class="check">✓</span> Conexión persistente</span>
+            <span class="feature-item"><span class="check">✓</span> Compartir conexión</span>
+            <span class="feature-item"><span class="check">✓</span> Sin anuncios</span>
         </div>
-        <div class="stat">
-          <p class="stat-num is-wait" id="stat-visits" aria-live="polite">—</p>
-          <p class="stat-lbl">Visitas a la página</p>
-          <p class="stat-src">Total acumulado</p>
-        </div>
-      </div>
-    </section>
 
-    <section>
-      <p class="slug">Características</p>
-      <div class="grid-2">
-        <div class="card">
-          <h3>Servidores actualizados</h3>
-          <p>La lista se sincroniza automáticamente con los nuevos servidores.</p>
-        </div>
-        <div class="card">
-          <h3>Sin configuración</h3>
-          <p>Elige el protocolo y conecta. Sin puertos, payloads ni archivos.</p>
-        </div>
-        <div class="card">
-          <h3>Filtro por app</h3>
-          <p>Decide qué aplicaciones usan la VPN y cuáles no.</p>
-        </div>
-        <div class="card">
-          <h3>Conexión persistente</h3>
-          <p>Se mantiene activa incluso con el dispositivo en reposo.</p>
-        </div>
-        <div class="card">
-          <h3>Compartir conexión</h3>
-          <p>Comparte tu conexión VPN con otros dispositivos.</p>
-        </div>
-        <div class="card">
-          <h3>Sin anuncios</h3>
-          <p>Interfaz limpia y sin distracciones publicitarias.</p>
-        </div>
-      </div>
-    </section>
+        <!-- footer -->
+        <footer class="footer">
+            <span class="sig">SN VPN · By <b>SinNombre</b></span>
+            <div class="footer-links">
+                <a href="https://t.me/SN_PLUS" target="_blank" rel="noopener">
+                    <svg viewBox="0 0 24 24"><path d="M21.9 4.3 18.9 19c-.2 1-.8 1.2-1.7.8l-4.6-3.4-2.2 2.1c-.2.3-.5.4-.9.4l.3-4.6 8.5-7.7c.4-.3-.1-.5-.6-.2L7.3 13.1 2.8 11.7c-1-.3-1-1 .2-1.4l17.4-6.7c.8-.3 1.6.2 1.5 1.7z"/></svg>
+                    Grupo
+                </a>
+                <a href="https://whatsapp.com/channel/0029Vb8OkkxFsn0Xil8j6G03" target="_blank" rel="noopener">
+                    <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                    Canal
+                </a>
+                <a href="https://wa.me/message/VM4JCHQ5RF45K1" target="_blank" rel="noopener">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+                    Soporte
+                </a>
+            </div>
+        </footer>
 
-    <section>
-      <p class="slug">Ficha técnica</p>
-      <dl class="specs">
-        <div class="spec"><dt>Versión</dt><dd>1.0 (build 1)</dd></div>
-        <div class="spec"><dt>Android mínimo</dt><dd>6.0 · API 23</dd></div>
-        <div class="spec"><dt>Arquitecturas</dt><dd>arm64-v8a · armeabi-v7a</dd></div>
-        <div class="spec"><dt>Protocolos</dt><dd>SSH · V2Ray · Hysteria</dd></div>
-        <div class="spec"><dt>Idioma</dt><dd>Español</dd></div>
-      </dl>
-    </section>
+    </div>
 
-    <section>
-      <p class="slug">Contacto y soporte</p>
-      <div class="links">
+    <script>
+        // ─── contadores ──────────────────────────────────────────
+        (function() {
+            var GH_REPO = 'SINNOMBRE22/snvpn';
+            var VISITS_NS = 'sinnombre.xyz';
+            var VISITS_KEY = 'snvpn-page';
+            var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-        <a class="link" href="https://t.me/SN_PLUS" target="_blank" rel="noopener">
-          <svg viewBox="0 0 24 24" fill="currentColor">
-            <path d="M21.9 4.3 18.9 19c-.2 1-.8 1.2-1.7.8l-4.6-3.4-2.2 2.1c-.2.3-.5.4-.9.4l.3-4.6 8.5-7.7c.4-.3-.1-.5-.6-.2L7.3 13.1 2.8 11.7c-1-.3-1-1 .2-1.4l17.4-6.7c.8-.3 1.6.2 1.5 1.7z"/>
-          </svg>
-          <span class="link-txt">
-            <strong>Grupo de Telegram</strong>
-            <span>@SN_PLUS — Novedades y soporte</span>
-          </span>
-          <span class="link-go">↗</span>
-        </a>
-
-        <a class="link" href="https://whatsapp.com/channel/0029Vb8OkkxFsn0Xil8j6G03" target="_blank" rel="noopener">
-          <svg viewBox="0 0 24 24" fill="currentColor">
-            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
-          </svg>
-          <span class="link-txt">
-            <strong>Canal de WhatsApp</strong>
-            <span>Noticias y actualizaciones</span>
-          </span>
-          <span class="link-go">↗</span>
-        </a>
-
-        <a class="link" href="https://wa.me/message/VM4JCHQ5RF45K1" target="_blank" rel="noopener">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/>
-          </svg>
-          <span class="link-txt">
-            <strong>Soporte directo</strong>
-            <span>Escríbenos por WhatsApp</span>
-          </span>
-          <span class="link-go">↗</span>
-        </a>
-
-      </div>
-    </section>
-
-    <footer>
-      <p>Cliente VPN para Android · SSH, V2Ray y Hysteria.</p>
-      <p class="sig">SN VPN · By <b>SinNombre</b></p>
-    </footer>
-
-  </div>
-
-  <script>
-    // ─── Partículas animadas ──────────────────────────────
-    (function() {
-      var canvas = document.getElementById('particles-canvas');
-      var ctx = canvas.getContext('2d');
-      var particles = [];
-      var mouse = { x: null, y: null };
-      var count = 60;
-
-      function resize() {
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-      }
-      window.addEventListener('resize', resize);
-      resize();
-
-      class Particle {
-        constructor() {
-          this.reset();
-        }
-        reset() {
-          this.x = Math.random() * canvas.width;
-          this.y = Math.random() * canvas.height;
-          this.size = Math.random() * 2 + 1;
-          this.speedX = (Math.random() - 0.5) * 0.4;
-          this.speedY = (Math.random() - 0.5) * 0.4;
-          this.opacity = Math.random() * 0.5 + 0.2;
-        }
-        update() {
-          this.x += this.speedX;
-          this.y += this.speedY;
-          if (this.x < 0 || this.x > canvas.width || this.y < 0 || this.y > canvas.height) {
-            this.reset();
-          }
-          // interacción con mouse
-          if (mouse.x !== null) {
-            var dx = mouse.x - this.x;
-            var dy = mouse.y - this.y;
-            var dist = Math.sqrt(dx * dx + dy * dy);
-            if (dist < 120) {
-              var force = (120 - dist) / 120;
-              this.x -= dx * force * 0.02;
-              this.y -= dy * force * 0.02;
+            function fmt(n) {
+                try { return n.toLocaleString('es'); } catch (_) { return String(n); }
             }
-          }
-        }
-        draw() {
-          ctx.beginPath();
-          ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-          ctx.fillStyle = 'rgba(168, 85, 247, ' + this.opacity + ')';
-          ctx.fill();
-        }
-      }
 
-      for (var i = 0; i < count; i++) {
-        particles.push(new Particle());
-      }
+            function setNumber(el, target) {
+                if (!el) return;
+                el.classList.remove('is-wait');
+                if (reduce || target <= 0) { el.textContent = fmt(target); return; }
+                var dur = 800,
+                    t0 = null;
 
-      function drawLines() {
-        for (var i = 0; i < particles.length; i++) {
-          for (var j = i + 1; j < particles.length; j++) {
-            var dx = particles[i].x - particles[j].x;
-            var dy = particles[i].y - particles[j].y;
-            var dist = Math.sqrt(dx * dx + dy * dy);
-            if (dist < 130) {
-              ctx.beginPath();
-              ctx.moveTo(particles[i].x, particles[i].y);
-              ctx.lineTo(particles[j].x, particles[j].y);
-              ctx.strokeStyle = 'rgba(168, 85, 247, ' + (0.12 * (1 - dist / 130)) + ')';
-              ctx.lineWidth = 0.8;
-              ctx.stroke();
+                function step(ts) {
+                    if (t0 === null) t0 = ts;
+                    var p = Math.min((ts - t0) / dur, 1);
+                    var eased = 1 - Math.pow(1 - p, 3);
+                    el.textContent = fmt(Math.round(target * eased));
+                    if (p < 1) requestAnimationFrame(step);
+                }
+                requestAnimationFrame(step);
             }
-          }
-        }
-      }
 
-      function animate() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        particles.forEach(function(p) { p.update(); p.draw(); });
-        drawLines();
-        requestAnimationFrame(animate);
-      }
-      animate();
+            // Descargas
+            fetch('https://api.github.com/repos/' + GH_REPO + '/releases')
+                .then(function(r) { if (!r.ok) throw new Error('gh ' + r.status); return r.json(); })
+                .then(function(releases) {
+                    var total = 0;
+                    (releases || []).forEach(function(rel) {
+                        (rel.assets || []).forEach(function(a) { total += a.download_count || 0; });
+                    });
+                    setNumber(document.getElementById('stat-dl'), total);
+                })
+                .catch(function(err) { console.error('Descargas:', err); });
 
-      // Mouse tracking
-      window.addEventListener('mousemove', function(e) {
-        mouse.x = e.clientX;
-        mouse.y = e.clientY;
-      });
-      window.addEventListener('mouseleave', function() {
-        mouse.x = null;
-        mouse.y = null;
-      });
-      // Touch support
-      window.addEventListener('touchmove', function(e) {
-        var touch = e.touches[0];
-        if (touch) {
-          mouse.x = touch.clientX;
-          mouse.y = touch.clientY;
-        }
-      }, { passive: true });
-      window.addEventListener('touchend', function() {
-        mouse.x = null;
-        mouse.y = null;
-      });
-    })();
+            // Visitas
+            var visitsDone = false;
 
-    // ─── Contadores ──────────────────────────────────────
-    (function() {
-      var GH_REPO = 'SINNOMBRE22/snvpn';
-      var VISITS_NS = 'sinnombre.xyz';
-      var VISITS_KEY = 'snvpn-page';
-      var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+            function visitsOk(value) {
+                if (visitsDone) return;
+                visitsDone = true;
+                setNumber(document.getElementById('stat-visits'), value);
+            }
 
-      function fmt(n) {
-        try { return n.toLocaleString('es'); } catch (e) { return String(n); }
-      }
+            window.__snVisits = function(data) {
+                if (data && typeof data.value === 'number') visitsOk(data.value);
+            };
 
-      function setNumber(el, target) {
-        if (!el) return;
-        el.classList.remove('is-wait');
-        if (reduce || target <= 0) { el.textContent = fmt(target); return; }
-        var dur = 900,
-          t0 = null;
+            var s = document.createElement('script');
+            s.src = 'https://counterapi.com/api/' + VISITS_NS + '/view/' + VISITS_KEY +
+                '?callback=__snVisits';
+            s.async = true;
+            s.onerror = visitsFallback;
+            document.head.appendChild(s);
 
-        function step(ts) {
-          if (t0 === null) t0 = ts;
-          var p = Math.min((ts - t0) / dur, 1);
-          var eased = 1 - Math.pow(1 - p, 3);
-          el.textContent = fmt(Math.round(target * eased));
-          if (p < 1) requestAnimationFrame(step);
-        }
-        requestAnimationFrame(step);
-      }
+            setTimeout(function() { if (!visitsDone) visitsFallback(); }, 5000);
 
-      // Descargas
-      fetch('https://api.github.com/repos/' + GH_REPO + '/releases')
-        .then(function(r) { if (!r.ok) throw new Error('gh ' + r.status); return r.json(); })
-        .then(function(releases) {
-          var total = 0;
-          (releases || []).forEach(function(rel) {
-            (rel.assets || []).forEach(function(a) {
-              total += a.download_count || 0;
-            });
-          });
-          setNumber(document.getElementById('stat-dl'), total);
-        })
-        .catch(function(err) { console.error('Descargas:', err); });
-
-      // Visitas
-      var visitsDone = false;
-
-      function visitsOk(value) {
-        if (visitsDone) return;
-        visitsDone = true;
-        setNumber(document.getElementById('stat-visits'), value);
-      }
-
-      window.__snVisits = function(data) {
-        if (data && typeof data.value === 'number') visitsOk(data.value);
-      };
-
-      var s = document.createElement('script');
-      s.src = 'https://counterapi.com/api/' + VISITS_NS + '/view/' + VISITS_KEY +
-        '?callback=__snVisits';
-      s.async = true;
-      s.onerror = visitsFallback;
-      document.head.appendChild(s);
-
-      setTimeout(function() { if (!visitsDone) visitsFallback(); }, 5000);
-
-      function visitsFallback() {
-        if (visitsDone) return;
-        fetch('https://api.counterapi.dev/v1/sinnombre-xyz/' + VISITS_KEY + '/up')
-          .then(function(r) { if (!r.ok) throw new Error('counter ' + r.status); return r.json(); })
-          .then(function(data) {
-            var v = data && (typeof data.count === 'number' ? data.count : data.value);
-            if (typeof v === 'number') visitsOk(v);
-          })
-          .catch(function(err) { console.error('Visitas:', err); });
-      }
-    })();
-  </script>
+            function visitsFallback() {
+                if (visitsDone) return;
+                fetch('https://api.counterapi.dev/v1/sinnombre-xyz/' + VISITS_KEY + '/up')
+                    .then(function(r) { if (!r.ok) throw new Error('counter ' + r.status); return r.json(); })
+                    .then(function(data) {
+                        var v = data && (typeof data.count === 'number' ? data.count : data.value);
+                        if (typeof v === 'number') visitsOk(v);
+                    })
+                    .catch(function(err) { console.error('Visitas:', err); });
+            }
+        })();
+    </script>
 
 </body>
 </html>
