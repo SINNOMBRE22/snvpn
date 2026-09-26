@@ -4,11 +4,11 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>SN VPN · Túneles y servidores</title>
-    <meta name="description" content="SN VPN: cliente para túneles SSH, V2Ray y Hysteria. Conecta a servidores preconfigurados y navega sin restricciones." />
+    <meta name="description" content="SN VPN 5.0.6: cliente Android para túneles SSH, V2Ray, Hysteria y BHTTP. Conéctate a los servidores SN o crea tus propias configuraciones con el modo Custom." />
     <meta name="theme-color" content="#0b0b10" />
 
-    <meta property="og:title" content="SN VPN" />
-    <meta property="og:description" content="Túneles y servidores para acceso libre. SSH · V2Ray · Hysteria." />
+    <meta property="og:title" content="SN VPN 5.0.6" />
+    <meta property="og:description" content="Túneles SSH · V2Ray · Hysteria · BHTTP. Servidores SN listos para usar o tus propias configuraciones con el modo Custom." />
     <meta property="og:type" content="website" />
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -16,39 +16,51 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
 
     <style>
-        /* ── reset & base ── */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        :root {
+            --bg: #0b0b10;
+            --text: #eceef2;
+            --muted: #9ca3af;
+            --dim: #6b7280;
+            --line: rgba(255, 255, 255, 0.05);
+            --line-2: rgba(255, 255, 255, 0.08);
+            --surface: rgba(255, 255, 255, 0.02);
+            --surface-2: rgba(255, 255, 255, 0.04);
+            --accent: #a855f7;
+            --accent-2: #7c3aed;
+            --cyan: #22d3ee;
+            --mono: 'JetBrains Mono', ui-monospace, monospace;
         }
 
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        html { scroll-behavior: smooth; }
+
         body {
-            background: #0b0b10;
-            color: #eceef2;
+            background: var(--bg);
+            color: var(--text);
             font-family: 'Inter', system-ui, -apple-system, sans-serif;
             min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
+            padding: 40px 16px;
+            line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .wrap {
+            max-width: 760px;
+            margin: 0 auto;
+            display: grid;
+            gap: 20px;
         }
 
         .card {
-            max-width: 720px;
-            width: 100%;
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            border-radius: 32px;
+            background: var(--surface);
+            border: 1px solid var(--line);
+            border-radius: 28px;
             padding: 44px 40px 36px;
-            backdrop-filter: blur(8px);
             box-shadow: 0 20px 60px -20px rgba(0, 0, 0, 0.8);
-            transition: border-color 0.3s;
         }
 
-        .card:hover {
-            border-color: rgba(168, 85, 247, 0.15);
-        }
+        .card.sm { padding: 32px 36px; }
 
         /* ── header ── */
         .top {
@@ -60,84 +72,53 @@
             gap: 12px;
         }
 
-        .brand {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
+        .brand { display: flex; align-items: center; gap: 12px; }
 
         .icon {
             width: 38px;
             height: 38px;
             border-radius: 12px;
-            background: linear-gradient(135deg, #a855f7, #6d28d9);
+            background: linear-gradient(135deg, var(--accent), #6d28d9);
             display: grid;
             place-items: center;
-            font-family: 'JetBrains Mono', monospace;
+            font-family: var(--mono);
             font-size: 15px;
             font-weight: 700;
             color: #fff;
             box-shadow: 0 0 20px rgba(168, 85, 247, 0.35);
         }
 
-        .brand h2 {
-            font-weight: 600;
-            font-size: 20px;
-            letter-spacing: -0.01em;
-            color: #fff;
-        }
+        .brand h2 { font-weight: 600; font-size: 20px; letter-spacing: -0.01em; color: #fff; }
 
-        .top-right {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
+        .top-right { display: flex; align-items: center; gap: 10px; }
 
-        .badge-android {
+        .chip {
             display: inline-flex;
             align-items: center;
             gap: 6px;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 10px;
-            font-weight: 500;
-            text-transform: uppercase;
-            color: #9ca3af;
-            background: rgba(255, 255, 255, 0.04);
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            padding: 4px 12px 4px 10px;
-            border-radius: 999px;
-            letter-spacing: 0.04em;
-        }
-
-        .badge-android svg {
-            width: 14px;
-            height: 14px;
-            fill: currentColor;
-        }
-
-        .version {
-            font-family: 'JetBrains Mono', monospace;
+            font-family: var(--mono);
             font-size: 11px;
-            color: #6b7280;
-            background: rgba(255, 255, 255, 0.04);
-            padding: 4px 14px;
-            border-radius: 999px;
+            color: var(--muted);
+            background: var(--surface-2);
             border: 1px solid rgba(255, 255, 255, 0.06);
+            padding: 4px 12px;
+            border-radius: 999px;
         }
+
+        .chip svg { width: 14px; height: 14px; fill: currentColor; }
+
+        .chip.ver { color: #d8b4fe; border-color: rgba(168, 85, 247, 0.25); background: rgba(168, 85, 247, 0.08); }
 
         /* ── hero ── */
-        .hero {
-            text-align: center;
-            margin-bottom: 32px;
-        }
+        .hero { text-align: center; }
 
         .badge {
             display: inline-block;
-            font-family: 'JetBrains Mono', monospace;
+            font-family: var(--mono);
             font-size: 11px;
             letter-spacing: 0.12em;
             text-transform: uppercase;
-            color: #a855f7;
+            color: var(--accent);
             background: rgba(168, 85, 247, 0.08);
             border: 1px solid rgba(168, 85, 247, 0.2);
             padding: 5px 18px;
@@ -146,83 +127,59 @@
         }
 
         .hero h1 {
-            font-size: clamp(34px, 9vw, 52px);
+            font-size: clamp(32px, 8vw, 50px);
             font-weight: 700;
             line-height: 1.1;
             letter-spacing: -0.03em;
             color: #fff;
+            text-wrap: balance;
         }
 
-        .hero h1 .grad {
-            background: linear-gradient(135deg, #a855f7, #22d3ee);
+        .grad {
+            background: linear-gradient(135deg, var(--accent), var(--cyan));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
 
-        .hero p {
-            margin-top: 14px;
+        .hero > p {
+            margin: 16px auto 0;
             font-size: 16px;
-            color: #9ca3af;
-            max-width: 48ch;
-            margin-left: auto;
-            margin-right: auto;
+            color: var(--muted);
+            max-width: 50ch;
             line-height: 1.7;
         }
 
-        .hero p b {
-            color: #f0f0f4;
-            font-weight: 500;
-        }
+        .hero p b { color: #f0f0f4; font-weight: 500; }
 
-        /* ── protocolos (etiquetas técnicas) ── */
         .proto-row {
             display: flex;
             justify-content: center;
-            gap: 12px;
+            gap: 10px;
             flex-wrap: wrap;
-            margin-top: 20px;
+            margin-top: 22px;
         }
 
         .proto-pill {
-            font-family: 'JetBrains Mono', monospace;
+            font-family: var(--mono);
             font-size: 12px;
             font-weight: 500;
             color: #d1d5db;
-            background: rgba(255, 255, 255, 0.04);
+            background: var(--surface-2);
             border: 1px solid rgba(255, 255, 255, 0.06);
-            padding: 6px 18px;
+            padding: 6px 16px;
             border-radius: 999px;
-            transition: all 0.2s;
             display: inline-flex;
             align-items: center;
-            gap: 6px;
+            gap: 7px;
         }
 
-        .proto-pill .dot {
-            width: 6px;
-            height: 6px;
-            border-radius: 50%;
-            display: inline-block;
-        }
+        .dot { width: 6px; height: 6px; border-radius: 50%; display: inline-block; flex: none; }
+        .dot.ssh { background: #34d399; }
+        .dot.v2ray { background: #60a5fa; }
+        .dot.hysteria { background: #f472b6; }
+        .dot.bhttp { background: #fbbf24; }
 
-        .proto-pill .dot.ssh {
-            background: #34d399;
-        }
-        .proto-pill .dot.v2ray {
-            background: #60a5fa;
-        }
-        .proto-pill .dot.hysteria {
-            background: #f472b6;
-        }
-
-        .proto-pill:hover {
-            border-color: #a855f7;
-            background: rgba(168, 85, 247, 0.08);
-            transform: translateY(-2px);
-        }
-
-        /* ── cta ── */
         .cta-group {
             display: grid;
             gap: 12px;
@@ -231,9 +188,7 @@
         }
 
         @media (min-width: 480px) {
-            .cta-group {
-                grid-template-columns: 1.3fr 1fr;
-            }
+            .cta-group { grid-template-columns: 1.3fr 1fr; }
         }
 
         .btn {
@@ -246,43 +201,30 @@
             text-decoration: none;
             font-weight: 600;
             font-size: 15px;
-            border: 1px solid transparent;
-            transition: all 0.25s ease;
-            background: rgba(255, 255, 255, 0.04);
+            transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
             color: #f0f0f4;
-            border-color: rgba(255, 255, 255, 0.06);
-            backdrop-filter: blur(4px);
+            background: var(--surface-2);
+            border: 1px solid var(--line-2);
         }
 
-        .btn:hover {
-            transform: translateY(-2px);
-        }
+        .btn:hover { transform: translateY(-2px); }
 
         .btn-primary {
-            background: linear-gradient(135deg, #a855f7, #7c3aed);
+            background: linear-gradient(135deg, var(--accent), var(--accent-2));
             color: #fff;
             border-color: rgba(255, 255, 255, 0.1);
             box-shadow: 0 6px 24px -8px rgba(168, 85, 247, 0.5);
         }
 
-        .btn-primary:hover {
-            box-shadow: 0 12px 40px -10px rgba(168, 85, 247, 0.7);
-        }
+        .btn-primary:hover { box-shadow: 0 12px 40px -10px rgba(168, 85, 247, 0.7); }
+        .btn-secondary:hover { border-color: var(--accent); }
+        .btn svg { width: 18px; height: 18px; flex: none; }
 
-        .btn-secondary {
-            background: rgba(255, 255, 255, 0.04);
-            border-color: rgba(255, 255, 255, 0.08);
-        }
-
-        .btn-secondary:hover {
-            background: rgba(255, 255, 255, 0.08);
-            border-color: #a855f7;
-        }
-
-        .btn svg {
-            width: 18px;
-            height: 18px;
-            flex: none;
+        .req {
+            margin-top: 12px;
+            font-family: var(--mono);
+            font-size: 11px;
+            color: var(--dim);
         }
 
         /* ── stats ── */
@@ -290,213 +232,376 @@
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 12px;
-            margin-top: 28px;
+            margin-top: 32px;
         }
 
         .stat-box {
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid rgba(255, 255, 255, 0.05);
+            background: var(--surface);
+            border: 1px solid var(--line);
             border-radius: 14px;
             padding: 16px 18px;
             text-align: center;
-            transition: all 0.2s;
-        }
-
-        .stat-box:hover {
-            background: rgba(255, 255, 255, 0.04);
-            border-color: rgba(168, 85, 247, 0.15);
         }
 
         .stat-num {
-            font-family: 'JetBrains Mono', monospace;
+            font-family: var(--mono);
             font-size: 28px;
             font-weight: 600;
             letter-spacing: -0.02em;
             color: #fff;
             line-height: 1;
+            font-variant-numeric: tabular-nums;
         }
 
-        .stat-num.is-wait {
-            color: #6b7280;
-        }
-
-        .stat-label {
-            font-size: 12px;
-            color: #9ca3af;
-            margin-top: 4px;
-        }
-
+        .stat-num.is-wait { color: var(--dim); }
+        .stat-label { font-size: 12px; color: var(--muted); margin-top: 6px; }
         .stat-source {
-            font-family: 'JetBrains Mono', monospace;
+            font-family: var(--mono);
             font-size: 9px;
             text-transform: uppercase;
-            color: #6b7280;
+            color: var(--dim);
             letter-spacing: 0.06em;
             margin-top: 2px;
         }
 
-        /* ── features compact ── */
-        .features {
+        /* ── secciones ── */
+        .eyebrow {
+            font-family: var(--mono);
+            font-size: 11px;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 10px;
+        }
+
+        .sec-title {
+            font-size: 24px;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            color: #fff;
+            line-height: 1.25;
+            text-wrap: balance;
+        }
+
+        .sec-lead {
+            margin-top: 10px;
+            color: var(--muted);
+            font-size: 15px;
+            line-height: 1.7;
+            max-width: 62ch;
+        }
+
+        .sec-lead b { color: #f0f0f4; font-weight: 500; }
+
+        /* pasos */
+        .steps {
+            list-style: none;
+            counter-reset: s;
+            display: grid;
+            gap: 12px;
+            margin-top: 24px;
+        }
+
+        .steps li {
+            counter-increment: s;
+            display: grid;
+            grid-template-columns: 34px 1fr;
+            gap: 14px;
+            align-items: start;
+            padding: 16px 18px;
+            background: var(--surface);
+            border: 1px solid var(--line);
+            border-radius: 16px;
+        }
+
+        .steps li::before {
+            content: counter(s);
+            width: 34px;
+            height: 34px;
+            border-radius: 10px;
+            display: grid;
+            place-items: center;
+            font-family: var(--mono);
+            font-weight: 600;
+            font-size: 14px;
+            color: #d8b4fe;
+            background: rgba(168, 85, 247, 0.1);
+            border: 1px solid rgba(168, 85, 247, 0.22);
+        }
+
+        .steps h3 { font-size: 15px; font-weight: 600; color: #fff; }
+        .steps p { font-size: 14px; color: var(--muted); margin-top: 3px; line-height: 1.6; }
+
+        /* modos */
+        .modes {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 8px 20px;
-            margin-top: 28px;
-            padding-top: 28px;
-            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            gap: 12px;
+            margin-top: 24px;
         }
 
-        .feature-item {
-            display: flex;
-            align-items: center;
-            gap: 10px;
+        .mode {
+            padding: 20px;
+            background: var(--surface);
+            border: 1px solid var(--line);
+            border-radius: 18px;
+        }
+
+        .mode .tag {
+            display: inline-block;
+            font-family: var(--mono);
+            font-size: 10px;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            padding: 3px 10px;
+            border-radius: 999px;
+            margin-bottom: 12px;
+        }
+
+        .mode .tag.sn { color: #67e8f9; background: rgba(34, 211, 238, 0.08); border: 1px solid rgba(34, 211, 238, 0.2); }
+        .mode .tag.custom { color: #d8b4fe; background: rgba(168, 85, 247, 0.08); border: 1px solid rgba(168, 85, 247, 0.22); }
+
+        .mode h3 { font-size: 17px; font-weight: 600; color: #fff; }
+        .mode > p { font-size: 14px; color: var(--muted); margin-top: 6px; line-height: 1.6; }
+
+        .mode ul { list-style: none; margin-top: 14px; display: grid; gap: 7px; }
+        .mode li {
             font-size: 13px;
             color: #d1d5db;
-            padding: 4px 0;
+            display: flex;
+            gap: 9px;
+            line-height: 1.5;
+        }
+        .mode li::before { content: '✓'; color: var(--accent); font-weight: 700; flex: none; }
+
+        /* protocolos */
+        .protos {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-top: 24px;
         }
 
-        .feature-item .check {
-            color: #a855f7;
-            font-weight: 700;
+        .proto {
+            padding: 18px;
+            background: var(--surface);
+            border: 1px solid var(--line);
+            border-radius: 16px;
+        }
+
+        .proto h3 {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            font-family: var(--mono);
             font-size: 14px;
+            font-weight: 500;
+            color: #fff;
         }
 
-        /* ── footer ── */
+        .proto p { font-size: 13px; color: var(--muted); margin-top: 8px; line-height: 1.6; }
+
+        /* herramientas */
+        .tools {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0 24px;
+            margin-top: 20px;
+        }
+
+        .tool {
+            padding: 14px 0;
+            border-bottom: 1px solid var(--line);
+        }
+
+        .tool h3 { font-size: 14px; font-weight: 600; color: #f0f0f4; }
+        .tool p { font-size: 13px; color: var(--muted); margin-top: 2px; line-height: 1.55; }
+
+        /* novedades */
+        .news-head {
+            display: flex;
+            align-items: baseline;
+            justify-content: space-between;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .changelog { list-style: none; margin-top: 18px; display: grid; gap: 10px; }
+
+        .changelog li {
+            display: grid;
+            grid-template-columns: auto 1fr;
+            gap: 12px;
+            font-size: 14px;
+            color: #d1d5db;
+            line-height: 1.6;
+        }
+
+        .changelog .k {
+            font-family: var(--mono);
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            padding: 3px 8px;
+            border-radius: 6px;
+            height: fit-content;
+            margin-top: 2px;
+            min-width: 58px;
+            text-align: center;
+        }
+
+        .k.new { color: #86efac; background: rgba(52, 211, 153, 0.08); border: 1px solid rgba(52, 211, 153, 0.2); }
+        .k.imp { color: #93c5fd; background: rgba(96, 165, 250, 0.08); border: 1px solid rgba(96, 165, 250, 0.2); }
+
+        .changelog b { color: #fff; font-weight: 500; }
+
+        /* faq */
+        .faq { margin-top: 18px; }
+
+        .faq details {
+            border-bottom: 1px solid var(--line);
+        }
+
+        .faq summary {
+            cursor: pointer;
+            list-style: none;
+            padding: 16px 28px 16px 0;
+            font-size: 15px;
+            font-weight: 500;
+            color: #f0f0f4;
+            position: relative;
+        }
+
+        .faq summary::-webkit-details-marker { display: none; }
+
+        .faq summary::after {
+            content: '+';
+            position: absolute;
+            right: 2px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-family: var(--mono);
+            font-size: 18px;
+            color: var(--dim);
+            transition: transform 0.2s;
+        }
+
+        .faq details[open] summary::after { transform: translateY(-50%) rotate(45deg); color: var(--accent); }
+
+        .faq details p {
+            font-size: 14px;
+            color: var(--muted);
+            line-height: 1.7;
+            padding: 0 0 16px;
+            max-width: 62ch;
+        }
+
+        .faq code, .sec-lead code {
+            font-family: var(--mono);
+            font-size: 12px;
+            color: #e9d5ff;
+            background: rgba(168, 85, 247, 0.1);
+            padding: 1px 6px;
+            border-radius: 5px;
+        }
+
+        /* footer */
         .footer {
-            margin-top: 32px;
-            padding-top: 24px;
-            border-top: 1px solid rgba(255, 255, 255, 0.04);
             display: flex;
             flex-wrap: wrap;
             justify-content: space-between;
             align-items: center;
             gap: 12px;
             font-size: 12px;
-            color: #6b7280;
+            color: var(--dim);
+            padding: 8px 8px 0;
         }
 
-        .footer-links {
-            display: flex;
-            gap: 16px;
-            flex-wrap: wrap;
-        }
+        .footer-links { display: flex; gap: 16px; flex-wrap: wrap; }
 
         .footer-links a {
-            color: #9ca3af;
+            color: var(--muted);
             text-decoration: none;
             transition: color 0.2s;
             display: inline-flex;
             align-items: center;
-            gap: 4px;
+            gap: 5px;
         }
 
-        .footer-links a:hover {
-            color: #a855f7;
-        }
+        .footer-links a:hover { color: var(--accent); }
+        .footer-links a svg { width: 14px; height: 14px; }
 
-        .footer-links a svg {
-            width: 14px;
-            height: 14px;
-            fill: currentColor;
-        }
-
-        .sig {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 11px;
-            color: #6b7280;
-        }
-
+        .sig { font-family: var(--mono); font-size: 11px; color: var(--dim); }
         .sig b {
-            background: linear-gradient(135deg, #a855f7, #22d3ee);
+            background: linear-gradient(135deg, var(--accent), var(--cyan));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
             font-weight: 600;
         }
 
-        /* ── responsive ── */
-        @media (max-width: 560px) {
-            .card {
-                padding: 24px 18px 20px;
-            }
-            .stats {
-                grid-template-columns: 1fr;
-            }
-            .features {
-                grid-template-columns: 1fr;
-                gap: 4px;
-            }
-            .footer {
-                flex-direction: column;
-                text-align: center;
-            }
-            .top {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-            .top-right {
-                width: 100%;
-                justify-content: space-between;
-            }
-        }
+        .legal { font-size: 11px; color: #4b5563; text-align: center; line-height: 1.6; padding: 0 8px; }
 
-        @media (min-width: 720px) {
-            .card {
-                padding: 52px 48px 40px;
-            }
+        /* ── responsive ── */
+        @media (max-width: 600px) {
+            body { padding: 16px; }
+            .card { padding: 26px 18px 22px; border-radius: 22px; }
+            .card.sm { padding: 24px 18px; }
+            .stats, .modes, .protos, .tools { grid-template-columns: 1fr; }
+            .top { margin-bottom: 28px; }
+            .sec-title { font-size: 21px; }
+            .footer { flex-direction: column; text-align: center; }
         }
 
         @media (prefers-reduced-motion: reduce) {
-            * {
-                animation: none !important;
-                transition: none !important;
-            }
+            * { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
         }
     </style>
 </head>
 
 <body>
+<div class="wrap">
 
+    <!-- ═════════ HERO ═════════ -->
     <div class="card">
-
-        <!-- header -->
         <header class="top">
             <div class="brand">
                 <span class="icon">SN</span>
                 <h2>SN VPN</h2>
             </div>
             <div class="top-right">
-                <span class="badge-android">
-                    <svg viewBox="0 0 24 24"><path d="M17.523 15.341a1.2 1.2 0 0 1-1.2-1.2v-2.8a1.2 1.2 0 0 1 2.4 0v2.8a1.2 1.2 0 0 1-1.2 1.2zm-11.046 0a1.2 1.2 0 0 1-1.2-1.2v-2.8a1.2 1.2 0 0 1 2.4 0v2.8a1.2 1.2 0 0 1-1.2 1.2zm2.477-7.692a.4.4 0 0 0-.4-.4H7.6a.4.4 0 0 0-.4.4v4.8a.4.4 0 0 0 .4.4h.954a.4.4 0 0 0 .4-.4V7.649zm8.092 0a.4.4 0 0 0-.4-.4h-.954a.4.4 0 0 0-.4.4v4.8a.4.4 0 0 0 .4.4h.954a.4.4 0 0 0 .4-.4V7.649zM12 1.5a4.5 4.5 0 0 1 4.5 4.5v.6a4.5 4.5 0 0 1-9 0V6A4.5 4.5 0 0 1 12 1.5z"/></svg>
+                <span class="chip">
+                    <svg viewBox="0 0 24 24"><path d="M17.6 9.48l1.84-3.18c.16-.31.04-.69-.26-.85a.637.637 0 0 0-.83.22l-1.88 3.24a11.43 11.43 0 0 0-8.94 0L5.65 5.67a.643.643 0 0 0-.87-.2c-.28.18-.37.54-.22.83L6.4 9.48A10.78 10.78 0 0 0 1 18h22a10.78 10.78 0 0 0-5.4-8.52zM7 15.25a1.25 1.25 0 1 1 0-2.5 1.25 1.25 0 0 1 0 2.5zm10 0a1.25 1.25 0 1 1 0-2.5 1.25 1.25 0 0 1 0 2.5z"/></svg>
                     Android
                 </span>
-                <span class="version">v1.0</span>
+                <span class="chip ver">v5.0.6</span>
             </div>
         </header>
 
-        <!-- hero -->
         <main class="hero">
-            <span class="badge">Túneles · Servidores · Acceso libre</span>
-            <h1>Conecta a <span class="grad">servidores libres</span> sin restricciones</h1>
+            <span class="badge">Túneles · Servidores · Modo Custom</span>
+            <h1>Conecta a <span class="grad">servidores libres</span> o crea los tuyos</h1>
             <p>
-                <b>SN VPN</b> te ofrece túneles preconfigurados para navegar
-                sin limitaciones. Elige entre SSH, V2Ray o Hysteria y
-                disfruta de una conexión estable y rápida.
+                <b>SN VPN</b> es un cliente de túneles para Android. Úsalo con los
+                <b>servidores SN</b> listos para conectar, o arma tus propias
+                configuraciones <b>SSH, V2Ray, Hysteria y BHTTP</b> con el nuevo modo Custom.
             </p>
 
             <div class="proto-row">
-                <span class="proto-pill"><span class="dot ssh"></span> SSH</span>
-                <span class="proto-pill"><span class="dot v2ray"></span> V2Ray</span>
-                <span class="proto-pill"><span class="dot hysteria"></span> Hysteria</span>
+                <span class="proto-pill"><span class="dot ssh"></span>SSH</span>
+                <span class="proto-pill"><span class="dot v2ray"></span>V2Ray</span>
+                <span class="proto-pill"><span class="dot hysteria"></span>Hysteria</span>
+                <span class="proto-pill"><span class="dot bhttp"></span>BHTTP</span>
             </div>
 
             <div class="cta-group">
-                <a class="btn btn-primary" href="https://github.com/SINNOMBRE22/snvpn/releases/download/v1.0/SNVPN.apk">
+                <a class="btn btn-primary" href="https://github.com/SINNOMBRE22/snvpn/releases/download/v5.0.6/SNVPN.apk">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
                         <polyline points="7 10 12 15 17 10" />
                         <line x1="12" y1="15" x2="12" y2="3" />
                     </svg>
-                    Descargar APK
+                    Descargar APK v5.0.6
                 </a>
                 <a class="btn btn-secondary" href="https://t.me/SN_PLUS" target="_blank" rel="noopener">
                     <svg viewBox="0 0 24 24" fill="currentColor">
@@ -506,13 +611,10 @@
                 </a>
             </div>
 
-            <p style="margin-top:12px; font-family:'JetBrains Mono',monospace; font-size:11px; color:#6b7280;">
-                Android 6.0+ · arm64-v8a · armeabi-v7a
-            </p>
+            <p class="req">Android 6.0+ · arm64-v8a · armeabi-v7a</p>
         </main>
 
-        <!-- stats -->
-        <section class="stats">
+        <section class="stats" aria-label="Estadísticas">
             <div class="stat-box">
                 <p class="stat-num is-wait" id="stat-dl" aria-live="polite">—</p>
                 <p class="stat-label">Descargas del APK</p>
@@ -524,113 +626,281 @@
                 <p class="stat-source">Total acumulado</p>
             </div>
         </section>
-
-        <!-- features compact -->
-        <div class="features">
-            <span class="feature-item"><span class="check">✓</span> Servidores actualizados</span>
-            <span class="feature-item"><span class="check">✓</span> Sin configuración manual</span>
-            <span class="feature-item"><span class="check">✓</span> Filtro por aplicación</span>
-            <span class="feature-item"><span class="check">✓</span> Conexión persistente</span>
-            <span class="feature-item"><span class="check">✓</span> Compartir conexión</span>
-            <span class="feature-item"><span class="check">✓</span> Sin anuncios</span>
-        </div>
-
-        <!-- footer -->
-        <footer class="footer">
-            <span class="sig">SN VPN · By <b>SinNombre</b></span>
-            <div class="footer-links">
-                <a href="https://t.me/SN_PLUS" target="_blank" rel="noopener">
-                    <svg viewBox="0 0 24 24"><path d="M21.9 4.3 18.9 19c-.2 1-.8 1.2-1.7.8l-4.6-3.4-2.2 2.1c-.2.3-.5.4-.9.4l.3-4.6 8.5-7.7c.4-.3-.1-.5-.6-.2L7.3 13.1 2.8 11.7c-1-.3-1-1 .2-1.4l17.4-6.7c.8-.3 1.6.2 1.5 1.7z"/></svg>
-                    Grupo
-                </a>
-                <a href="https://whatsapp.com/channel/0029Vb8OkkxFsn0Xil8j6G03" target="_blank" rel="noopener">
-                    <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-                    Canal
-                </a>
-                <a href="https://wa.me/message/VM4JCHQ5RF45K1" target="_blank" rel="noopener">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
-                    Soporte
-                </a>
-            </div>
-        </footer>
-
     </div>
 
-    <script>
-        // ─── contadores ──────────────────────────────────────────
-        (function() {
-            var GH_REPO = 'SINNOMBRE22/snvpn';
-            var VISITS_NS = 'sinnombre.xyz';
-            var VISITS_KEY = 'snvpn-page';
-            var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    <!-- ═════════ QUÉ ES ═════════ -->
+    <section class="card sm" id="que-es">
+        <p class="eyebrow">Qué es</p>
+        <h2 class="sec-title">Un cliente de túneles, no una VPN de un solo botón</h2>
+        <p class="sec-lead">
+            SN VPN crea una conexión cifrada entre tu teléfono y un servidor, y manda todo tu
+            tráfico (o solo el de las apps que elijas) por ese túnel. Soporta varios protocolos
+            y técnicas —payload, proxy, SNI/SSL, QUIC— para que puedas conectarte en redes
+            con restricciones. Puedes usar los servidores que publica <b>SinNombre</b> o
+            cargar los tuyos.
+        </p>
+    </section>
 
-            function fmt(n) {
-                try { return n.toLocaleString('es'); } catch (_) { return String(n); }
+    <!-- ═════════ CÓMO FUNCIONA ═════════ -->
+    <section class="card sm" id="como-funciona">
+        <p class="eyebrow">Cómo funciona</p>
+        <h2 class="sec-title">De la descarga a navegar en tres pasos</h2>
+
+        <ol class="steps">
+            <li>
+                <div>
+                    <h3>Instala el APK</h3>
+                    <p>Descárgalo desde esta página y permite la instalación de orígenes desconocidos si Android lo pide.</p>
+                </div>
+            </li>
+            <li>
+                <div>
+                    <h3>Elige tu modo</h3>
+                    <p>En <b>Servidores SN</b> escoges una categoría (SSH, V2Ray, Hysteria o BHTTP) y la app selecciona el servidor por ti. En <b>Mis configuraciones</b> usas las que tú creaste o importaste.</p>
+                </div>
+            </li>
+            <li>
+                <div>
+                    <h3>Toca CONECTAR</h3>
+                    <p>Acepta el permiso de VPN la primera vez. El registro te muestra el progreso de la conexión y, al quedar conectado, verás la velocidad de subida y bajada en tiempo real.</p>
+                </div>
+            </li>
+        </ol>
+    </section>
+
+    <!-- ═════════ DOS MODOS ═════════ -->
+    <section class="card sm" id="modos">
+        <p class="eyebrow">Dos modos, separados</p>
+        <h2 class="sec-title">Servidores SN o tus propias configuraciones</h2>
+        <p class="sec-lead">
+            Tus configuraciones y los servidores SN viven por separado: una actualización de
+            servidores nunca borra ni mezcla lo que tú creaste.
+        </p>
+
+        <div class="modes">
+            <div class="mode">
+                <span class="tag sn">Servidores SN</span>
+                <h3>Listo para conectar</h3>
+                <p>Servidores preconfigurados que se actualizan desde GitHub.</p>
+                <ul>
+                    <li>Agrupados por modo de conexión</li>
+                    <li>Selección automática del servidor</li>
+                    <li>Cero configuración manual</li>
+                    <li>Acceso a servidores privados con tu cuenta</li>
+                </ul>
+            </div>
+            <div class="mode">
+                <span class="tag custom">Nuevo · Custom</span>
+                <h3>Mis configuraciones</h3>
+                <p>Crea configs con tus propios datos, como en las apps de túnel más conocidas.</p>
+                <ul>
+                    <li>IP, puerto, usuario, proxy, payload y SNI</li>
+                    <li>Pega enlaces vmess, vless, trojan o ss</li>
+                    <li>Importa y exporta archivos <code>.sn</code></li>
+                    <li>Fecha de vencimiento y bloqueo por dispositivo</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═════════ PROTOCOLOS ═════════ -->
+    <section class="card sm" id="protocolos">
+        <p class="eyebrow">Protocolos</p>
+        <h2 class="sec-title">Cuatro formas de conectarte</h2>
+
+        <div class="protos">
+            <div class="proto">
+                <h3><span class="dot ssh"></span>SSH</h3>
+                <p>Directo, con payload HTTP, con proxy o por SSL/TLS con SNI personalizado. El clásico para datos móviles.</p>
+            </div>
+            <div class="proto">
+                <h3><span class="dot v2ray"></span>V2Ray</h3>
+                <p>VMess, VLESS, Trojan y Shadowsocks. Acepta JSON completo o enlaces compartidos.</p>
+            </div>
+            <div class="proto">
+                <h3><span class="dot hysteria"></span>Hysteria</h3>
+                <p>Basado en QUIC/UDP, pensado para baja latencia y redes con pérdida de paquetes. Soporta auth y obfs.</p>
+            </div>
+            <div class="proto">
+                <h3><span class="dot bhttp"></span>BHTTP</h3>
+                <p>Protocolo propio de SinNombre que viaja sobre HTTP hasta el servidor SSH de la VPS.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═════════ HERRAMIENTAS ═════════ -->
+    <section class="card sm" id="herramientas">
+        <p class="eyebrow">Herramientas</p>
+        <h2 class="sec-title">Control sobre tu conexión</h2>
+
+        <div class="tools">
+            <div class="tool">
+                <h3>Filtro de apps</h3>
+                <p>Elige qué aplicaciones usan la VPN y cuáles no.</p>
+            </div>
+            <div class="tool">
+                <h3>Compartir por WiFi</h3>
+                <p>Comparte la conexión con otros dispositivos.</p>
+            </div>
+            <div class="tool">
+                <h3>DNS personalizado</h3>
+                <p>Elige el servidor DNS que usa el túnel.</p>
+            </div>
+            <div class="tool">
+                <h3>MTU</h3>
+                <p>Ajusta el tamaño de paquete para tu red.</p>
+            </div>
+            <div class="tool">
+                <h3>Segundo plano</h3>
+                <p>Evita que Android cierre la app y corte la conexión.</p>
+            </div>
+            <div class="tool">
+                <h3>Registro en vivo</h3>
+                <p>Consola con cada paso de la conexión para detectar fallos.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═════════ NOVEDADES ═════════ -->
+    <section class="card sm" id="novedades">
+        <div class="news-head">
+            <div>
+                <p class="eyebrow">Novedades</p>
+                <h2 class="sec-title">Qué trae la versión 5.0.6</h2>
+            </div>
+            <span class="chip ver">v5.0.6</span>
+        </div>
+
+        <ul class="changelog">
+            <li><span class="k new">Nuevo</span><span><b>Modo Custom:</b> crea, edita y usa tus propias configuraciones SSH, V2Ray, Hysteria y BHTTP.</span></li>
+            <li><span class="k new">Nuevo</span><span><b>Importar y exportar</b> configuraciones en archivos <code>.sn</code>, con vencimiento, nota o banner y bloqueo por dispositivo.</span></li>
+            <li><span class="k new">Nuevo</span><span><b>Protocolo BHTTP</b> disponible como modo de conexión.</span></li>
+            <li><span class="k new">Nuevo</span><span><b>Enlaces V2Ray:</b> pega un vmess://, vless://, trojan:// o ss:// y se convierte en configuración.</span></li>
+            <li><span class="k imp">Mejora</span><span>Servidores SN agrupados por categoría, con el servidor elegido automáticamente.</span></li>
+            <li><span class="k imp">Mejora</span><span>Estado «Conectando…» más claro y avisos que ya no tapan el botón de conexión.</span></li>
+        </ul>
+    </section>
+
+    <!-- ═════════ FAQ ═════════ -->
+    <section class="card sm" id="faq">
+        <p class="eyebrow">Preguntas frecuentes</p>
+        <h2 class="sec-title">Antes de instalar</h2>
+
+        <div class="faq">
+            <details>
+                <summary>¿Necesito configurar algo para empezar?</summary>
+                <p>No. Con el modo Servidores SN solo eliges una categoría y tocas CONECTAR. El modo Custom es opcional, para quien tiene sus propios servidores o recibe configuraciones de otra persona.</p>
+            </details>
+            <details>
+                <summary>¿Qué es un archivo .sn?</summary>
+                <p>Es una configuración cifrada de SN VPN. Ábrelo con la app (o usa Importar en Mis configuraciones) y queda lista para conectar. Quien la crea puede ponerle fecha de vencimiento, bloquearla a un solo dispositivo u ocultar sus datos.</p>
+            </details>
+            <details>
+                <summary>Ya tengo una versión anterior, ¿pierdo algo al actualizar?</summary>
+                <p>Instala la 5.0.6 encima de la que tienes, sin desinstalar. Tus ajustes se conservan y los servidores SN se actualizan solos.</p>
+            </details>
+            <details>
+                <summary>No conecta, ¿qué reviso?</summary>
+                <p>Abre el registro para ver en qué paso se detiene, prueba otra categoría o servidor y activa «Mantener en segundo plano». Si sigue igual, escríbenos por Telegram o WhatsApp con una captura del registro.</p>
+            </details>
+        </div>
+    </section>
+
+    <!-- ═════════ FOOTER ═════════ -->
+    <footer class="footer">
+        <span class="sig">SN VPN v5.0.6 · By <b>SinNombre</b></span>
+        <div class="footer-links">
+            <a href="https://t.me/SN_PLUS" target="_blank" rel="noopener">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M21.9 4.3 18.9 19c-.2 1-.8 1.2-1.7.8l-4.6-3.4-2.2 2.1c-.2.3-.5.4-.9.4l.3-4.6 8.5-7.7c.4-.3-.1-.5-.6-.2L7.3 13.1 2.8 11.7c-1-.3-1-1 .2-1.4l17.4-6.7c.8-.3 1.6.2 1.5 1.7z"/></svg>
+                Grupo
+            </a>
+            <a href="https://whatsapp.com/channel/0029Vb8OkkxFsn0Xil8j6G03" target="_blank" rel="noopener">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                Canal
+            </a>
+            <a href="https://wa.me/message/VM4JCHQ5RF45K1" target="_blank" rel="noopener">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+                Soporte
+            </a>
+        </div>
+    </footer>
+
+    <p class="legal">Usa SN VPN de forma responsable y conforme a las leyes y condiciones de servicio de tu país y operador.</p>
+
+</div>
+
+<script>
+    // ─── contadores ──────────────────────────────────────────
+    (function () {
+        var GH_REPO = 'SINNOMBRE22/snvpn';
+        var VISITS_NS = 'sinnombre.xyz';
+        var VISITS_KEY = 'snvpn-page';
+        var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+        function fmt(n) {
+            try { return n.toLocaleString('es'); } catch (_) { return String(n); }
+        }
+
+        function setNumber(el, target) {
+            if (!el) return;
+            el.classList.remove('is-wait');
+            if (reduce || target <= 0) { el.textContent = fmt(target); return; }
+            var dur = 800, t0 = null;
+            function step(ts) {
+                if (t0 === null) t0 = ts;
+                var p = Math.min((ts - t0) / dur, 1);
+                var eased = 1 - Math.pow(1 - p, 3);
+                el.textContent = fmt(Math.round(target * eased));
+                if (p < 1) requestAnimationFrame(step);
             }
+            requestAnimationFrame(step);
+        }
 
-            function setNumber(el, target) {
-                if (!el) return;
-                el.classList.remove('is-wait');
-                if (reduce || target <= 0) { el.textContent = fmt(target); return; }
-                var dur = 800,
-                    t0 = null;
+        // Descargas (suma de todas las versiones publicadas)
+        fetch('https://api.github.com/repos/' + GH_REPO + '/releases')
+            .then(function (r) { if (!r.ok) throw new Error('gh ' + r.status); return r.json(); })
+            .then(function (releases) {
+                var total = 0;
+                (releases || []).forEach(function (rel) {
+                    (rel.assets || []).forEach(function (a) { total += a.download_count || 0; });
+                });
+                setNumber(document.getElementById('stat-dl'), total);
+            })
+            .catch(function (err) { console.error('Descargas:', err); });
 
-                function step(ts) {
-                    if (t0 === null) t0 = ts;
-                    var p = Math.min((ts - t0) / dur, 1);
-                    var eased = 1 - Math.pow(1 - p, 3);
-                    el.textContent = fmt(Math.round(target * eased));
-                    if (p < 1) requestAnimationFrame(step);
-                }
-                requestAnimationFrame(step);
-            }
+        // Visitas
+        var visitsDone = false;
 
-            // Descargas
-            fetch('https://api.github.com/repos/' + GH_REPO + '/releases')
-                .then(function(r) { if (!r.ok) throw new Error('gh ' + r.status); return r.json(); })
-                .then(function(releases) {
-                    var total = 0;
-                    (releases || []).forEach(function(rel) {
-                        (rel.assets || []).forEach(function(a) { total += a.download_count || 0; });
-                    });
-                    setNumber(document.getElementById('stat-dl'), total);
+        function visitsOk(value) {
+            if (visitsDone) return;
+            visitsDone = true;
+            setNumber(document.getElementById('stat-visits'), value);
+        }
+
+        window.__snVisits = function (data) {
+            if (data && typeof data.value === 'number') visitsOk(data.value);
+        };
+
+        var s = document.createElement('script');
+        s.src = 'https://counterapi.com/api/' + VISITS_NS + '/view/' + VISITS_KEY + '?callback=__snVisits';
+        s.async = true;
+        s.onerror = visitsFallback;
+        document.head.appendChild(s);
+
+        setTimeout(function () { if (!visitsDone) visitsFallback(); }, 5000);
+
+        function visitsFallback() {
+            if (visitsDone) return;
+            fetch('https://api.counterapi.dev/v1/sinnombre-xyz/' + VISITS_KEY + '/up')
+                .then(function (r) { if (!r.ok) throw new Error('counter ' + r.status); return r.json(); })
+                .then(function (data) {
+                    var v = data && (typeof data.count === 'number' ? data.count : data.value);
+                    if (typeof v === 'number') visitsOk(v);
                 })
-                .catch(function(err) { console.error('Descargas:', err); });
-
-            // Visitas
-            var visitsDone = false;
-
-            function visitsOk(value) {
-                if (visitsDone) return;
-                visitsDone = true;
-                setNumber(document.getElementById('stat-visits'), value);
-            }
-
-            window.__snVisits = function(data) {
-                if (data && typeof data.value === 'number') visitsOk(data.value);
-            };
-
-            var s = document.createElement('script');
-            s.src = 'https://counterapi.com/api/' + VISITS_NS + '/view/' + VISITS_KEY +
-                '?callback=__snVisits';
-            s.async = true;
-            s.onerror = visitsFallback;
-            document.head.appendChild(s);
-
-            setTimeout(function() { if (!visitsDone) visitsFallback(); }, 5000);
-
-            function visitsFallback() {
-                if (visitsDone) return;
-                fetch('https://api.counterapi.dev/v1/sinnombre-xyz/' + VISITS_KEY + '/up')
-                    .then(function(r) { if (!r.ok) throw new Error('counter ' + r.status); return r.json(); })
-                    .then(function(data) {
-                        var v = data && (typeof data.count === 'number' ? data.count : data.value);
-                        if (typeof v === 'number') visitsOk(v);
-                    })
-                    .catch(function(err) { console.error('Visitas:', err); });
-            }
-        })();
-    </script>
+                .catch(function (err) { console.error('Visitas:', err); });
+        }
+    })();
+</script>
 
 </body>
 </html>
