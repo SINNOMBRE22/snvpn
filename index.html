@@ -833,7 +833,8 @@
     // ─── contadores ──────────────────────────────────────────
     (function () {
         var GH_REPO = 'SINNOMBRE22/snvpn';
-        var VISITS_KEY = 'snvpn-sinnombre-xyz-total';
+        var VISITS_NAMESPACE = 'sinnombre-snvpn-2024';
+        var VISITS_KEY = 'visits';
         var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
         function fmt(n) {
@@ -855,7 +856,7 @@
             requestAnimationFrame(step);
         }
 
-        // 1. Obtener descargas reales desde GitHub Releases
+        // 1. Descargas reales desde GitHub
         function cargarDescargas() {
             fetch('https://api.github.com/repos/' + GH_REPO + '/releases')
                 .then(function (r) { if (!r.ok) throw new Error('gh ' + r.status); return r.json(); })
@@ -869,42 +870,30 @@
                 .catch(function (err) { console.error('Descargas:', err); });
         }
 
-        // 2. Sumar +1 visita a la base de datos de CounterAPI
+        // 2. Visitas garantizadas mediante API de conteo público
+        window.__cbVisitas = function (data) {
+            if (data && typeof data.value === 'number') {
+                setNumber(document.getElementById('stat-visits'), data.value);
+            }
+        };
+
         function registrarVisita() {
-            fetch('https://api.counterapi.dev/v1/sinnombre_vpn/' + VISITS_KEY + '/up')
-                .then(function (r) { return r.json(); })
-                .then(function (data) {
-                    if (data && typeof data.count === 'number') {
-                        setNumber(document.getElementById('stat-visits'), data.count);
-                    }
-                })
-                .catch(function (err) { console.error('Error visitas:', err); });
+            var s = document.createElement('script');
+            // 'hit' incrementa +1 y auto-crea el contador si no existe
+            s.src = 'https://api.countapi.xyz/hit/' + VISITS_NAMESPACE + '/' + VISITS_KEY + '?callback=__cbVisitas';
+            s.onerror = function() {
+                // Si la API falla por red, muestra al menos 1 para no dejar el guión
+                setNumber(document.getElementById('stat-visits'), 1);
+            };
+            document.head.appendChild(s);
         }
 
-        // 3. Consultar la cifra actual en vivo sin sumar otra visita
-        function obtenerVisitasEnVivo() {
-            fetch('https://api.counterapi.dev/v1/sinnombre_vpn/' + VISITS_KEY + '/')
-                .then(function (r) { return r.json(); })
-                .then(function (data) {
-                    if (data && typeof data.count === 'number') {
-                        var el = document.getElementById('stat-visits');
-                        if (el) el.textContent = fmt(data.count);
-                    }
-                })
-                .catch(function (_) {});
-        }
-
-        // Ejecutar al entrar
+        // Carga inicial
         cargarDescargas();
         registrarVisita();
-
-        // Actualizar datos en pantalla cada 10 segundos
-        setInterval(function() {
-            cargarDescargas();
-            obtenerVisitasEnVivo();
-        }, 10000);
     })();
 </script>
+
 
 </body>
 </html>
