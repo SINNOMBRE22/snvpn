@@ -86,7 +86,7 @@ section{padding:110px 0}
 h2{font-size:clamp(30px,4vw,46px);line-height:1.1;letter-spacing:-1.2px}
 .sec-head p{color:var(--mut);margin-top:16px;font-size:17px}
 
-.svc{display:grid;grid-template-columns:repeat(5,1fr);gap:14px}
+.svc{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
 .card{position:relative;padding:28px;border-radius:var(--r);background:var(--card);border:1px solid var(--line);transition:border-color .3s,transform .3s;overflow:hidden}
 .card::before{content:"";position:absolute;inset:0;opacity:0;transition:opacity .4s;pointer-events:none;
   background:radial-gradient(380px circle at var(--mx,50%) var(--my,0%),rgba(143,61,255,.16),transparent 50%)}
@@ -204,7 +204,6 @@ footer{border-top:1px solid var(--line);padding:56px 0 30px;margin-top:110px}
   .hero-txt{text-align:center}
   .lead{margin-left:auto;margin-right:auto}
   .cta,.services-mini{justify-content:center}
-  .svc{grid-template-columns:repeat(3,1fr)}
   .apps,.plans{grid-template-columns:1fr 1fr}
   .steps{grid-template-columns:1fr 1fr}
   .foot{grid-template-columns:1fr 1fr}
@@ -220,7 +219,6 @@ footer{border-top:1px solid var(--line);padding:56px 0 30px;margin-top:110px}
   .logo-big{width:270px;height:270px}
   .o1{width:320px;height:320px}.o2{width:390px;height:390px}
   .svc{grid-template-columns:1fr 1fr}
-  .svc .card:last-child{grid-column:1/-1}
   .svc .card{padding:22px 18px}
   .apps,.plans,.steps,.checks{grid-template-columns:1fr}
   .phone{width:250px;height:510px}
