@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SN VPN · Nomira Studio</title>
+<meta name="description" content="SN VPN 5.3.2: cliente Android de túneles SSH, V2Ray, Hysteria y BHTTP. Servidores de México listos o tus propias configuraciones con el Modo Custom.">
+<meta name="theme-color" content="#07050f">
+<meta property="og:title" content="SN VPN · Nomira Studio">
+<meta property="og:description" content="SN VPN 5.3.2: cliente Android de túneles SSH, V2Ray, Hysteria y BHTTP. Servidores de México listos o tus propias configuraciones con el Modo Custom.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://www.sinnombre.xyz/assets/nomira.jpg">
+<link rel="icon" type="image/png" href="assets/favicon.png">
+<link rel="apple-touch-icon" href="assets/icon-180.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css?v=3">
+</head>
+<body>
+
+<div class="bg-grid"></div>
+<div class="bg-glow g1"></div>
+<div class="bg-glow g2"></div>
+<nav>
+  <div class="wrap nav-in">
+    <a href="index.html" class="brand">
+      <img src="assets/nomira.jpg" alt="Nomira Studio">
+      <span>NOMIRA<small>STUDIO</small></span>
+    </a>
+    <div class="nav-links" id="navLinks">
+      <a href="index.html">Inicio</a>
+      <a href="snvpn.html" class="on">SN VPN</a>
+      <a href="fabrica.html">Fábrica de apps</a>
+      <a href="index.html#apps">Apps</a>
+      <a href="#contacto">Contacto</a>
+    </div>
+    <a href="https://t.me/NomiraStudio" target="_blank" rel="noopener" class="btn btn-main btn-sm">Únete al canal</a>
+    <button class="menu-btn" id="menuBtn" aria-label="Menú">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+    </button>
+  </div>
+</nav>
+
+<header class="page-top">
+  <div class="wrap">
+    <div class="crumb"><a href="index.html">Nomira Studio</a> / SN VPN</div>
+    <div class="feat rv">
+      <div class="phone">
+        <div class="screen">
+          <div class="notch"></div>
+          <img class="shot" src="captura.jpg?v=532" alt="SN VPN en Android" onerror="this.remove()">
+          <div class="splash">
+            <span class="sn-mark"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v6c0 4.5-3 7.8-7 9-4-1.2-7-4.5-7-9V6l7-3z"/><path d="M9 12l2 2 4-4"/></svg></span>
+            <strong>SN VPN</strong><small>by Nomira Studio</small>
+          </div>
+        </div>
+      </div>
+      <div>
+        <span class="ver"><span class="dot"></span>v5.3.2 · Android 6.0+</span>
+        <h1 style="font-size:clamp(40px,5vw,64px);margin:6px 0 14px">SN VPN</h1>
+        <p class="lead">Nuestra app principal. Cliente de túneles para Android con servidores SN listos para conectar y Modo Custom para usar tus propias configuraciones.</p>
+        <ul class="checks">
+          <li>Servidores SN que se actualizan solos</li>
+          <li>Modo Custom con tus datos</li>
+          <li>Archivos .sn con vencimiento y bloqueo</li>
+          <li>Enlaces vmess, vless, trojan y ss</li>
+          <li>Reconexión automática</li>
+          <li>Botón rápido en la barra</li>
+          <li>Filtro de apps</li>
+          <li>Compartir por WiFi</li>
+        </ul>
+        <div class="pills">
+          <span class="pill">SSH</span><span class="pill">Payload</span><span class="pill">Proxy</span><span class="pill">SSL / SNI</span>
+          <span class="pill">V2Ray</span><span class="pill">Hysteria</span><span class="pill new">BHTTP</span>
+        </div>
+        <a href="https://t.me/NomiraStudio" target="_blank" rel="noopener" class="btn btn-main">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M21.9 4.3l-3.2 15.1c-.2 1.1-.9 1.3-1.8.8l-4.9-3.6-2.4 2.3c-.3.3-.5.5-1 .5l.4-5 9.1-8.2c.4-.4-.1-.6-.6-.2L6.2 13 1.4 11.5c-1-.3-1.1-1 .2-1.5L20.5 2.8c.9-.3 1.7.2 1.4 1.5z"/></svg>
+          Descargar en Telegram
+        </a>
+        <p class="note">La última versión siempre se publica en el canal de Nomira Studio.</p>
+      </div>
+    </div>
+  </div>
+</header>
+
+<section style="padding-top:40px;padding-bottom:0">
+  <div class="wrap">
+    <div class="news rv">
+      <div class="news-head">
+        <h3>Novedades de la versión 5.3.2</h3>
+        <span class="ver">v5.3.2</span>
+      </div>
+      <ul class="log">
+        <li><span class="k">NUEVO</span><span><b>Reconexión automática</b> en todos los protocolos.</span></li>
+        <li><span class="k">NUEVO</span><span><b>Cambio de red sin cortes:</b> se reconecta solo al pasar de WiFi a datos y viceversa.</span></li>
+        <li><span class="k">NUEVO</span><span><b>Conectar al encender el teléfono.</b> Actívalo en Herramientas → Auto Ping y reconexión.</span></li>
+        <li><span class="k">NUEVO</span><span><b>Botón rápido:</b> baja la barra de notificaciones, toca el lápiz ✏️ y arrastra SN VPN a tus botones.</span></li>
+        <li><span class="k">NUEVO</span><span><b>Notificación en vivo</b> con velocidad, consumo y tiempo de conexión.</span></li>
+        <li><span class="k imp">MEJORA</span><span>Ya no se cierra después de que se acaba la batería.</span></li>
+        <li><span class="k imp">MEJORA</span><span>Mejoras en payload y en la estabilidad de la conexión.</span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="sec-head rv">
+      <div class="eyebrow">// Funciones</div>
+      <h2>Todo lo que necesitas para conectarte</h2>
+    </div>
+    <div class="grid3">
+      <div class="card rv">
+        <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="6" rx="2"/><rect x="3" y="14" width="18" height="6" rx="2"/><path d="M7 7h.01M7 17h.01"/></svg></div>
+        <h3>Servidores de México</h3>
+        <p>Servidores con IP MX agrupados por modo de conexión. Eliges la categoría y la app escoge el servidor por ti. Se actualizan solos.</p>
+      </div>
+      <div class="card rv">
+        <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 21v-7M4 10V3M12 21v-9M12 8V3M20 21v-5M20 12V3M1 14h6M9 8h6M17 16h6"/></svg></div>
+        <h3>Modo Custom</h3>
+        <p>Crea tus propias configuraciones con IP, puerto, usuario, proxy, payload y SNI. Nunca se mezclan con los servidores SN.</p>
+      </div>
+      <div class="card rv">
+        <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 11-3-6.7L21 8"/><path d="M21 3v5h-5"/></svg></div>
+        <h3>Reconexión automática</h3>
+        <p>Se reconecta sola en todos los protocolos, al cambiar entre WiFi y datos, y puede conectar al encender el teléfono.</p>
+      </div>
+      <div class="card rv">
+        <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3v5h5M6 3h8l5 5v13H6z"/><path d="M9 14l2 2 4-4"/></svg></div>
+        <h3>Archivos .sn</h3>
+        <p>Importa y exporta configuraciones cifradas, con fecha de vencimiento, nota o banner y bloqueo por dispositivo.</p>
+      </div>
+      <div class="card rv">
+        <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><path d="M14 17.5l2 2 4-4"/></svg></div>
+        <h3>Filtro de apps</h3>
+        <p>Elige qué aplicaciones pasan por el túnel y cuáles se conectan directo.</p>
+      </div>
+      <div class="card rv">
+        <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5a10 10 0 0114 0M8.5 16a5 5 0 017 0M2 9a15 15 0 0120 0"/><circle cx="12" cy="19.5" r="1"/></svg></div>
+        <h3>Compartir por WiFi</h3>
+        <p>Comparte tu conexión con otros dispositivos desde la misma app.</p>
+      </div>
+    </div>
+    <div class="tools rv">
+      <span>Botón rápido en la barra</span><span>Notificación con velocidad y consumo</span><span>Enlaces vmess · vless · trojan · ss</span><span>DNS personalizado</span><span>Ajuste de MTU</span><span>Segundo plano</span><span>Registro en vivo</span>
+    </div>
+  </div>
+</section>
+<section style="padding-top:0">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <div class="eyebrow">// Protocolos</div>
+      <h2>Cuatro formas de conectarte</h2>
+    </div>
+    <div class="grid2">
+      <div class="card rv">
+        <h3><span class="proto-dot" style="background:#5b7cff;box-shadow:0 0 10px #5b7cff"></span>SSH</h3>
+        <p>Directo, con payload HTTP, con proxy o por SSL/TLS con SNI personalizado. El clásico para datos móviles.</p>
+      </div>
+      <div class="card rv">
+        <h3><span class="proto-dot" style="background:#2dffa1;box-shadow:0 0 10px #2dffa1"></span>V2Ray</h3>
+        <p>VMess, VLESS, Trojan y Shadowsocks. Acepta JSON completo o enlaces compartidos.</p>
+      </div>
+      <div class="card rv">
+        <h3><span class="proto-dot" style="background:#ffc83c;box-shadow:0 0 10px #ffc83c"></span>Hysteria</h3>
+        <p>Basado en QUIC/UDP, pensado para baja latencia y redes con pérdida de paquetes.</p>
+      </div>
+      <div class="card rv">
+        <h3><span class="proto-dot" style="background:#d26bff;box-shadow:0 0 10px #d26bff"></span>BHTTP</h3>
+        <p>Protocolo propio de SinNombre que viaja sobre HTTP hasta el servidor SSH de la VPS.</p>
+      </div>
+    </div>
+  </div>
+</section>
+<section style="padding-top:0">
+  <div class="wrap">
+    <div class="sec-head center rv">
+      <div class="eyebrow">// Dos modos</div>
+      <h2>Tú decides cómo conectarte</h2>
+    </div>
+    <div class="grid2">
+      <div class="mode hl rv">
+        <div class="num">MODO 01</div>
+        <h3>Servidores SN</h3>
+        <p>Para quien solo quiere conectar y listo.</p>
+        <ul>
+          <li>Servidores de México con IP MX</li>
+          <li>Selección automática del servidor</li>
+          <li>Se actualizan solos, sin reinstalar</li>
+          <li>Servidores privados con tu cuenta</li>
+        </ul>
+      </div>
+      <div class="mode rv">
+        <div class="num">MODO 02</div>
+        <h3>Custom</h3>
+        <p>Para quien tiene su propio servidor o recibe configuraciones.</p>
+        <ul>
+          <li>SSH, V2Ray, Hysteria y BHTTP</li>
+          <li>IP, puerto, usuario, proxy, payload y SNI</li>
+          <li>Importa y exporta archivos .sn</li>
+          <li>Funciona con tu VPS y tu panel</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+<section style="padding-top:0">
+  <div class="wrap">
+    <div class="sec-head center rv">
+      <div class="eyebrow">// Preguntas frecuentes</div>
+      <h2>Dudas sobre SN VPN</h2>
+    </div>
+    <div class="faq rv">
+      <details>
+        <summary>¿Dónde descargo SN VPN?</summary>
+        <p>En el canal de Telegram de Nomira Studio. Ahí se publica cada versión nueva primero. Evita descargar copias de otros sitios.</p>
+      </details>
+      <details>
+        <summary>¿Necesito configurar algo para empezar?</summary>
+        <p>No. Con Servidores SN solo eliges una categoría y tocas CONECTAR. El Modo Custom es opcional, para quien tiene sus propios servidores o recibe configuraciones de otra persona.</p>
+      </details>
+      <details>
+        <summary>¿Cómo activo la reconexión y el inicio automático?</summary>
+        <p>En Herramientas → Auto Ping y reconexión. Ahí también puedes hacer que se conecte sola al encender el teléfono.</p>
+      </details>
+      <details>
+        <summary>¿Cómo pongo el botón rápido?</summary>
+        <p>Baja la barra de notificaciones, toca el lápiz ✏️ y arrastra SN VPN a tus botones.</p>
+      </details>
+      <details>
+        <summary>Ya tengo una versión anterior, ¿pierdo algo al actualizar?</summary>
+        <p>No. Instala la nueva versión encima de la que tienes, sin desinstalar. Tus ajustes se conservan y los servidores SN se actualizan solos.</p>
+      </details>
+      <details>
+        <summary>No conecta, ¿qué reviso?</summary>
+        <p>Abre Logs para ver en qué paso se detiene, prueba otro servidor y activa «Mantener en segundo plano». Si sigue igual, escríbenos con una captura del registro.</p>
+      </details>
+    </div>
+  </div>
+</section>
+<section style="padding-top:0">
+  <div class="wrap">
+    <div class="promo rv">
+      <div>
+        <h3>¿Quieres una app como esta con tu marca?</h3>
+        <p>Crea tu propia app VPN desde Telegram con @NomiraStudioBot.</p>
+      </div>
+      <a href="fabrica.html" class="btn btn-main">Ver la fábrica de apps <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+    </div>
+  </div>
+</section>
+<div class="wrap">
+  <div class="final rv">
+    <img src="assets/nomira.jpg" alt="">
+    <h2>Descarga <span class="grad">SN VPN</span></h2>
+    <p>La última versión siempre está en el canal de Telegram de Nomira Studio.</p>
+    <div class="cta">
+      <a href="https://t.me/NomiraStudio" target="_blank" rel="noopener" class="btn btn-main">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M21.9 4.3l-3.2 15.1c-.2 1.1-.9 1.3-1.8.8l-4.9-3.6-2.4 2.3c-.3.3-.5.5-1 .5l.4-5 9.1-8.2c.4-.4-.1-.6-.6-.2L6.2 13 1.4 11.5c-1-.3-1.1-1 .2-1.5L20.5 2.8c.9-.3 1.7.2 1.4 1.5z"/></svg>
+        Descargar en Telegram
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- ================= FOOTER ================= -->
+<footer id="contacto">
+  <div class="wrap">
+    <div class="foot">
+      <div>
+        <a href="index.html" class="brand"><img src="assets/nomira.jpg" alt=""><span>NOMIRA<small>STUDIO</small></span></a>
+        <p>Tu idea, hecha realidad. Bots, scripts, servidores, apps y mods hechos en México.</p>
+      </div>
+      <div>
+        <h5>Estudio</h5>
+        <a href="index.html">Inicio</a>
+        <a href="snvpn.html">SN VPN</a>
+        <a href="fabrica.html">Fábrica de apps</a>
+        <a href="index.html#apps">Apps</a>
+      </div>
+      <div>
+        <h5>Comunidad</h5>
+        <a href="https://t.me/NomiraStudio" target="_blank" rel="noopener">Canal Nomira Studio</a>
+        <a href="https://t.me/SN_PLUS" target="_blank" rel="noopener">Grupo SN PLUS</a>
+        <a href="https://whatsapp.com/channel/0029Vb8OkkxFsn0Xil8j6G03" target="_blank" rel="noopener">Canal de WhatsApp</a>
+      </div>
+      <div>
+        <h5>Contacto</h5>
+        <a href="https://t.me/SinNombreNET" target="_blank" rel="noopener">Telegram @SinNombreNET</a>
+        <a href="https://wa.me/message/VM4JCHQ5RF45K1" target="_blank" rel="noopener">Soporte por WhatsApp</a>
+        <a href="https://t.me/NomiraStudioBot" target="_blank" rel="noopener">@NomiraStudioBot</a>
+        <a href="https://github.com/SINNOMBRE22" target="_blank" rel="noopener">GitHub</a>
+      </div>
+    </div>
+    <div class="copy">
+      <span>© <span id="yr">2026</span> Nomira Studio</span>
+      <span>Bots · Scripts · Servers · Apps · Mods</span>
+    </div>
+    <p class="legal">Usa nuestras apps de forma responsable y conforme a las leyes y condiciones de servicio de tu país y operador.</p>
+  </div>
+</footer>
+
+<script>
+var mb=document.getElementById('menuBtn'),nl=document.getElementById('navLinks');
+mb.addEventListener('click',function(){nl.classList.toggle('open')});
+nl.querySelectorAll('a').forEach(function(a){a.addEventListener('click',function(){nl.classList.remove('open')})});
+document.getElementById('yr').textContent=new Date().getFullYear();
+
+var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.12});
+document.querySelectorAll('.rv').forEach(function(el,i){el.style.transitionDelay=(i%4)*70+'ms';io.observe(el)});
+
+document.querySelectorAll('.card').forEach(function(c){c.addEventListener('mousemove',function(e){
+  var r=c.getBoundingClientRect();c.style.setProperty('--mx',(e.clientX-r.left)+'px');c.style.setProperty('--my',(e.clientY-r.top)+'px');
+})});
+</script>
+</body>
+</html>

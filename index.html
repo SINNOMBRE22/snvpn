@@ -7,7 +7,7 @@
 <meta name="description" content="Nomira Studio: bots, scripts, servidores, apps y mods. Creadores de SN VPN, Kerno y la fábrica de apps VPN @NomiraStudioBot.">
 <meta name="theme-color" content="#07050f">
 <meta property="og:title" content="Nomira Studio · Tu idea, hecha realidad">
-<meta property="og:description" content="Bots · Scripts · Servers · Apps · Mods. Creadores de SN VPN y de la fábrica de apps VPN @NomiraStudioBot.">
+<meta property="og:description" content="Nomira Studio: bots, scripts, servidores, apps y mods. Creadores de SN VPN, Kerno y la fábrica de apps VPN @NomiraStudioBot.">
 <meta property="og:type" content="website">
 <meta property="og:image" content="https://www.sinnombre.xyz/assets/nomira.jpg">
 <link rel="icon" type="image/png" href="assets/favicon.png">
@@ -15,261 +15,25 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
-<style>
-:root{
-  --bg:#07050f;
-  --bg2:#0d0a1a;
-  --card:#100c1f;
-  --line:rgba(255,255,255,.07);
-  --line2:rgba(255,255,255,.13);
-  --txt:#eeeaf8;
-  --mut:#9289ad;
-  --vio:#8f3dff;
-  --lil:#c084ff;
-  --blu:#5b7cff;
-  --sil:#d9d6e8;
-  --ok:#2dffa1;
-  --grad:linear-gradient(120deg,#5b7cff,#8f3dff 50%,#d26bff);
-  --silver:linear-gradient(180deg,#ffffff,#bdb6d6);
-  --r:18px;
-  --mono:'JetBrains Mono',ui-monospace,monospace;
-  --sans:'Space Grotesk',system-ui,sans-serif;
-}
-*{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth}
-body{font-family:var(--sans);background:var(--bg);color:var(--txt);line-height:1.6;overflow-x:hidden;-webkit-font-smoothing:antialiased}
-a{color:inherit;text-decoration:none}
-img,svg{display:block}
-.wrap{width:min(1160px,92%);margin:0 auto}
-
-/* fondo */
-.bg-grid{position:fixed;inset:0;z-index:-2;pointer-events:none;
-  background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);
-  background-size:64px 64px;
-  mask-image:radial-gradient(ellipse 80% 60% at 50% 0%,#000 30%,transparent 75%);
-  -webkit-mask-image:radial-gradient(ellipse 80% 60% at 50% 0%,#000 30%,transparent 75%)}
-.bg-glow{position:fixed;z-index:-1;pointer-events:none;border-radius:50%;filter:blur(120px)}
-.g1{width:560px;height:560px;background:var(--vio);top:-200px;right:-140px;opacity:.38}
-.g2{width:440px;height:440px;background:var(--blu);top:35%;left:-220px;opacity:.16}
-
-/* nav */
-nav{position:sticky;top:0;z-index:50;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);background:rgba(7,5,15,.75);border-bottom:1px solid var(--line)}
-.nav-in{display:flex;align-items:center;justify-content:space-between;height:68px}
-.brand{display:flex;align-items:center;gap:11px;font-weight:700;letter-spacing:2px;font-size:15px}
-.brand img{width:38px;height:38px;border-radius:50%;box-shadow:0 0 22px rgba(143,61,255,.55)}
-.brand small{display:block;font-size:10px;letter-spacing:4px;color:var(--lil);font-weight:600;line-height:1.2}
-.nav-links{display:flex;gap:28px;font-size:14px;color:var(--mut)}
-.nav-links a{transition:color .2s}
-.nav-links a:hover{color:var(--txt)}
-.btn{display:inline-flex;align-items:center;gap:9px;padding:12px 22px;border-radius:12px;font-weight:600;font-size:15px;transition:transform .2s,box-shadow .2s,background .2s;cursor:pointer;border:0;font-family:inherit}
-.btn svg{width:18px;height:18px;flex:none}
-.btn-main{background:var(--grad);color:#fff;box-shadow:0 8px 30px -8px rgba(143,61,255,.8)}
-.btn-main:hover{transform:translateY(-2px);box-shadow:0 12px 40px -8px rgba(210,107,255,.7)}
-.btn-ghost{background:rgba(255,255,255,.04);border:1px solid var(--line2);color:var(--txt)}
-.btn-ghost:hover{background:rgba(255,255,255,.08)}
-.btn-sm{padding:9px 16px;font-size:14px}
-.menu-btn{display:none;background:none;border:0;color:var(--txt);cursor:pointer}
-.menu-btn svg{width:26px;height:26px}
-
-/* hero */
-.hero{padding:90px 0 80px;overflow:hidden}
-.hero-in{display:grid;grid-template-columns:1.1fr .9fr;gap:60px;align-items:center}
-.tag{display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:12px;letter-spacing:1.5px;color:var(--lil);padding:7px 14px;border:1px solid rgba(192,132,255,.28);border-radius:99px;background:rgba(143,61,255,.08);margin-bottom:22px}
-.dot{width:7px;height:7px;border-radius:50%;background:var(--ok);box-shadow:0 0 10px var(--ok);animation:pulse 2s infinite}
-@keyframes pulse{50%{opacity:.35}}
-h1{font-size:clamp(42px,6.2vw,76px);line-height:1.02;letter-spacing:-2px;font-weight:700}
-.grad{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
-.silver{background:var(--silver);-webkit-background-clip:text;background-clip:text;color:transparent}
-.lead{font-size:clamp(16px,1.6vw,19px);color:var(--mut);margin:22px 0 34px;max-width:540px}
-.cta{display:flex;gap:14px;flex-wrap:wrap}
-.services-mini{display:flex;flex-wrap:wrap;gap:8px;margin-top:34px}
-.services-mini span{font-family:var(--mono);font-size:12px;color:var(--sil);padding:7px 12px;border-radius:9px;border:1px solid var(--line2);background:rgba(255,255,255,.02)}
-
-.logo-zone{position:relative;display:flex;justify-content:center;align-items:center;min-height:460px}
-.orbit{position:absolute;top:50%;left:50%;border-radius:50%;transform:translate(-50%,-50%);border:1px solid rgba(143,61,255,.25)}
-.o1{width:440px;height:440px}
-.o2{width:540px;height:540px;border-color:rgba(91,124,255,.14);border-style:dashed;animation:spin 60s linear infinite}
-@keyframes spin{to{transform:translate(-50%,-50%) rotate(360deg)}}
-.logo-big{position:relative;width:380px;height:380px;border-radius:50%;overflow:hidden;
-  box-shadow:0 0 0 1px rgba(192,132,255,.35),0 0 80px rgba(143,61,255,.55),0 40px 100px -30px #000;
-  animation:float 6s ease-in-out infinite}
-.logo-big img{width:100%;height:100%;object-fit:cover}
-@keyframes float{50%{transform:translateY(-12px)}}
-
-/* servicios */
-section{padding:110px 0}
-.sec-head{max-width:660px;margin-bottom:56px}
-.sec-head.center{margin:0 auto 56px;text-align:center}
-.eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:2px;color:var(--lil);text-transform:uppercase;margin-bottom:14px}
-h2{font-size:clamp(30px,4vw,46px);line-height:1.1;letter-spacing:-1.2px}
-.sec-head p{color:var(--mut);margin-top:16px;font-size:17px}
-
-.svc{display:grid;grid-template-columns:repeat(5,1fr);gap:14px}
-.card{position:relative;padding:28px;border-radius:var(--r);background:var(--card);border:1px solid var(--line);transition:border-color .3s,transform .3s;overflow:hidden}
-.card::before{content:"";position:absolute;inset:0;opacity:0;transition:opacity .4s;pointer-events:none;
-  background:radial-gradient(380px circle at var(--mx,50%) var(--my,0%),rgba(143,61,255,.16),transparent 50%)}
-.card:hover{border-color:rgba(192,132,255,.3);transform:translateY(-4px)}
-.card:hover::before{opacity:1}
-.ico{width:46px;height:46px;border-radius:13px;display:grid;place-items:center;margin-bottom:18px;background:rgba(143,61,255,.1);border:1px solid rgba(192,132,255,.28);color:var(--lil)}
-.ico svg{width:22px;height:22px}
-.card h3{font-size:18px;margin-bottom:8px}
-.card p{color:var(--mut);font-size:14.5px}
-
-/* SN VPN destacado */
-.feat{display:grid;grid-template-columns:.85fr 1.15fr;gap:60px;align-items:center;padding:56px;border-radius:30px;border:1px solid var(--line2);
-  background:radial-gradient(ellipse at 15% 20%,rgba(143,61,255,.22),transparent 55%),var(--bg2)}
-.phone{position:relative;width:270px;height:550px;margin:0 auto;border-radius:42px;padding:12px;
-  background:linear-gradient(160deg,#1d1830,#0b0915);box-shadow:0 0 0 1px var(--line2),0 40px 90px -20px rgba(143,61,255,.5),inset 0 0 0 2px #000}
-.screen{width:100%;height:100%;border-radius:32px;overflow:hidden;position:relative;display:flex;
-  background:radial-gradient(circle at 50% 40%,rgba(143,61,255,.25),transparent 60%),#08060f}
-.notch{position:absolute;top:12px;left:50%;transform:translateX(-50%);width:86px;height:22px;border-radius:20px;background:#000;z-index:3}
-.shot{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center top;z-index:2}
-.splash{margin:auto;text-align:center;display:flex;flex-direction:column;align-items:center;gap:6px}
-.sn-mark{width:84px;height:84px;border-radius:24px;display:grid;place-items:center;margin-bottom:14px;background:var(--grad);box-shadow:0 0 50px rgba(143,61,255,.6)}
-.sn-mark svg{width:42px;height:42px}
-.splash strong{font-size:24px;letter-spacing:.5px}
-.splash small{font-family:var(--mono);font-size:11px;color:var(--mut);letter-spacing:1.5px}
-.feat h2{margin:6px 0 14px}
-.feat .lead{margin:0 0 26px}
-.ver{display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:12px;padding:6px 12px;border-radius:99px;background:rgba(45,255,161,.08);color:var(--ok);border:1px solid rgba(45,255,161,.3)}
-.checks{list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:12px 22px;margin-bottom:26px}
-.checks li{display:flex;gap:10px;font-size:15px}
-.checks li::before{content:"";flex:none;width:18px;height:18px;margin-top:3px;border-radius:6px;background:rgba(143,61,255,.16) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23c084ff' stroke-width='3'%3E%3Cpath d='M5 12l5 5L20 7'/%3E%3C/svg%3E") center/12px no-repeat}
-.pills{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:30px}
-.pill{font-family:var(--mono);font-size:12px;padding:7px 12px;border-radius:9px;background:rgba(255,255,255,.03);border:1px solid var(--line2);transition:all .25s}
-.pill:hover{border-color:var(--lil);color:var(--lil)}
-.pill.new{border-color:rgba(210,107,255,.45);color:#e08cff}
-.note{font-family:var(--mono);font-size:12px;color:var(--mut);margin-top:16px}
-
-/* novedades */
-.news{margin-top:18px;padding:38px 44px;border-radius:24px;border:1px solid var(--line);background:var(--card)}
-.news-head{display:flex;justify-content:space-between;align-items:center;gap:20px;margin-bottom:22px;flex-wrap:wrap}
-.news-head h3{font-size:22px}
-.log{list-style:none;display:grid;gap:12px}
-.log li{display:flex;gap:14px;align-items:flex-start;font-size:15px;color:var(--mut);padding-bottom:12px;border-bottom:1px solid var(--line)}
-.log li:last-child{border-bottom:0;padding-bottom:0}
-.log b{color:var(--txt)}
-.log .k{flex:none;font-family:var(--mono);font-size:10px;letter-spacing:1px;padding:4px 9px;border-radius:7px;margin-top:2px;background:rgba(91,124,255,.12);color:#8ea3ff;border:1px solid rgba(91,124,255,.35)}
-.log .k.imp{background:rgba(143,61,255,.12);color:var(--lil);border-color:rgba(192,132,255,.35)}
-
-/* otras apps */
-.apps{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:18px}
-.app-ico{width:54px;height:54px;border-radius:16px;display:grid;place-items:center;margin-bottom:18px;font-weight:700;font-size:20px;color:#fff}
-.kind{font-family:var(--mono);font-size:11px;color:var(--mut);letter-spacing:1px;text-transform:uppercase}
-.state{font-family:var(--mono);font-size:11px;padding:5px 10px;border-radius:99px;display:inline-block;margin-top:14px}
-.st-on{background:rgba(45,255,161,.1);color:var(--ok);border:1px solid rgba(45,255,161,.3)}
-.st-dev{background:rgba(255,200,60,.08);color:#ffc83c;border:1px solid rgba(255,200,60,.28)}
-
-/* fábrica */
-.factory{background:linear-gradient(180deg,transparent,rgba(143,61,255,.06) 30%,transparent)}
-.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:64px;counter-reset:s}
-.step{padding:26px;border-radius:var(--r);border:1px solid var(--line);background:var(--card);counter-increment:s}
-.step::before{content:"0" counter(s);display:block;font-family:var(--mono);font-size:13px;margin-bottom:16px;font-weight:600;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
-.step h4{font-size:17px;margin-bottom:6px}
-.step p{color:var(--mut);font-size:14px}
-.plans{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;align-items:stretch}
-.plan{padding:34px;border-radius:24px;border:1px solid var(--line);background:var(--card);display:flex;flex-direction:column}
-.plan.pop{border:1px solid transparent;background:linear-gradient(var(--card),var(--card)) padding-box,var(--grad) border-box;box-shadow:0 30px 70px -30px rgba(143,61,255,.7)}
-.badge{align-self:flex-start;font-family:var(--mono);font-size:11px;padding:5px 11px;border-radius:99px;background:var(--grad);color:#fff;margin-bottom:14px}
-.plan h3{font-size:20px}
-.price{font-size:44px;font-weight:700;letter-spacing:-1.5px;margin:12px 0 4px}
-.price small{font-size:15px;color:var(--mut);font-weight:500;letter-spacing:0}
-.plan .desc{color:var(--mut);font-size:14px;margin-bottom:22px}
-.plan ul{list-style:none;display:grid;gap:11px;margin-bottom:28px;font-size:15px}
-.plan li{display:flex;gap:10px}
-.plan li::before{content:"›";color:var(--lil);font-weight:700}
-.plan li.off{color:#544c6b}
-.plan li.off::before{content:"–";color:#544c6b}
-.plan .btn{margin-top:auto;justify-content:center}
-.pay-note{margin-top:28px;padding:20px 24px;border-radius:16px;border:1px dashed var(--line2);display:flex;gap:16px;align-items:center;color:var(--mut);font-size:14px}
-.pay-note svg{flex:none;width:22px;height:22px;color:var(--lil)}
-.pay-note b{color:var(--txt)}
-
-/* faq */
-.faq{max-width:780px;margin:0 auto}
-details{border-bottom:1px solid var(--line);padding:22px 0}
-summary{cursor:pointer;list-style:none;font-size:18px;font-weight:600;display:flex;justify-content:space-between;gap:20px}
-summary::-webkit-details-marker{display:none}
-summary::after{content:"+";font-family:var(--mono);color:var(--lil);font-size:22px;line-height:1;transition:transform .3s}
-details[open] summary::after{transform:rotate(45deg)}
-details p{color:var(--mut);margin-top:12px;padding-right:30px}
-
-/* cta final */
-.final{position:relative;overflow:hidden;text-align:center;padding:76px 30px;border-radius:30px;border:1px solid var(--line2);
-  background:radial-gradient(ellipse at 50% 0%,rgba(143,61,255,.35),transparent 60%),var(--bg2)}
-.final img{width:96px;height:96px;border-radius:50%;margin:0 auto 22px;box-shadow:0 0 50px rgba(143,61,255,.6)}
-.final h2{margin-bottom:14px}
-.final p{color:var(--mut);margin:0 auto 32px;max-width:520px}
-.final .cta{justify-content:center}
-
-/* footer */
-footer{border-top:1px solid var(--line);padding:56px 0 30px;margin-top:110px}
-.foot{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:40px}
-.foot p{color:var(--mut);font-size:14px;margin-top:14px;max-width:300px}
-.foot h5{font-size:12px;font-family:var(--mono);letter-spacing:1.5px;color:var(--mut);text-transform:uppercase;margin-bottom:16px;font-weight:500}
-.foot a:not(.brand){display:block;font-size:14px;opacity:.82;margin-bottom:10px;transition:opacity .2s,color .2s}
-.foot a:not(.brand):hover{opacity:1;color:var(--lil)}
-.copy{margin-top:48px;padding-top:24px;border-top:1px solid var(--line);display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;font-size:13px;color:var(--mut);font-family:var(--mono)}
-.legal{margin-top:16px;font-size:12px;color:#5a536f;text-align:center}
-
-/* reveal */
-.rv{opacity:0;transform:translateY(26px);transition:opacity .8s ease,transform .8s ease}
-.rv.in{opacity:1;transform:none}
-
-/* responsive */
-@media (max-width:1020px){
-  .hero-in,.feat{grid-template-columns:1fr}
-  .hero-txt{text-align:center}
-  .lead{margin-left:auto;margin-right:auto}
-  .cta,.services-mini{justify-content:center}
-  .svc{grid-template-columns:repeat(3,1fr)}
-  .apps,.plans{grid-template-columns:1fr 1fr}
-  .steps{grid-template-columns:1fr 1fr}
-  .foot{grid-template-columns:1fr 1fr}
-  .feat{padding:40px 30px}
-}
-@media (max-width:720px){
-  .nav-links,nav .btn-sm{display:none}
-  .menu-btn{display:block}
-  .nav-links.open{display:flex;flex-direction:column;position:absolute;top:68px;left:0;right:0;background:rgba(7,5,15,.97);padding:20px 4%;gap:18px;border-bottom:1px solid var(--line)}
-  section{padding:80px 0}
-  .hero{padding-top:56px}
-  .logo-zone{min-height:340px}
-  .logo-big{width:270px;height:270px}
-  .o1{width:320px;height:320px}.o2{width:390px;height:390px}
-  .svc{grid-template-columns:1fr 1fr}
-  .svc .card:last-child{grid-column:1/-1}
-  .svc .card{padding:22px 18px}
-  .apps,.plans,.steps,.checks{grid-template-columns:1fr}
-  .phone{width:250px;height:510px}
-  .feat{padding:30px 20px;border-radius:24px}
-  .news{padding:28px 22px}
-  .foot{grid-template-columns:1fr}
-  .pay-note{flex-direction:column;align-items:flex-start}
-  .final{padding:56px 22px}
-}
-@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.rv{opacity:1;transform:none}}
-</style>
+<link rel="stylesheet" href="assets/style.css?v=3">
 </head>
 <body>
 
 <div class="bg-grid"></div>
 <div class="bg-glow g1"></div>
 <div class="bg-glow g2"></div>
-
-<!-- ================= NAV ================= -->
 <nav>
   <div class="wrap nav-in">
-    <a href="#" class="brand">
+    <a href="index.html" class="brand">
       <img src="assets/nomira.jpg" alt="Nomira Studio">
       <span>NOMIRA<small>STUDIO</small></span>
     </a>
     <div class="nav-links" id="navLinks">
-      <a href="#servicios">Servicios</a>
-      <a href="#snvpn">SN VPN</a>
-      <a href="#apps">Apps</a>
-      <a href="#fabrica">Crea tu app</a>
-      <a href="#faq">FAQ</a>
+      <a href="index.html" class="on">Inicio</a>
+      <a href="snvpn.html">SN VPN</a>
+      <a href="fabrica.html">Fábrica de apps</a>
+      <a href="index.html#apps">Apps</a>
+      <a href="#contacto">Contacto</a>
     </div>
     <a href="https://t.me/NomiraStudio" target="_blank" rel="noopener" class="btn btn-main btn-sm">Únete al canal</a>
     <button class="menu-btn" id="menuBtn" aria-label="Menú">
@@ -290,7 +54,7 @@ footer{border-top:1px solid var(--line);padding:56px 0 30px;margin-top:110px}
           <svg viewBox="0 0 24 24" fill="currentColor"><path d="M21.9 4.3l-3.2 15.1c-.2 1.1-.9 1.3-1.8.8l-4.9-3.6-2.4 2.3c-.3.3-.5.5-1 .5l.4-5 9.1-8.2c.4-.4-.1-.6-.6-.2L6.2 13 1.4 11.5c-1-.3-1.1-1 .2-1.5L20.5 2.8c.9-.3 1.7.2 1.4 1.5z"/></svg>
           Únete a Nomira Studio
         </a>
-        <a href="#fabrica" class="btn btn-ghost">Crea tu propia app VPN</a>
+        <a href="snvpn.html" class="btn btn-ghost">Conoce SN VPN</a>
       </div>
       <div class="services-mini">
         <span>Bots</span><span>&lt;/&gt; Scripts</span><span>Servers</span><span>Apps</span><span>Mods</span>
@@ -341,66 +105,34 @@ footer{border-top:1px solid var(--line);padding:56px 0 30px;margin-top:110px}
   </div>
 </section>
 
-<!-- ================= SN VPN ================= -->
-<section id="snvpn" style="padding-top:0">
+<!-- ================= PRODUCTOS ================= -->
+<section style="padding-top:0">
   <div class="wrap">
-    <div class="feat rv">
-      <div class="phone">
-        <div class="screen">
-          <div class="notch"></div>
-          <img class="shot" src="captura.jpg" alt="SN VPN en Android" onerror="this.remove()">
-          <div class="splash">
-            <span class="sn-mark"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v6c0 4.5-3 7.8-7 9-4-1.2-7-4.5-7-9V6l7-3z"/><path d="M9 12l2 2 4-4"/></svg></span>
-            <strong>SN VPN</strong><small>by Nomira Studio</small>
-          </div>
-        </div>
-      </div>
-      <div>
-        <span class="ver"><span class="dot"></span>v5.3.2 · Android 6.0+</span>
-        <h2>SN VPN</h2>
-        <p class="lead">Nuestra app principal. Cliente de túneles para Android con servidores SN listos para conectar y Modo Custom para usar tus propias configuraciones.</p>
-        <ul class="checks">
-          <li>Servidores SN que se actualizan solos</li>
-          <li>Modo Custom con tus datos</li>
-          <li>Archivos .sn con vencimiento y bloqueo</li>
-          <li>Enlaces vmess, vless, trojan y ss</li>
-          <li>Reconexión automática</li>
-          <li>Botón rápido en la barra</li>
-          <li>Filtro de apps</li>
-          <li>Compartir por WiFi</li>
-        </ul>
-        <div class="pills">
-          <span class="pill">SSH</span><span class="pill">Payload</span><span class="pill">Proxy</span><span class="pill">SSL / SNI</span>
-          <span class="pill">V2Ray</span><span class="pill">Hysteria</span><span class="pill new">BHTTP</span>
-        </div>
-        <a href="https://t.me/NomiraStudio" target="_blank" rel="noopener" class="btn btn-main">
-          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M21.9 4.3l-3.2 15.1c-.2 1.1-.9 1.3-1.8.8l-4.9-3.6-2.4 2.3c-.3.3-.5.5-1 .5l.4-5 9.1-8.2c.4-.4-.1-.6-.6-.2L6.2 13 1.4 11.5c-1-.3-1.1-1 .2-1.5L20.5 2.8c.9-.3 1.7.2 1.4 1.5z"/></svg>
-          Descargar en Telegram
-        </a>
-        <p class="note">La última versión siempre se publica en el canal de Nomira Studio.</p>
-      </div>
+    <div class="sec-head rv">
+      <div class="eyebrow">// Destacados</div>
+      <h2>Nuestros productos principales</h2>
     </div>
-
-    <div class="news rv">
-      <div class="news-head">
-        <h3>Novedades de la versión 5.3.2</h3>
-        <span class="ver">v5.3.2</span>
-      </div>
-      <ul class="log">
-        <li><span class="k">NUEVO</span><span><b>Reconexión automática</b> en todos los protocolos.</span></li>
-        <li><span class="k">NUEVO</span><span><b>Cambio de red sin cortes:</b> se reconecta solo al pasar de WiFi a datos y viceversa.</span></li>
-        <li><span class="k">NUEVO</span><span><b>Conectar al encender el teléfono.</b> Actívalo en Herramientas → Auto Ping y reconexión.</span></li>
-        <li><span class="k">NUEVO</span><span><b>Botón rápido:</b> baja la barra de notificaciones, toca el lápiz ✏️ y arrastra SN VPN a tus botones.</span></li>
-        <li><span class="k">NUEVO</span><span><b>Notificación en vivo</b> con velocidad, consumo y tiempo de conexión.</span></li>
-        <li><span class="k imp">MEJORA</span><span>Ya no se cierra después de que se acaba la batería.</span></li>
-        <li><span class="k imp">MEJORA</span><span>Mejoras en payload y en la estabilidad de la conexión.</span></li>
-      </ul>
+    <div class="grid2">
+      <a href="snvpn.html" class="prod rv">
+        <div class="app-ico" style="background:var(--grad)"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="width:30px;height:30px"><path d="M12 3l7 3v6c0 4.5-3 7.8-7 9-4-1.2-7-4.5-7-9V6l7-3z"/><path d="M9 12l2 2 4-4"/></svg></div>
+        <div class="kind" style="margin-top:20px">App · Android · v5.3.2</div>
+        <h3>SN VPN</h3>
+        <p>Cliente de túneles con servidores de México listos para conectar y Modo Custom para tus propias configuraciones. SSH, V2Ray, Hysteria y BHTTP.</p>
+        <span class="go">Ver SN VPN <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+      </a>
+      <a href="fabrica.html" class="prod rv">
+        <div class="app-ico" style="background:linear-gradient(135deg,#d26bff,#5b7cff)"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="width:30px;height:30px"><rect x="4" y="8" width="16" height="12" rx="3"/><path d="M12 8V4M9 14h.01M15 14h.01"/></svg></div>
+        <div class="kind" style="margin-top:20px">Bot · Telegram · @NomiraStudioBot</div>
+        <h3>Fábrica de apps VPN</h3>
+        <p>Crea tu propia app VPN con tu nombre, ícono y colores. El bot la compila y te entrega la APK firmada junto con tu GEN. Desde 16 USDT.</p>
+        <span class="go">Ver la fábrica <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+      </a>
     </div>
   </div>
 </section>
 
 <!-- ================= OTRAS APPS ================= -->
-<section id="apps" style="padding-top:0">
+<section id="apps">
   <div class="wrap">
     <div class="sec-head rv">
       <div class="eyebrow">// Más de Nomira Studio</div>
@@ -432,72 +164,7 @@ footer{border-top:1px solid var(--line);padding:56px 0 30px;margin-top:110px}
   </div>
 </section>
 
-<!-- ================= FÁBRICA ================= -->
-<section id="fabrica" class="factory">
-  <div class="wrap">
-    <div class="sec-head center rv">
-      <div class="eyebrow">// Fábrica de apps</div>
-      <h2>¿Quieres tu propia app VPN?<br><span class="grad">Créala desde Telegram.</span></h2>
-      <p>Con <b style="color:var(--txt)">@NomiraStudioBot</b> eliges nombre, ícono, colores y diseño. El bot compila tu APK firmada y te la entrega lista para repartir a tus clientes.</p>
-    </div>
-    <div class="steps">
-      <div class="step rv"><h4>Abre el bot</h4><p>Entra a @NomiraStudioBot y pulsa <i>Crear app</i>.</p></div>
-      <div class="step rv"><h4>Personaliza</h4><p>Nombre, paquete, ícono, color y diseño, con vista previa en el mismo bot.</p></div>
-      <div class="step rv"><h4>Paga</h4><p>USDT por red Polygon. El pago se valida solo, sin esperar.</p></div>
-      <div class="step rv"><h4>Recibe tu APK</h4><p>App firmada + tu propio <b>GEN</b> para editar tus servidores cuando quieras.</p></div>
-    </div>
-    <div class="plans">
-      <div class="plan rv">
-        <h3>Básica</h3>
-        <div class="price">16 <small>USDT</small></div>
-        <div class="desc">Ideal para empezar a vender con SSH.</div>
-        <ul>
-          <li>SSH · Payload · Proxy</li>
-          <li>SSL / TLS y SlowDNS</li>
-          <li>Diseño a elegir + tu color</li>
-          <li>GEN para tus servidores</li>
-          <li class="off">V2Ray y Hysteria</li>
-          <li class="off">Compartir internet (Shizuku)</li>
-        </ul>
-        <a href="https://t.me/NomiraStudioBot" target="_blank" rel="noopener" class="btn btn-ghost">Pedir Básica</a>
-      </div>
-      <div class="plan pop rv">
-        <span class="badge">MÁS PEDIDA</span>
-        <h3>Completa</h3>
-        <div class="price">25 <small>USDT</small></div>
-        <div class="desc">Todos los protocolos, lista para competir.</div>
-        <ul>
-          <li>Todo lo de Básica</li>
-          <li>V2Ray (VMess / VLESS / Trojan)</li>
-          <li>Hysteria y protocolos pro</li>
-          <li>Compartir internet con Shizuku</li>
-          <li>GEN para tus servidores</li>
-          <li>Actualiza tus datos desde el bot</li>
-        </ul>
-        <a href="https://t.me/NomiraStudioBot" target="_blank" rel="noopener" class="btn btn-main">Pedir Completa</a>
-      </div>
-      <div class="plan rv">
-        <h3>A medida</h3>
-        <div class="price" style="font-size:34px">Cotiza</div>
-        <div class="desc">Diseño exclusivo al nivel de SN VPN.</div>
-        <ul>
-          <li>Interfaz y pantallas únicas</li>
-          <li>Logo e identidad de tu marca</li>
-          <li>Funciones especiales</li>
-          <li>Atención personal directa</li>
-        </ul>
-        <a href="https://t.me/SinNombreNET" target="_blank" rel="noopener" class="btn btn-ghost">Hablar con el desarrollador</a>
-      </div>
-    </div>
-    <div class="pay-note rv">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v4m0 4h.01"/></svg>
-      <div><b>¿Prefieres pagar en USD o MXN?</b> También se acepta AstroPay. Escribe a <b>@SinNombreNET</b> y tu pedido se aprueba manualmente.</div>
-    </div>
-  </div>
-</section>
-
-<!-- ================= FAQ ================= -->
-<section id="faq" style="padding-top:0">
+<section style="padding-top:0">
   <div class="wrap">
     <div class="sec-head center rv">
       <div class="eyebrow">// Preguntas frecuentes</div>
@@ -505,39 +172,29 @@ footer{border-top:1px solid var(--line);padding:56px 0 30px;margin-top:110px}
     </div>
     <div class="faq rv">
       <details>
-        <summary>¿Dónde descargo SN VPN?</summary>
-        <p>En el canal de Telegram de Nomira Studio. Ahí se publica cada versión nueva primero. Evita descargar copias de otros sitios.</p>
+        <summary>¿Qué es Nomira Studio?</summary>
+        <p>Es el estudio detrás de SN VPN, Kerno y la fábrica de apps VPN. Hacemos bots, scripts para VPS, servidores, apps Android y personalización de apps.</p>
       </details>
       <details>
-        <summary>¿Necesito configurar algo para empezar?</summary>
-        <p>No. Con Servidores SN solo eliges una categoría y tocas CONECTAR. El Modo Custom es opcional, para quien tiene sus propios servidores o recibe configuraciones de otra persona.</p>
-      </details>
-      <details>
-        <summary>Ya tengo una versión anterior, ¿pierdo algo al actualizar?</summary>
-        <p>No. Instala la nueva versión encima de la que tienes, sin desinstalar. Tus ajustes se conservan y los servidores SN se actualizan solos.</p>
-      </details>
-      <details>
-        <summary>No conecta, ¿qué reviso?</summary>
-        <p>Abre el registro para ver en qué paso se detiene, prueba otra categoría o servidor y activa «Mantener en segundo plano». Si sigue igual, escríbenos con una captura del registro.</p>
-      </details>
-      <details>
-        <summary>¿Cómo pido mi propia app VPN?</summary>
-        <p>Entra a @NomiraStudioBot, elige nombre, ícono, color y diseño, paga en USDT (Polygon) y recibes tu APK firmada junto con tu GEN para editar tus servidores.</p>
+        <summary>¿Dónde descargo sus apps?</summary>
+        <p>Todas nuestras apps se publican en el canal de Telegram de Nomira Studio. Ahí sale cada versión nueva primero.</p>
       </details>
       <details>
         <summary>¿Hacen bots, scripts o apps por encargo?</summary>
         <p>Sí. Escribe a @SinNombreNET con tu idea y te damos una cotización.</p>
       </details>
+      <details>
+        <summary>¿Cómo pido mi propia app VPN?</summary>
+        <p>Desde @NomiraStudioBot. Tienes todos los detalles en la página de la Fábrica de apps.</p>
+      </details>
     </div>
   </div>
 </section>
-
-<!-- ================= CTA FINAL ================= -->
 <div class="wrap">
   <div class="final rv">
     <img src="assets/nomira.jpg" alt="">
     <h2>Únete a <span class="grad">Nomira Studio</span></h2>
-    <p>Descargas, actualizaciones de SN VPN, servidores nuevos y anuncios de todas nuestras apps en un solo lugar.</p>
+    <p>Descargas, actualizaciones, servidores nuevos y anuncios de todas nuestras apps en un solo lugar.</p>
     <div class="cta">
       <a href="https://t.me/NomiraStudio" target="_blank" rel="noopener" class="btn btn-main">
         <svg viewBox="0 0 24 24" fill="currentColor"><path d="M21.9 4.3l-3.2 15.1c-.2 1.1-.9 1.3-1.8.8l-4.9-3.6-2.4 2.3c-.3.3-.5.5-1 .5l.4-5 9.1-8.2c.4-.4-.1-.6-.6-.2L6.2 13 1.4 11.5c-1-.3-1.1-1 .2-1.5L20.5 2.8c.9-.3 1.7.2 1.4 1.5z"/></svg>
@@ -549,19 +206,19 @@ footer{border-top:1px solid var(--line);padding:56px 0 30px;margin-top:110px}
 </div>
 
 <!-- ================= FOOTER ================= -->
-<footer>
+<footer id="contacto">
   <div class="wrap">
     <div class="foot">
       <div>
-        <a href="#" class="brand"><img src="assets/nomira.jpg" alt=""><span>NOMIRA<small>STUDIO</small></span></a>
+        <a href="index.html" class="brand"><img src="assets/nomira.jpg" alt=""><span>NOMIRA<small>STUDIO</small></span></a>
         <p>Tu idea, hecha realidad. Bots, scripts, servidores, apps y mods hechos en México.</p>
       </div>
       <div>
         <h5>Estudio</h5>
-        <a href="#servicios">Servicios</a>
-        <a href="#snvpn">SN VPN</a>
-        <a href="#apps">Apps</a>
-        <a href="#fabrica">Fábrica de apps</a>
+        <a href="index.html">Inicio</a>
+        <a href="snvpn.html">SN VPN</a>
+        <a href="fabrica.html">Fábrica de apps</a>
+        <a href="index.html#apps">Apps</a>
       </div>
       <div>
         <h5>Comunidad</h5>
